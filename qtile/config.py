@@ -1,0 +1,316 @@
+import os
+import json
+import re
+from libqtile import bar,widget,hook
+from libqtile.layout import xmonad,columns
+from libqtile.config import Key,Screen,Group,KeyChord
+from libqtile.lazy import lazy
+
+HOME=os.getenv('HOME')
+DEFAULTIMG=f'{HOME}/.config/qtile/backgrounds/gnome/Icetwigs.jpg'
+NITYOPATH=f'{HOME}/.config/nitrogen/bg-saved.cfg'
+mod='mod4'
+fishpath=f'{HOME}/.config/fish/config.fish'
+qtilepath=f'{HOME}/.config/qtile/config.py'
+nvimpath=f'{HOME}/.config/nvim/init.lua'
+bashrcpath=f'{HOME}/.bashrc'
+settings_file=f'{HOME}/.config/qtile/settings.json'
+neovimgui='nvim-qt -- '
+neovimterm=f'{neovimgui} -c Fish'
+neovimfm=f'{neovimgui} -c Ranger'
+term1=neovimterm
+term2="xterm -fs 10 -fa monospace -bg black -fg white "
+term3="alacritty"
+browser1='firefox'
+browser2='qutebrowser'
+fm1=neovimfm
+fm2='pcmanfm'
+themesetting='lxappearance'
+#themesetting='gtk-chtheme'
+#themesetting='qt5ct'
+topgui='gnome-system-monitor'
+
+websites={
+    #git
+    'github'                   :'https://github.com',
+    'gitmoji'                  :'https://gitmoji.dev',
+    'Git-packer'               :'https://github.com/wbthomason/packer.nvim',
+    'Git-neovim'               :'https://github.com/neovim/neovim',
+    'Git-treesitter'           :'https://github.com/nvim-treesitter/nvim-treesitter',
+    'Git-neorg'                :'https://github.com/nvim-neorg/neorg',
+    'Git-emacs'                :'https://github.com/emacs-mirror/emacs',
+    'Git-spacevim'             :'https://github.com/SpaceVim/SpaceVim',
+    'Git-spacemacs'            :'https://github.com/syl20bnr/spacemacs',
+    'Git-doomemacs'            :'https://github.com/doomemacs/doomemacs',
+    'Git-pynvim'               :'https://github.com/neovim/pynvim',
+    #python
+    'python'                   :'https://docs.python.org/3/library/',
+    'python-regex'             :'https://docs.python.org/3/library/re.html#regular-expression-syntax',
+    'python-reference'         :'https://docs.python.org/3/reference/',
+    'python-unittest'          :'https://docs.python.org/3.12/library/unittest.html',
+    #other prgm lang
+    'fish'                     :'https://fishshell.com/docs/current/commands.html',
+    'ANSI'                     :'https://invisible-island.net/xterm/ctlseqs/ctlseqs.html',
+    'CSI'                      :'https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences',
+    'lua'                      :'https://www.lua.org/manual/5.4',
+    'fennel-website'           :'https://fennel-lang.org/',
+    'esolang'                  :'https://esolangs.org/wiki/Main_Page',
+    'compiler-explorer'        :'https://godbolt.org/',
+    'cpp-reference'            :'https://cplusplus.com/reference',
+    'cpp'                      :'https://cplusplus.com/',
+    'unicode-table'            :'https://en.wikibooks.org/wiki/Unicode/Character_reference',
+    'box-chars'                :'https://en.wikipedia.org/wiki/Box-drawing_character',
+    'turbowarp'                :'https://turbowarp.org',
+    'turbowarp-doc'            :'https://docs.turbowarp.org',
+    'http-codes'               :'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status',
+    'autohotkey'               :'https://www.autohotkey.com/docs/AutoHotkey.htm',
+    #google
+    'mail'                     :'https://mail.google.com/mail/u/0/h/',
+    'maps'                     :'https://www.google.com/maps',
+    'gtranslate'               :'https://translate.google.com',
+    'google'                   :'https://google.com',
+    'classroom'                :'https://classroom.google.com',
+    'drive'                    :'https://drive.google.com',
+    #other
+    'wikiperdia'               :'https://en.wikipedia.org',
+    'wikiperdia-sv'            :'https://sv.wikipedia.org',
+    'translate'                :'https://www.deepl.com/translator',
+    'SV-wikt'                  :'https://sv.wiktionary.org',
+    'ES-wikt'                  :'https://es.wiktionary.org',
+    'EN-wikt'                  :'https://en.wiktionary.org',
+    'qtile'                    :'https://docs.qtile.org/en/stable/index.html',
+    'periodic-table'           :'https://ptable.com',
+    'browser-timeline'         :'https://upload.wikimedia.org/wikipedia/commons/7/74/Timeline_of_web_browsers.svg',
+    'keybr'                    :'https://www.keybr.com',
+    #emacs / vim
+    'emacs'                    :'https://www.gnu.org/software/emacs',
+    'spacemacs'                :'https://develop.spacemacs.org/doc/DOCUMENTATION.html',
+    'spacevim'                 :'https://spacevim.org',
+    'melp'                     :'https://melpa.org/',
+    #lxiym
+    'lxiym-c#'                 :'https://learnxinyminutes.com/docs/csharp',
+    'lxiym-c'                  :'https://learnxinyminutes.com/docs/c',
+    'lxiym-c++'                :'https://learnxinyminutes.com/docs/c++',
+    'lxiym-clojure'            :'https://learnxinyminutes.com/docs/clojure',
+    'lxiym-clojure-macros'     :'https://learnxinyminutes.com/docs/clojure-macros',
+    'lxiym-common-lisp'        :'https://learnxinyminutes.com/docs/common-lisp',
+    'lxiym-css'                :'https://learnxinyminutes.com/docs/css',
+    'lxiym-elisp'              :'https://learnxinyminutes.com/docs/elisp/',
+    'lxiym-emacs'              :'https://learnxinyminutes.com/docs/emacs',
+    'lxiym-git'                :'https://learnxinyminutes.com/docs/git',
+    'lxiym-haskell'            :'https://learnxinyminutes.com/docs/haskell',
+    'lxiym-java'               :'https://learnxinyminutes.com/docs/java',
+    'lxiym-javascript'         :'https://learnxinyminutes.com/docs/javascript',
+    'lxiym-latex'              :'https://learnxinyminutes.com/docs/latex',
+    'lxiym-lua'                :'https://learnxinyminutes.com/docs/lua',
+    'lxiym-python'             :'https://learnxinyminutes.com/docs/python',
+    'lxiym-rust'               :'https://learnxinyminutes.com/docs/rust',
+    #linux distro
+    'AUR'                      :'https://aur.archlinux.org/',
+    'archlinux'                :'https://archlinux.org/',
+    'distro-timeline'          :'https://upload.wikimedia.org/wikipedia/commons/b/b5/Linux_Distribution_Timeline_21_10_2021.svg',
+    'archwiki'                 :'https://wiki.archlinux.org/',
+    #markdown
+    'markdown-basic'           :'https://www.markdownguide.org/basic-syntax/',
+    'markdown-extra'           :'https://www.markdownguide.org/extended-syntax/',
+    'markdown-cheat-sheet'     :'https://www.markdownguide.org/cheat-sheet/',
+}
+
+def ctest(*paths):
+    for i in paths:
+        if os.path.isfile(i):
+            return i
+    return paths[-1]
+configs={
+    'qtile'      :f'{HOME}/.config/qtile/config.py',
+    'fish'       :f'{HOME}/.config/fish/config.fish',
+    'nvim'       :ctest(f'{HOME}/.config/nvim/init.lua',f'{HOME}/.config/nvim/init.vim'),
+    'vim'        :ctest(f'{HOME}/.vim/vimrc',f'{HOME}/.vimrc'),
+    'emacs'      :ctest(f'{HOME}/.config/emacs/init.el',f'{HOME}/.emacs.d/init.el',f'{HOME}/.emacs.el'),
+    'qutebrowser':f'{HOME}/.config/qutebrowser/config.py',
+    'zsh'        :f'{HOME}/.zshrc',
+    'bash'       :f'{HOME}/.bashrc',
+}
+
+if os.path.exists(settings_file):
+    with open(settings_file) as f:
+        try:settings=json.load(f)
+        except json.decoder.JSONDecodeError:settings={}
+else:settings={}
+if os.path.exists(NITYOPATH):
+    with open(NITYOPATH) as f:
+        images=re.findall('file=(.*)',f.read())
+        image=(images[0] if len(images) else DEFAULTIMG)
+else:
+    image=DEFAULTIMG
+if os.path.exists(image):
+    if image in settings.get('cache',{}).get('img',{}):
+        image_colors=[tuple(i) for i in settings['cache']['img'][image]]
+    else:
+        try:
+            from colorthief import ColorThief
+        except ImportError:image_colors=[(0,0,0)]*4
+        else:
+            image_colors=ColorThief(image).get_palette(3,quality=1000)
+            with open(settings_file,'w') as f:
+                settings.setdefault('cache',{}).setdefault('img',{})[image]=image_colors
+                json.dump(settings,f)
+else:image_colors=[(0,0,0)]*4
+
+def menu_list_and_run(_,apps:dict['str','str'],bin:str)->None:
+    result=os.popen('printf "'+'\n'.join(apps)+'"|dmenu -i').read()
+    if result:os.system(bin%apps[result.removesuffix('\n')])
+def smart_kill(q):
+    blacklist=[['Navigator','firefox']]
+    wm_class=q.current_window.get_wm_class()
+    if wm_class not in blacklist:
+        q.current_window.kill()
+        return
+    num_ins_open=0
+    for i in q.cmd_windows():
+        if wm_class==i['wm_class']:
+            num_ins_open+=1
+    if num_ins_open>1:
+        q.current_window.kill()
+        return
+    os.system('zenity --text="no" --info &')
+SCALE=1.3
+def scalescreen(_,scale:int):
+    global SCALE
+    SCALE+=scale
+    SCALE=round(SCALE*10)/10
+    os.system(f'xrandr --output LVDS-1 --scale {SCALE}x{SCALE}')
+
+keys=[
+    #hjkl
+    Key([mod],'h',lazy.layout.left()),
+    Key([mod],'l',lazy.layout.right()),
+    Key([mod],'j',lazy.layout.down()),
+    Key([mod],'k',lazy.layout.up()),
+    Key([mod,'shift'],'h',lazy.layout.shuffle_left()),
+    Key([mod,'shift'],'l',lazy.layout.shuffle_right()),
+    Key([mod,'shift'],'j',lazy.layout.shuffle_down()),
+    Key([mod,'shift'],'k',lazy.layout.shuffle_up()),
+    Key([mod,'control'],'h',lazy.layout.grow_left()),
+    Key([mod,'control'],'l',lazy.layout.grow_right()),
+    Key([mod,'control'],'j',lazy.layout.grow_down()),
+    Key([mod,'control'],'k',lazy.layout.grow_up()),
+    #window
+    Key([mod],'Tab',lazy.group.next_window()),
+    Key([mod,'shift'],'Tab',lazy.group.prev_window()),
+    Key([mod],'bar',lazy.next_layout()),
+    Key([mod,'shift'],'bar',lazy.prev_layout()),
+    Key([mod],'w',lazy.function(smart_kill)),
+    Key([mod,'shift'],'w',lazy.spawn('sh -c \'xkill -id $(xdotool getactivewindow|xargs printf 0x%x"\n")\'')),
+    Key([mod],'f',lazy.window.toggle_floating()),
+    #qtile
+    Key([mod,'control'],'r',lazy.reload_config()),
+    Key(['control','mod1'],'delete',lazy.restart()),
+    Key([mod,'control'],'q',lazy.shutdown()),
+    #spawn
+    Key([mod],'b',lazy.spawn(browser1)),
+    Key([mod],'i',lazy.spawn(browser2)),
+    Key([mod],'Return',lazy.spawn(term1)),
+    Key([mod,'shift'],'Return',lazy.spawn(term2)),
+    Key([mod],'KP_Enter',lazy.spawn(term3)),
+    Key([mod],'s',lazy.spawn(themesetting)),
+    Key([mod],'space',lazy.spawn(neovimgui)),
+    Key([mod,'shift'],'space',lazy.spawn('neovide')),
+    Key([mod,'shift'],'t',lazy.spawn(topgui)),
+    Key([mod],'n',lazy.spawn(fm1)),
+    Key([mod,'shift'],'n',lazy.spawn(fm2)),
+    Key([mod],'e',lazy.spawn("emacsclient -c -a 'emacs'")),
+    Key([mod],'v',lazy.spawn('pavucontrol')),
+    Key([mod,'shift'],'r',lazy.spawn('gkbd-keyboard-display -g 1')),
+    #menu
+    Key([mod],'x',lazy.spawn('rofi -show drun')),
+    Key([mod,'shift'],'x',lazy.spawn('nwggrid -o 0.5')),
+    Key([mod],'d',lazy.spawn('dmenu_run')),
+    Key([mod],'y',lazy.spawn('clipmenu')),
+    Key([mod,'shift'],'b',lazy.function(menu_list_and_run,websites,'setsid firefox "%s"')),
+    Key([mod,'shift'],'e',lazy.function(menu_list_and_run,configs,f'{neovimgui} %s')),
+    #XF86
+    Key([],"XF86MonBrightnessUp",lazy.spawn("brightnessctl set +10%")),
+    Key([],"XF86MonBrightnessDown",lazy.spawn("brightnessctl set 10%-")),
+    Key([],"XF86AudioRaiseVolume",lazy.spawn("amixer sset Master 10%+")),
+    Key([],"XF86AudioLowerVolume",lazy.spawn("amixer sset Master 10%-")),
+    Key([],"XF86AudioMute",lazy.spawn("amixer sset Master toggle")),
+    #neovim
+    Key([mod],'m',lazy.spawn(f'sh -c "cp {bashrcpath} /tmp/temp.bash;{neovimgui} /tmp/temp.bash"')),
+    Key([mod],'t',lazy.spawn(neovimgui+' -c \'Fish -ic "ntmp;tmp"\'')),
+    Key([mod],'c',lazy.spawn(f'{neovimgui} -c "au Vimenter * CodiNew python"')),
+    Key([mod],'z',lazy.spawn(neovimgui+f' -c "cd {HOME}/.config/nvim|Dff"')),
+    Key([mod],'o',lazy.spawn(neovimgui+f' -c "cd {HOME}/.test|Ranger"')),
+    Key([mod],'p',lazy.spawn(neovimgui+' -c "Fish -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\r\')"')),
+    #other
+    Key([mod,'shift'],'c',lazy.spawn('sh -c "nitrogen;qtile cmd-obj -o cmd -f reload_config"')),
+    Key([mod,'control'],'c',lazy.spawn('sh -c "zenity --question --text \'Are you sure you want to clear cache?\'&&cat %s |jq -c \'.\\"cache\\".\\"img\\"={}\'>/tmp/TmP&&mv /tmp/TmP %s"'.replace('%s',settings_file))),
+    Key([mod],'backslash',lazy.spawn('zenity --text="help not configured yet..." --info')),
+    Key([mod,'shift'],'z',lazy.spawn('betterlockscreen -l')),
+    Key([mod,'control'],'z',lazy.spawn('killall nvim;killall nvim;killall nvim')),
+    Key([mod],'F8',lazy.spawn('sh -c "test $(pidof xdotool)&&killall xdotool||xdotool click --delay 5 --repeat 900000 1"')),
+    #window2
+    KeyChord([mod],'g',[
+                 Key([],'i',lazy.function(lambda q:os.system('zenity --text="'+str(q.current_window.info()).replace('"',"'")+'" --info&'))),
+                 Key([],'b',lazy.hide_show_bar()),
+                 Key([],'t',lazy.function(lambda q:q.current_window.cmd_down_opacity())),
+                 Key(['shift'],'t',lazy.function(lambda q:q.current_window.cmd_up_opacity())),
+                 Key([],'f11',lazy.window.toggle_fullscreen()),
+                 Key([],'h',lazy.function(lambda q:q.current_window.hide() if q.current_window.cmd_is_visible() else q.current_window.unhide())),
+                 Key([],'m',lazy.function(lambda q:q.current_window.cmd_toggle_minimize())),
+                 Key(['shift'],'m',lazy.function(lambda q:q.current_window.cmd_toggle_maximize())),
+                 Key([],'f',lazy.function(lambda q:q.current_window.cmd_bring_to_front())),
+                 Key(['control'],'f',lazy.function(lambda q:q.current_window.cmd_static())),
+                 Key([],'r',lazy.spawn('redshift -O 4000')),
+                 Key(['shift'],'r',lazy.spawn('sh -c "redshift -x;redshift -O 4000"')),
+                 Key([],'c',lazy.function(lambda q:q.current_window.cmd_center())),
+                 Key([],'s',lazy.function(scalescreen,.1)),
+                 Key(['shift'],'s',lazy.function(scalescreen,-.1)),
+                 Key(['control'],'s',lazy.function(lambda _:os.system(f'zenity --text="{SCALE}" --info&'))),
+                 Key([],'c',lazy.spawn('scrot')),
+             ])
+]
+groups=[Group(i) for i in "1234567890u"]
+for i in (i.name for i in groups):
+    keys.extend([
+                    Key([mod],i,lazy.group[i].toscreen()),
+                    Key([mod,"shift"],i,lazy.window.togroup(i,switch_group=1))])
+
+layouts=[
+    xmonad.MonadTall(single_border_width=0,border_focus='#ff0000'),
+    xmonad.MonadTall(single_border_width=0,ratio=0.6,border_focus='#0000ff'),
+    xmonad.MonadTall(single_border_width=0,ratio=0.8,border_focus='#00ff00'),
+    columns.Columns(border_on_single=1,border_focus='#ffffff'),
+]
+screens=[Screen(
+        #wallpaper=image,        #slow
+        #wallpaper_mode='fill',  #slow
+        bottom=bar.Bar([
+                           widget.GroupBox(disable_drag=1,hide_unused=1,highlight_method='line',highlight_color=[image_colors[0],image_colors[3]],
+                                           visible_groups=[i.name for i in groups if i.name in '0123456789']),
+                           widget.WindowTabs(),
+                           widget.Systray(), #dont remove...
+                           widget.TextBox(text='',fontsize=80,padding=-10,foreground=image_colors[1]),
+                           widget.Battery(format='{char} {percent:2.0%}',background=image_colors[1]),
+                           widget.TextBox(text='',fontsize=80,padding=-10,background=image_colors[1],foreground=image_colors[2]),
+                           widget.Clock(format="%Y/%m/%d;%V   %H:%M:%S",background=image_colors[2]),
+                       ],
+                       size=24, background=image_colors[0], opacity=0.8,
+                       ),)]
+os.system('setxkbmap -option caps:swapescape &')
+os.system('nitrogen --restore &') #fast
+
+@hook.subscribe.startup_once
+def autostart()->None:
+    os.system(f'xrandr --output LVDS-1 --scale {SCALE}x{SCALE}')
+    os.system('nitrogen --restore &') #fast
+    os.system('setxkbmap -option caps:swapescape&')
+    os.system('redshift -O 4000&')
+    os.system('picom &')
+    os.system('clipmenud &')
+    # os.system('sudo -S modprobe v4l2loopback')
+    os.system('xset s off -dpms')
+    os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0.5')
+    # os.system('sh -c "emacs --daemon;emacsclient -cn"&')
+    os.system('sh -c "emacs --daemon"&')
+# vim:fen:

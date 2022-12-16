@@ -1,0 +1,49 @@
+* Theme
+  #+begin_src emacs-lisp
+  (custom-set-variables
+  '(custom-enabled-themes '(wombat)))
+  #+end_src
+* Packages
+  #+begin_src emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+  (package-initialize)
+  ;(package-refresh-contents)
+  #+end_src
+* Package auto installer bootstrap
+  #+begin_src emacs-lisp
+  (unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+  (setq use-package-always-ensure t)
+  #+end_src
+* The packs
+** EVIL
+   #+begin_src emacs-lisp
+   ;(use-package evil
+   ;:init
+   ;(evil-mode)
+   ;)
+   #+end_src
+** Helm
+   #+begin_src emacs-lisp
+   (use-package helm
+   )
+   #+end_src
+** Whichkey
+   #+begin_src emacs-lisp
+   (use-package whichkey
+   )
+   #+end_src
+** Vterm
+   #+begin_src emacs-lisp
+   (use-package vterm
+   )
+   #+end_src
+* Modes
+  #+begin_src emacs-lisp
+  (delete-selection-mode t)
+  (global-display-line-numbers-mode t)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  #+end_src
