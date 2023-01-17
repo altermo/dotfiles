@@ -1,0 +1,28 @@
+/* #webrtcIndicator {
+display: none;
+} */
+#back-button,#forward-button {
+  display: none;
+}
+#new-tab-button .toolbarbutton-icon,#tabs-newtab-button .toolbarbutton-icon{
+  display: none;
+}
+#tabbrowser-arrowscrollbox-periphery{
+  -moz-box-flex: 1;
+}
+#tabs-newtab-button{
+  width: 100%;
+}
+#alltabs-button{
+  display: none;
+}
+
+/* TODO:understand what this snipet of code does*/
+:root {
+  --uc-urlbar-width: clamp(200px, 65vw, 527px);
+}
+@media (min-width: 800px) {
+  #TabsToolbar { margin-right: var(--uc-urlbar-width) !important; }
+  #nav-bar {
+    margin: calc((var(--urlbar-min-height) * -1) - 8px) 0 0 calc(100vw - var(--uc-urlbar-width) - 2px) !important;
+  }

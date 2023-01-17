@@ -23,6 +23,7 @@ term2="xterm -fs 10 -fa monospace -bg black -fg white "
 term3="alacritty"
 browser1='firefox'
 browser2='qutebrowser'
+browser3='torbrowser-launcher'
 fm1=neovimfm
 fm2='pcmanfm'
 themesetting='lxappearance'
@@ -82,6 +83,7 @@ websites={
     'periodic-table'           :'https://ptable.com',
     'browser-timeline'         :'https://upload.wikimedia.org/wikipedia/commons/7/74/Timeline_of_web_browsers.svg',
     'keybr'                    :'https://www.keybr.com',
+    'chargpt'                  :'https://chat.openai.com/chat',
     #emacs / vim
     'emacs'                    :'https://www.gnu.org/software/emacs',
     'spacemacs'                :'https://develop.spacemacs.org/doc/DOCUMENTATION.html',
@@ -130,6 +132,7 @@ configs={
     'qutebrowser':f'{HOME}/.config/qutebrowser/config.py',
     'zsh'        :f'{HOME}/.zshrc',
     'bash'       :f'{HOME}/.bashrc',
+    'firefox'    :f'{HOME}/.mozilla/firefox/ntrc3s4e.default/chrome/userChrome.css'
 }
 
 if os.path.exists(settings_file):
@@ -210,18 +213,17 @@ keys=[
     #spawn
     Key([mod],'b',lazy.spawn(browser1)),
     Key([mod],'i',lazy.spawn(browser2)),
+    Key([mod,'shift'],'i',lazy.spawn(browser3)),
     Key([mod],'Return',lazy.spawn(term1)),
     Key([mod,'shift'],'Return',lazy.spawn(term2)),
     Key([mod],'KP_Enter',lazy.spawn(term3)),
     Key([mod],'s',lazy.spawn(themesetting)),
     Key([mod],'space',lazy.spawn(neovimgui)),
-    Key([mod,'shift'],'space',lazy.spawn('neovide')),
     Key([mod,'shift'],'t',lazy.spawn(topgui)),
     Key([mod],'n',lazy.spawn(fm1)),
     Key([mod,'shift'],'n',lazy.spawn(fm2)),
     Key([mod],'e',lazy.spawn("emacsclient -c -a 'emacs'")),
     Key([mod],'v',lazy.spawn('pavucontrol')),
-    Key([mod,'shift'],'r',lazy.spawn('gkbd-keyboard-display -g 1')),
     #menu
     Key([mod],'x',lazy.spawn('rofi -show drun')),
     Key([mod,'shift'],'x',lazy.spawn('nwggrid -o 0.5')),
@@ -241,13 +243,15 @@ keys=[
     Key([mod],'c',lazy.spawn(f'{neovimgui} -c "au Vimenter * CodiNew python"')),
     Key([mod],'z',lazy.spawn(neovimgui+f' -c "cd {HOME}/.config/nvim|Dff"')),
     Key([mod],'o',lazy.spawn(neovimgui+f' -c "cd {HOME}/.test|Ranger"')),
+    #shell
     Key([mod],'p',lazy.spawn(neovimgui+' -c "Fish -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\r\')"')),
     #other
     Key([mod,'shift'],'c',lazy.spawn('sh -c "nitrogen;qtile cmd-obj -o cmd -f reload_config"')),
     Key([mod,'control'],'c',lazy.spawn('sh -c "zenity --question --text \'Are you sure you want to clear cache?\'&&cat %s |jq -c \'.\\"cache\\".\\"img\\"={}\'>/tmp/TmP&&mv /tmp/TmP %s"'.replace('%s',settings_file))),
+    Key([mod,'shift'],'g',lazy.spawn('qutebrowser https://chat.openai.com/chat --target=window')),
     Key([mod],'backslash',lazy.spawn('zenity --text="help not configured yet..." --info')),
     Key([mod,'shift'],'z',lazy.spawn('betterlockscreen -l')),
-    Key([mod,'control'],'z',lazy.spawn('killall nvim;killall nvim;killall nvim')),
+    Key([mod,'control'],'z',lazy.spawn('killall -9 nvim')),
     Key([mod],'F8',lazy.spawn('sh -c "test $(pidof xdotool)&&killall xdotool||xdotool click --delay 5 --repeat 900000 1"')),
     #window2
     KeyChord([mod],'g',[
@@ -263,11 +267,12 @@ keys=[
                  Key(['control'],'f',lazy.function(lambda q:q.current_window.cmd_static())),
                  Key([],'r',lazy.spawn('redshift -O 4000')),
                  Key(['shift'],'r',lazy.spawn('sh -c "redshift -x;redshift -O 4000"')),
-                 Key([],'c',lazy.function(lambda q:q.current_window.cmd_center())),
                  Key([],'s',lazy.function(scalescreen,.1)),
                  Key(['shift'],'s',lazy.function(scalescreen,-.1)),
                  Key(['control'],'s',lazy.function(lambda _:os.system(f'zenity --text="{SCALE}" --info&'))),
                  Key([],'c',lazy.spawn('scrot')),
+                 Key(['shift'],'c',lazy.function(lambda q:q.current_window.cmd_center())),
+                 Key([],'k',lazy.spawn('gkbd-keyboard-display -g 1')),
              ])
 ]
 groups=[Group(i) for i in "1234567890u"]
@@ -286,14 +291,14 @@ screens=[Screen(
         #wallpaper=image,        #slow
         #wallpaper_mode='fill',  #slow
         bottom=bar.Bar([
-                           widget.GroupBox(disable_drag=1,hide_unused=1,highlight_method='line',highlight_color=[image_colors[0],image_colors[3]],
+                           widget.GroupBox(disable_drag=1,hide_unused=1,highlight_method='line',highlight_color=[image_colors[0],image_colors[1]],
                                            visible_groups=[i.name for i in groups if i.name in '0123456789']),
                            widget.WindowTabs(),
                            widget.Systray(), #dont remove...
-                           widget.TextBox(text='',fontsize=80,padding=-10,foreground=image_colors[1]),
-                           widget.Battery(format='{char} {percent:2.0%}',background=image_colors[1]),
-                           widget.TextBox(text='',fontsize=80,padding=-10,background=image_colors[1],foreground=image_colors[2]),
-                           widget.Clock(format="%Y/%m/%d;%V   %H:%M:%S",background=image_colors[2]),
+                           widget.TextBox(text='',fontsize=80,padding=-10,foreground=image_colors[2]),
+                           widget.Battery(format='{char} {percent:1.0%}',background=image_colors[2]),
+                           widget.TextBox(text='',fontsize=80,padding=-10,background=image_colors[2],foreground=image_colors[3]),
+                           widget.Clock(format="%Y/%m/%d;%V   %H:%M:%S",background=image_colors[3]),
                        ],
                        size=24, background=image_colors[0], opacity=0.8,
                        ),)]
