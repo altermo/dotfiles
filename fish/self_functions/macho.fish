@@ -1,0 +1,16 @@
+function macho
+    set manual (begin
+        apropos ''
+        ls /usr/share/fish/man/man1/|awk -F'.' '{print $1" ("$2")"}'
+    end|\
+    grep -v -E '^.+ \(0\)'|\
+    grep -v -E '^.+ \(.+p\)'|\
+    awk '{print $2 "\t" $1}'|\
+    sort|uniq|fzf\
+        --height='30%'\
+        --layout='reverse'\
+        --prompt='Manual: '\
+        --preview="echo {1}|sed -E 's/^\((.+)\)/\1/'|xargs -I{S} fish -c 'man -Pcat {S} {2} 2>/dev/null'"|\
+    sed -E 's/^\((.+)\)/\1/')
+    [ "$manual" ]&&fish -c "man $manual"
+end
