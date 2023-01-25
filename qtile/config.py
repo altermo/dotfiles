@@ -10,21 +10,15 @@ HOME=os.getenv('HOME')
 DEFAULTIMG=f'{HOME}/.config/qtile/backgrounds/gnome/Icetwigs.jpg'
 NITYOPATH=f'{HOME}/.config/nitrogen/bg-saved.cfg'
 mod='mod4'
-fishpath=f'{HOME}/.config/fish/config.fish'
-qtilepath=f'{HOME}/.config/qtile/config.py'
-nvimpath=f'{HOME}/.config/nvim/init.lua'
-bashrcpath=f'{HOME}/.bashrc'
 settings_file=f'{HOME}/.config/qtile/settings.json'
 neovimgui='nvim-qt -- '
-neovimterm=f'{neovimgui} -c Fish'
-neovimfm=f'{neovimgui} -c Ranger'
-term1=neovimterm
+term1=f'{neovimgui} -c Fish'
 term2="xterm -fs 10 -fa monospace -bg black -fg white "
 term3="alacritty"
 browser1='firefox'
 browser2='qutebrowser'
 browser3='torbrowser-launcher'
-fm1=neovimfm
+fm1=f'{neovimgui} -c Ranger'
 fm2='pcmanfm'
 themesetting='lxappearance'
 #themesetting='gtk-chtheme'
@@ -83,7 +77,7 @@ websites={
     'periodic-table'           :'https://ptable.com',
     'browser-timeline'         :'https://upload.wikimedia.org/wikipedia/commons/7/74/Timeline_of_web_browsers.svg',
     'keybr'                    :'https://www.keybr.com',
-    'chargpt'                  :'https://chat.openai.com/chat',
+    'chatgpt'                  :'https://chat.openai.com/chat',
     #emacs / vim
     'emacs'                    :'https://www.gnu.org/software/emacs',
     'spacemacs'                :'https://develop.spacemacs.org/doc/DOCUMENTATION.html',
@@ -132,20 +126,20 @@ configs={
     'qutebrowser':f'{HOME}/.config/qutebrowser/config.py',
     'zsh'        :f'{HOME}/.zshrc',
     'bash'       :f'{HOME}/.bashrc',
-    'firefox'    :f'{HOME}/.mozilla/firefox/ntrc3s4e.default/chrome/userChrome.css'
+    'firefox'    :f'{HOME}/.mozilla/firefox/ntrc3s4e.default/chrome/userChrome.css',
+    'doom'       :f'{HOME}/.doom.d/config_.org', # TODO ctest
 }
 
-if os.path.exists(settings_file):
+try:
     with open(settings_file) as f:
-        try:settings=json.load(f)
-        except json.decoder.JSONDecodeError:settings={}
-else:settings={}
+        settings=json.load(f)
+except (FileNotFoundError,json.decoder.JSONDecodeError):
+    settings={}
 if os.path.exists(NITYOPATH):
     with open(NITYOPATH) as f:
         images=re.findall('file=(.*)',f.read())
         image=(images[0] if len(images) else DEFAULTIMG)
-else:
-    image=DEFAULTIMG
+else:image=DEFAULTIMG
 if os.path.exists(image):
     if image in settings.get('cache',{}).get('img',{}):
         image_colors=[tuple(i) for i in settings['cache']['img'][image]]
@@ -183,6 +177,8 @@ def scalescreen(_,scale:int):
     SCALE+=scale
     SCALE=round(SCALE*10)/10
     os.system(f'xrandr --output LVDS-1 --scale {SCALE}x{SCALE}')
+def show_bar_when_switch(_): # TODO
+    ...
 
 keys=[
     #hjkl
@@ -212,6 +208,7 @@ keys=[
     Key([mod,'control'],'q',lazy.shutdown()),
     #spawn
     Key([mod],'b',lazy.spawn(browser1)),
+    Key([mod,'control'],'b',lazy.spawn(f'{browser1} --private-window')),
     Key([mod],'i',lazy.spawn(browser2)),
     Key([mod,'shift'],'i',lazy.spawn(browser3)),
     Key([mod],'Return',lazy.spawn(term1)),
@@ -229,8 +226,9 @@ keys=[
     Key([mod,'shift'],'x',lazy.spawn('nwggrid -o 0.5')),
     Key([mod],'d',lazy.spawn('dmenu_run')),
     Key([mod],'y',lazy.spawn('clipmenu')),
-    Key([mod,'shift'],'b',lazy.function(menu_list_and_run,websites,'setsid firefox "%s"')),
+    Key([mod,'shift'],'b',lazy.function(menu_list_and_run,websites,'fish -c \'setsid $BROWSER "%s"&\'')),
     Key([mod,'shift'],'e',lazy.function(menu_list_and_run,configs,f'{neovimgui} %s')),
+    Key([mod,'control'],'i',lazy.function(menu_list_and_run,{i:i for i in ('firefox','qutebrowser')},f'fish -c "set -U BROWSER %s"')),
     #XF86
     Key([],"XF86MonBrightnessUp",lazy.spawn("brightnessctl set +10%")),
     Key([],"XF86MonBrightnessDown",lazy.spawn("brightnessctl set 10%-")),
@@ -238,13 +236,14 @@ keys=[
     Key([],"XF86AudioLowerVolume",lazy.spawn("amixer sset Master 10%-")),
     Key([],"XF86AudioMute",lazy.spawn("amixer sset Master toggle")),
     #neovim
-    Key([mod],'m',lazy.spawn(f'sh -c "cp {bashrcpath} /tmp/temp.bash;{neovimgui} /tmp/temp.bash"')),
-    Key([mod],'t',lazy.spawn(neovimgui+' -c \'Fish -ic "ntmp;tmp"\'')),
+    Key([mod],'m',lazy.spawn(f'sh -c "cp ~/.bashrc /tmp/temp.bash;{neovimgui} /tmp/temp.bash"')),
+    Key([mod,'shift'],'m',lazy.spawn(f'{neovimgui} -c \'Fish -ic macho\'')),
+    Key([mod],'t',lazy.spawn(f'{neovimgui} -c \'Fish -ic "ntmp;tmp"\'')),
     Key([mod],'c',lazy.spawn(f'{neovimgui} -c "au Vimenter * CodiNew python"')),
-    Key([mod],'z',lazy.spawn(neovimgui+f' -c "cd {HOME}/.config/nvim|Dff"')),
-    Key([mod],'o',lazy.spawn(neovimgui+f' -c "cd {HOME}/.test|Ranger"')),
+    Key([mod],'z',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|Dff"')),
+    Key([mod],'o',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.test|Ranger"')),
     #shell
-    Key([mod],'p',lazy.spawn(neovimgui+' -c "Fish -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\r\')"')),
+    Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Fish -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\r\')"')),
     #other
     Key([mod,'shift'],'c',lazy.spawn('sh -c "nitrogen;qtile cmd-obj -o cmd -f reload_config"')),
     Key([mod,'control'],'c',lazy.spawn('sh -c "zenity --question --text \'Are you sure you want to clear cache?\'&&cat %s |jq -c \'.\\"cache\\".\\"img\\"={}\'>/tmp/TmP&&mv /tmp/TmP %s"'.replace('%s',settings_file))),
@@ -279,7 +278,8 @@ groups=[Group(i) for i in "1234567890u"]
 for i in (i.name for i in groups):
     keys.extend([
                     Key([mod],i,lazy.group[i].toscreen()),
-                    Key([mod,"shift"],i,lazy.window.togroup(i,switch_group=1))])
+                    Key([mod,"shift"],i,lazy.window.togroup(i,switch_group=1)),
+                ])
 
 layouts=[
     xmonad.MonadTall(single_border_width=0,border_focus='#ff0000'),
@@ -296,7 +296,7 @@ screens=[Screen(
                            widget.WindowTabs(),
                            widget.Systray(), #dont remove...
                            widget.TextBox(text='',fontsize=80,padding=-10,foreground=image_colors[2]),
-                           widget.Battery(format='{char} {percent:1.0%}',background=image_colors[2]),
+                           widget.Battery(format='{char} {percent:2.0%}',background=image_colors[2]),
                            widget.TextBox(text='',fontsize=80,padding=-10,background=image_colors[2],foreground=image_colors[3]),
                            widget.Clock(format="%Y/%m/%d;%V   %H:%M:%S",background=image_colors[3]),
                        ],
@@ -313,9 +313,8 @@ def autostart()->None:
     os.system('redshift -O 4000&')
     os.system('picom &')
     os.system('clipmenud &')
-    # os.system('sudo -S modprobe v4l2loopback')
+    # os.system('sudo modprobe v4l2loopback')
     os.system('xset s off -dpms')
     os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0.5')
-    # os.system('sh -c "emacs --daemon;emacsclient -cn"&')
     os.system('sh -c "emacs --daemon"&')
 # vim:fen:

@@ -6,7 +6,5 @@
 
 config_version: 2
 settings:
-  colors.webpage.darkmode.algorithm:
-    global: lightness-cielab
-  scrolling.smooth:
-    global: true
+  tabs.show:
+    global: switching

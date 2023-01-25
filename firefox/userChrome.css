@@ -13,7 +13,7 @@ display: none;
 #tabs-newtab-button{
   width: 100%;
 }
-#alltabs-button{
+#alltabs-button,.titlebar-buttonbox-container{
   display: none;
 }
 

@@ -21,6 +21,7 @@ function cs
     cp ~/.config/qtile .
     cp ~/.config/qutebrowser .
     cp ~/.config/firefox .
+    cp ~/.doom.d doom
     cd ..
     copying 'packlist'
     type pacman -q&&pacman -Q>packlist.txt
@@ -32,5 +33,7 @@ function cs
     cp ~/.gtd gtd
     copying 'neofetch'
     neofetch --stdout>neofetch.txt
+    copying 'scripts'
+    cp ~/.qscript scripts
     popd
 end

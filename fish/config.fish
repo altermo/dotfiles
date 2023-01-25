@@ -10,7 +10,7 @@ set QEMUPATH "$HOME/.wm/qemu"
 set MUSPATH "$USBPATH/ncs"
 set IMPATH "$HOME/.local/share/nvim/site/pack/packer/"
 set CONFSAVE "$USBPATH/confsave"
-set LOGPATH "$HOME/.local/share/qtile/qtile.log" "$HOME/.xsession-errors"
+set LOGPATH "$HOME/.local/share/qtile/qtile.log" "$HOME/.xsession-errors" "$HOME/.local/state/nvim/log"
 set MYTEMP /tmp/user
 test -d /tmp/user||mkdir /tmp/user
 ##file_path
@@ -23,6 +23,8 @@ function nclfz
     [ "$pa" ]&&$argv[1] "$argv[2]/$pa"
 end
 alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
+##variants
+test "$BROWSER"||set -U BROWSER firefox
 ##other
 set langs 'en' 'es' 'sv' 'hu'
 set -x EDITOR /usr/bin/nvr
@@ -85,9 +87,11 @@ end
 
 #installer
 alias yas "yay -S"
+alias yaS "yay -Ss"
 alias yar "yay -R"
 alias yau "yay -Syyu"
 alias yac "yay -Yc"
+alias yaq "yay -Qi"
 alias doos "doom sync"
 
 #git
@@ -137,7 +141,6 @@ alias i info
 alias rel watch
 alias qread read-quickly
 ##other is beter
-alias ps 'procs'
 alias more 'bat -p --paging=always'
 alias less 'bat -p --paging=always'
 alias youtube-dl yt-dlp
@@ -145,6 +148,7 @@ alias vim nvim
 alias cat "bat -pp"
 alias tree "exa -T"
 alias nano micro
+alias find fd
 
 #common path
 ##ranger
@@ -166,7 +170,7 @@ function fpm;command setsid mplayer $MUSPATH/(exa $MUSPATH|fzf) >/dev/null 2>&1;
 
 #vim
 function riv
-    invim&&sh -c $argv[2]&&kill (cut -f 6 -d " " /proc/$fish_pid/stat)||command $argv[1] $argv[3..]
+    invim&&begin;sh -c $argv[2];kill (cut -f 6 -d " " /proc/$fish_pid/stat);end||command $argv[1] $argv[3..]
 end
 function nvim
     riv nvim "[ $argv ]&&nvr $argv||nvr ." $argv
@@ -180,6 +184,8 @@ function nvst
     cat $tmp|tail +7|cut -c 10-|sort -n>/tmp/sut
     rm $tmp
 end
+alias kpn 'pkill -9 -P 1 "nvim\$"'
+alias pnv 'command nvim +"lua require\'plugins\'" +"PackerCompile"'
 
 #emacs
 alias e "emacsclient -c -a emacs"
@@ -207,6 +213,7 @@ function rrr;command rm "$__fish_config_dir/fish_variables";cp "$__fish_config_d
 alias tu "env HOME=(mktemp -d) "
 alias givemeno "sudo localectl set-x11-keymap no"
 alias tb "nc termbin.com 9999"
+alias nothing "curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash"
 alias ct "touch (date +%Y-%m-%d)'.txt'"
 alias mkt 'mkdir (date +%Y-%m-%d)'
 alias mkc 'mkdir $argv;cd'
@@ -230,6 +237,7 @@ function encrypt
     end
 end
 alias ip 'hostname --ip-addresses'
+alias mwt 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" libinput\ Disable\ While\ Typing\ Enabled false'
 function bak;cp $argv $argv.bak;end
 abbr choice 'random choice'
 abbr lvl 'echo $SHLVL'
