@@ -196,6 +196,7 @@ alias ec "command setsid emacsclient >/dev/null"
 alias er "killall emacs;command emacs --daemon"
 
 #other
+alias idonotknowwhattodo 'echo'
 function ffuncs;functions -a|string split ,|fzf --preview="fish -ic 'type {1}|bat -pp -l fish --color=always'";end
 alias pf "fzf --preview '[ -d {} ]&&exa -aF {}||bat {} -pp --color=always'"
 alias term 'echo $TERM'
@@ -209,7 +210,6 @@ function countdown;termdown $argv[1];wmctrl -s ([ "$argv[2]" ]&&echo $argv[2]||e
 function styles;for i in (seq 110);printf "\e[$i""m$i\t\e[m";[ (math $i%10) = 0 ]&&echo;end;end
 function mnt;udisksctl mount -b /dev/sdb;end
 function lufp;source "$USBPATH/main/_spam/config.fish";end
-function rrr;command rm "$__fish_config_dir/fish_variables";cp "$__fish_config_dir/fish_variables__" "$__fish_config_dir/fish_variables";source "$__fish_config_dir/config.fish";end
 alias tu "env HOME=(mktemp -d) "
 alias givemeno "sudo localectl set-x11-keymap no"
 alias tb "nc termbin.com 9999"
@@ -242,6 +242,8 @@ function bak;cp $argv $argv.bak;end
 abbr choice 'random choice'
 abbr lvl 'echo $SHLVL'
 abbr rmheader "tail +2"
+alias lightup 'brightnessctl set 10+%'
+alias lightdown 'brightnessctl set 10-%'
 
 #intaller
 if type fisher >/dev/null 2>&1

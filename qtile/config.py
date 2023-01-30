@@ -239,7 +239,7 @@ keys=[
     Key([mod],'m',lazy.spawn(f'sh -c "cp ~/.bashrc /tmp/temp.bash;{neovimgui} /tmp/temp.bash"')),
     Key([mod,'shift'],'m',lazy.spawn(f'{neovimgui} -c \'Fish -ic macho\'')),
     Key([mod],'t',lazy.spawn(f'{neovimgui} -c \'Fish -ic "ntmp;tmp"\'')),
-    Key([mod],'c',lazy.spawn(f'{neovimgui} -c "au Vimenter * CodiNew python"')),
+    Key([mod],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #hack
     Key([mod],'z',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|Dff"')),
     Key([mod],'o',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.test|Ranger"')),
     #shell
