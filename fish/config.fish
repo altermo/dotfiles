@@ -1,7 +1,6 @@
 #preload
 if not status --is-interactive;exit;end
 [ $SHLVL = 1 ]&&echo
-[ $SHLVL = 1 ]&&echo REMEMBER #cant delete until remeber
 
 #vars
 ##dir_path
@@ -290,7 +289,7 @@ if type fisher >/dev/null 2>&1
     fins andreiborisov/sponge
     fins jethrokuan/fzf
     fins gazorby/fish-exa
-    fins derekstavis/fish-neovim
+    #fins derekstavis/fish-neovim
     #visual
     fins gazorby/fish-abbreviation-tips
     fins ilancosman/tide

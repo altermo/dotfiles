@@ -112,7 +112,7 @@ websites={
     'markdown-cheat-sheet'     :'https://www.markdownguide.org/cheat-sheet/',
 }
 
-def ctest(*paths):
+def ctest(*paths:str)->str:
     for i in paths:
         if os.path.isfile(i):
             return i
