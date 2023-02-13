@@ -43,6 +43,13 @@ websites={
     'python-regex'             :'https://docs.python.org/3/library/re.html#regular-expression-syntax',
     'python-reference'         :'https://docs.python.org/3/reference/',
     'python-unittest'          :'https://docs.python.org/3.12/library/unittest.html',
+    #google
+    'mail'                     :'https://mail.google.com/mail/u/0/h/',
+    'maps'                     :'https://www.google.com/maps',
+    'gtranslate'               :'https://translate.google.com',
+    'google'                   :'https://google.com',
+    'classroom'                :'https://classroom.google.com',
+    'drive'                    :'https://drive.google.com',
     #other prgm lang
     'fish'                     :'https://fishshell.com/docs/current/commands.html',
     'ANSI'                     :'https://invisible-island.net/xterm/ctlseqs/ctlseqs.html',
@@ -57,15 +64,9 @@ websites={
     'box-chars'                :'https://en.wikipedia.org/wiki/Box-drawing_character',
     'turbowarp'                :'https://turbowarp.org',
     'turbowarp-doc'            :'https://docs.turbowarp.org',
+    'turbowarp-extensions'     :'https://extensions.turbowarp.org',
     'http-codes'               :'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status',
     'autohotkey'               :'https://www.autohotkey.com/docs/AutoHotkey.htm',
-    #google
-    'mail'                     :'https://mail.google.com/mail/u/0/h/',
-    'maps'                     :'https://www.google.com/maps',
-    'gtranslate'               :'https://translate.google.com',
-    'google'                   :'https://google.com',
-    'classroom'                :'https://classroom.google.com',
-    'drive'                    :'https://drive.google.com',
     #other
     'wikiperdia'               :'https://en.wikipedia.org',
     'wikiperdia-sv'            :'https://sv.wikipedia.org',

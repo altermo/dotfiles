@@ -29,7 +29,7 @@ set langs 'en' 'es' 'sv' 'hu'
 set -x EDITOR /usr/bin/nvr
 set -x VISUAL /usr/bin/nvr
 set -x PAGER 'bat -p --paging=always'
-set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+set -x MANPAGER "sh -c 'col -bx | bat -l man -p --pager=\"less --SILENT -RF\"'"
 set -x READ_QUICKLY_RATE 300
 fish_add_path "$HOME/.config/bin"
 fish_add_path "$HOME/.emacs.d/bin"
@@ -140,8 +140,8 @@ alias i info
 alias rel watch
 alias qread read-quickly
 ##other is beter
-alias more 'bat -p --paging=always'
-alias less 'bat -p --paging=always'
+alias more 'bat -p --paging=always --pager="less --SILENT -RF"'
+alias less 'bat -p --paging=always --pager="less --SILENT -RF"'
 alias youtube-dl yt-dlp
 alias vim nvim
 alias cat "bat -pp"
