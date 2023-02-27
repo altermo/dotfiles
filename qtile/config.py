@@ -67,6 +67,7 @@ websites={
     'turbowarp-extensions'     :'https://extensions.turbowarp.org',
     'http-codes'               :'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status',
     'autohotkey'               :'https://www.autohotkey.com/docs/AutoHotkey.htm',
+    'zig'                      :'https://ziglang.org',
     #other
     'wikiperdia'               :'https://en.wikipedia.org',
     'wikiperdia-sv'            :'https://sv.wikipedia.org',
@@ -159,7 +160,7 @@ def menu_list_and_run(_,apps:dict['str','str'],bin:str)->None:
     result=os.popen('printf "'+'\n'.join(apps)+'"|dmenu -i').read()
     if result:os.system(bin%apps[result.removesuffix('\n')])
 def smart_kill(q):
-    blacklist=[['Navigator','firefox']]
+    blacklist=[['Navigator','firefox'],['skype','Skype']]
     wm_class=q.current_window.get_wm_class()
     if wm_class not in blacklist:
         q.current_window.kill()
@@ -212,6 +213,7 @@ keys=[
     Key([mod,'control'],'b',lazy.spawn(f'{browser1} --private-window')),
     Key([mod],'i',lazy.spawn(browser2)),
     Key([mod,'shift'],'i',lazy.spawn(browser3)),
+    Key([mod,'control'],'i',lazy.spawn('microsoft-edge-stable')),
     Key([mod],'Return',lazy.spawn(term1)),
     Key([mod,'shift'],'Return',lazy.spawn(term2)),
     Key([mod],'KP_Enter',lazy.spawn(term3)),
@@ -229,7 +231,7 @@ keys=[
     Key([mod],'y',lazy.spawn('clipmenu')),
     Key([mod,'shift'],'b',lazy.function(menu_list_and_run,websites,'fish -c \'setsid $BROWSER "%s"&\'')),
     Key([mod,'shift'],'e',lazy.function(menu_list_and_run,configs,f'{neovimgui} %s')),
-    Key([mod,'control'],'i',lazy.function(menu_list_and_run,{i:i for i in ('firefox','qutebrowser')},f'fish -c "set -U BROWSER %s"')),
+    Key([mod,'shift','control'],'i',lazy.function(menu_list_and_run,{i:i for i in ('firefox','qutebrowser')},'fish -c "set -U BROWSER %s"')),
     #XF86
     Key([],"XF86MonBrightnessUp",lazy.spawn("brightnessctl set +10%")),
     Key([],"XF86MonBrightnessDown",lazy.spawn("brightnessctl set 10%-")),
@@ -250,8 +252,7 @@ keys=[
     Key([mod,'control'],'c',lazy.spawn('sh -c "zenity --question --text \'Are you sure you want to clear cache?\'&&cat %s |jq -c \'.\\"cache\\".\\"img\\"={}\'>/tmp/TmP&&mv /tmp/TmP %s"'.replace('%s',settings_file))),
     Key([mod,'shift'],'g',lazy.spawn('qutebrowser https://chat.openai.com/chat --target=window')),
     Key([mod],'backslash',lazy.spawn('zenity --text="help not configured yet..." --info')),
-    Key([mod,'shift'],'z',lazy.spawn('betterlockscreen -l')),
-    Key([mod,'control'],'z',lazy.spawn('killall -9 nvim')),
+    Key([mod,'control'],'z',lazy.spawn('betterlockscreen -l')),
     Key([mod],'F8',lazy.spawn('sh -c "test $(pidof xdotool)&&killall xdotool||xdotool click --delay 5 --repeat 900000 1"')),
     #window2
     KeyChord([mod],'g',[
