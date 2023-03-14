@@ -274,6 +274,9 @@ keys=[
                  Key([],'c',lazy.spawn('scrot')),
                  Key(['shift'],'c',lazy.function(lambda q:q.current_window.cmd_center())),
                  Key([],'k',lazy.spawn('gkbd-keyboard-display -g 1')),
+                 Key([],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0')),
+                 Key(['shift'],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0.5')),
+                 Key(['control'],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 -0.5')),
              ])
 ]
 groups=[Group(i) for i in "1234567890u"]

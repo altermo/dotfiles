@@ -139,6 +139,8 @@ alias g grep
 alias i info
 alias rel watch
 alias qread read-quickly
+alias imgtotxt tesseract
+alias sudo doas
 ##other is beter
 alias more 'bat -p --paging=always --pager="less --SILENT -RF"'
 alias less 'bat -p --paging=always --pager="less --SILENT -RF"'
@@ -196,6 +198,10 @@ alias er "killall emacs;command emacs --daemon"
 
 #other
 alias idonotknowwhattodo 'echo'
+alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0.5'
+alias mouseslow 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0'
+alias mousesnail 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 -0.5'
+alias mousewritemove 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" libinput\ Disable\ While\ Typing\ Enabled false'
 function ffuncs;functions -a|string split ,|fzf --preview="fish -ic 'type {1}|bat -pp -l fish --color=always'";end
 alias pf "fzf --preview '[ -d {} ]&&exa -aF {}||bat {} -pp --color=always'"
 alias term 'echo $TERM'
@@ -236,13 +242,13 @@ function encrypt
     end
 end
 alias ip 'hostname --ip-addresses'
-alias mwt 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" libinput\ Disable\ While\ Typing\ Enabled false'
 function bak;cp $argv $argv.bak;end
 abbr choice 'random choice'
 abbr lvl 'echo $SHLVL'
 abbr rmheader "tail +2"
 alias lightup 'brightnessctl set 10+%'
 alias lightdown 'brightnessctl set 10-%'
+alias beepoff 'sudo modprobe -r pcspkr'
 
 #intaller
 if type fisher >/dev/null 2>&1
