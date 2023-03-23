@@ -80,6 +80,9 @@ websites={
     'browser-timeline'         :'https://upload.wikimedia.org/wikipedia/commons/7/74/Timeline_of_web_browsers.svg',
     'keybr'                    :'https://www.keybr.com',
     'chatgpt'                  :'https://chat.openai.com/chat',
+    'chatgpt-prompts'          :'https://github.com/f/awesome-chatgpt-prompts',
+    'neovim'                   :'https://neovim.io/',
+    'proton'                   :'https://mail.proton.me/',
     #emacs / vim
     'emacs'                    :'https://www.gnu.org/software/emacs',
     'spacemacs'                :'https://develop.spacemacs.org/doc/DOCUMENTATION.html',
@@ -108,6 +111,8 @@ websites={
     'archlinux'                :'https://archlinux.org/',
     'distro-timeline'          :'https://upload.wikimedia.org/wikipedia/commons/b/b5/Linux_Distribution_Timeline_21_10_2021.svg',
     'archwiki'                 :'https://wiki.archlinux.org/',
+    'kail'                     :'https://www.kali.org/',
+    'nix'                      :'https://nixos.org/',
     #markdown
     'markdown-basic'           :'https://www.markdownguide.org/basic-syntax/',
     'markdown-extra'           :'https://www.markdownguide.org/extended-syntax/',
@@ -245,6 +250,7 @@ keys=[
     Key([mod],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #hack
     Key([mod],'z',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|Dff"')),
     Key([mod],'o',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.test|Ranger"')),
+    Key([mod,'shift'],'o',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.qscript/_|Ranger"')),
     #shell
     Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Fish -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\r\')"')),
     #other

@@ -197,7 +197,7 @@ alias ec "command setsid emacsclient >/dev/null"
 alias er "killall emacs;command emacs --daemon"
 
 #other
-alias idonotknowwhattodo 'echo'
+alias idonotknowwhattodo 'firefox https://www.ted.com/'
 alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0.5'
 alias mouseslow 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0'
 alias mousesnail 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 -0.5'
