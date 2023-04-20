@@ -1,6 +1,3 @@
 #+begin_src emacs-lisp
 (beacon-mode 1)
 #+end_src
-#+begin_src emacs-lisp
-;(map! :n :desc "" "s" #'evil-avy-goto-char)
-#+end_src

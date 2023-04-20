@@ -1,4 +1,3 @@
-extensions.unifiedExtensions.enabled = false;
 browser.compactmode.show = true;
 toolkit.legacyUserProfileCustomizations.stylesheets = true;
 layout.css.devPixelsPerPx = 0.94;

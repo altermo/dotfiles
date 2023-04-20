@@ -15,6 +15,7 @@ function nf #TODO
     else
         echo 2
         nvim-qt --server $id $argv &
+        #command nvim --remote-ui
     end
     cd -
     set newd (date +"%Y-%m-%d %H:%M:%S")

@@ -46,6 +46,7 @@ end
 
 #source
 zoxide init fish| source
+carapace _carapace|source
 
 #translator
 for i in $langs;for j in $langs
@@ -91,6 +92,7 @@ alias yar "yay -R"
 alias yau "yay -Syyu"
 alias yac "yay -Yc"
 alias yaq "yay -Qi"
+alias mirror "curl https://archlinux.org/mirrorlist/all/"
 alias doos "doom sync"
 
 #git
@@ -197,6 +199,7 @@ alias ec "command setsid emacsclient >/dev/null"
 alias er "killall emacs;command emacs --daemon"
 
 #other
+alias clock 'termdown -z -Z "%H : %M : %S"'
 alias idonotknowwhattodo 'firefox https://www.ted.com/'
 alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0.5'
 alias mouseslow 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0'
@@ -248,7 +251,7 @@ abbr lvl 'echo $SHLVL'
 abbr rmheader "tail +2"
 alias lightup 'brightnessctl set 10+%'
 alias lightdown 'brightnessctl set 10-%'
-alias beepoff 'sudo modprobe -r pcspkr'
+alias beepoff 'sudo rmmod pcspkr.ko.zst'
 
 #intaller
 if type fisher >/dev/null 2>&1

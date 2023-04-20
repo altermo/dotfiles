@@ -60,6 +60,7 @@ websites={
     'compiler-explorer'        :'https://godbolt.org/',
     'cpp-reference'            :'https://cplusplus.com/reference',
     'cpp'                      :'https://cplusplus.com/',
+    'c-stdlib'                 :'https://www.ibm.com/docs/en/i/7.1?topic=extensions-standard-c-library-functions-table-by-name',
     'unicode-table'            :'https://en.wikibooks.org/wiki/Unicode/Character_reference',
     'box-chars'                :'https://en.wikipedia.org/wiki/Box-drawing_character',
     'turbowarp'                :'https://turbowarp.org',
@@ -68,6 +69,7 @@ websites={
     'http-codes'               :'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status',
     'autohotkey'               :'https://www.autohotkey.com/docs/AutoHotkey.htm',
     'zig'                      :'https://ziglang.org',
+    'markdown-basic'           :'https://www.markdownguide.org/basic-syntax/',
     #other
     'wikiperdia'               :'https://en.wikipedia.org',
     'wikiperdia-sv'            :'https://sv.wikipedia.org',
@@ -83,6 +85,10 @@ websites={
     'chatgpt-prompts'          :'https://github.com/f/awesome-chatgpt-prompts',
     'neovim'                   :'https://neovim.io/',
     'proton'                   :'https://mail.proton.me/',
+    'semver'                   :'https ://semver.org/',
+    'wikiperdia-ipa'           :'https ://en.wikipedia.org/wiki/Help:IPA?useskin=vector',
+    'carbon'                   :'https ://carbon.now.sh/',
+    'seterra'                  :'https ://www.geoguessr.com/seterra/',
     #emacs / vim
     'emacs'                    :'https://www.gnu.org/software/emacs',
     'spacemacs'                :'https://develop.spacemacs.org/doc/DOCUMENTATION.html',
@@ -106,6 +112,7 @@ websites={
     'lxiym-lua'                :'https://learnxinyminutes.com/docs/lua',
     'lxiym-python'             :'https://learnxinyminutes.com/docs/python',
     'lxiym-rust'               :'https://learnxinyminutes.com/docs/rust',
+    'lxiym-zig'                :'https://learnxinyminutes.com/docs/zig/',
     #linux distro
     'AUR'                      :'https://aur.archlinux.org/',
     'archlinux'                :'https://archlinux.org/',
@@ -113,10 +120,6 @@ websites={
     'archwiki'                 :'https://wiki.archlinux.org/',
     'kail'                     :'https://www.kali.org/',
     'nix'                      :'https://nixos.org/',
-    #markdown
-    'markdown-basic'           :'https://www.markdownguide.org/basic-syntax/',
-    'markdown-extra'           :'https://www.markdownguide.org/extended-syntax/',
-    'markdown-cheat-sheet'     :'https://www.markdownguide.org/cheat-sheet/',
 }
 
 def ctest(*paths:str)->str:
@@ -223,7 +226,6 @@ keys=[
     Key([mod,'shift'],'Return',lazy.spawn(term2)),
     Key([mod],'KP_Enter',lazy.spawn(term3)),
     Key([mod],'s',lazy.spawn(themesetting)),
-    Key([mod],'space',lazy.spawn(neovimgui)),
     Key([mod,'shift'],'t',lazy.spawn(topgui)),
     Key([mod],'n',lazy.spawn(fm1)),
     Key([mod,'shift'],'n',lazy.spawn(fm2)),
@@ -242,10 +244,12 @@ keys=[
     Key([],"XF86MonBrightnessDown",lazy.spawn("brightnessctl set 10%-")),
     Key([],"XF86AudioRaiseVolume",lazy.spawn("amixer sset Master 10%+")),
     Key([],"XF86AudioLowerVolume",lazy.spawn("amixer sset Master 10%-")),
+    Key(['shift'],"XF86AudioRaiseVolume",lazy.spawn("amixer sset Master 1%+")),
+    Key(['shift'],"XF86AudioLowerVolume",lazy.spawn("amixer sset Master 1%-")),
     Key([],"XF86AudioMute",lazy.spawn("amixer sset Master toggle")),
     #neovim
     Key([mod],'m',lazy.spawn(f'sh -c "cp ~/.bashrc /tmp/temp.bash;{neovimgui} /tmp/temp.bash"')),
-    Key([mod,'shift'],'m',lazy.spawn(f'{neovimgui} -c \'Fish -ic macho\'')),
+    Key([mod],'a',lazy.spawn(neovimgui)),
     Key([mod],'t',lazy.spawn(f'{neovimgui} -c \'Fish -ic "ntmp;tmp"\'')),
     Key([mod],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #hack
     Key([mod],'z',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|Dff"')),
@@ -254,43 +258,53 @@ keys=[
     #shell
     Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Fish -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\r\')"')),
     #other
+    Key([mod,'control','shift'],'b',lazy.spawn(f'sh -c "{browser1} bing.com/search?q=${{RANDOM:0:10000}}"')),
     Key([mod,'shift'],'c',lazy.spawn('sh -c "nitrogen;qtile cmd-obj -o cmd -f reload_config"')),
     Key([mod,'control'],'c',lazy.spawn('sh -c "zenity --question --text \'Are you sure you want to clear cache?\'&&cat %s |jq -c \'.\\"cache\\".\\"img\\"={}\'>/tmp/TmP&&mv /tmp/TmP %s"'.replace('%s',settings_file))),
     Key([mod,'shift'],'g',lazy.spawn('qutebrowser https://chat.openai.com/chat --target=window')),
     Key([mod],'backslash',lazy.spawn('zenity --text="help not configured yet..." --info')),
     Key([mod,'control'],'z',lazy.spawn('betterlockscreen -l')),
     Key([mod],'F8',lazy.spawn('sh -c "test $(pidof xdotool)&&killall xdotool||xdotool click --delay 5 --repeat 900000 1"')),
+    Key([mod],'F9',lazy.spawn('sh -c "test $(pidof xdotool)&&killall xdotool||xdotool click --delay 5 --repeat 900000 3"')),
     #window2
+    KeyChord([mod],'q',[
+        Key([],'e',lazy.spawn('sh -c "setxkbmap -option;setxkbmap -option ctrl:swapcaps"')),
+        Key([],'v',lazy.spawn('sh -c "setxkbmap -option;setxkbmap -option caps:swapescape"')),
+        Key([],'k',lazy.spawn('setxkbmap -option')),
+        Key([],'n',lazy.spawn('setxkbmap no')),
+        Key([],'s',lazy.spawn('setxkbmap se')),
+        Key([],'u',lazy.spawn('setxkbmap us')),
+    ]),
     KeyChord([mod],'g',[
-                 Key([],'i',lazy.function(lambda q:os.system('zenity --text="'+str(q.current_window.info()).replace('"',"'")+'" --info&'))),
-                 Key([],'b',lazy.hide_show_bar()),
-                 Key([],'t',lazy.function(lambda q:q.current_window.cmd_down_opacity())),
-                 Key(['shift'],'t',lazy.function(lambda q:q.current_window.cmd_up_opacity())),
-                 Key([],'f11',lazy.window.toggle_fullscreen()),
-                 Key([],'h',lazy.function(lambda q:q.current_window.hide() if q.current_window.cmd_is_visible() else q.current_window.unhide())),
-                 Key([],'m',lazy.function(lambda q:q.current_window.cmd_toggle_minimize())),
-                 Key(['shift'],'m',lazy.function(lambda q:q.current_window.cmd_toggle_maximize())),
-                 Key([],'f',lazy.function(lambda q:q.current_window.cmd_bring_to_front())),
-                 Key(['control'],'f',lazy.function(lambda q:q.current_window.cmd_static())),
-                 Key([],'r',lazy.spawn('redshift -O 4000')),
-                 Key(['shift'],'r',lazy.spawn('sh -c "redshift -x;redshift -O 4000"')),
-                 Key([],'s',lazy.function(scalescreen,.1)),
-                 Key(['shift'],'s',lazy.function(scalescreen,-.1)),
-                 Key(['control'],'s',lazy.function(lambda _:os.system(f'zenity --text="{SCALE}" --info&'))),
-                 Key([],'c',lazy.spawn('scrot')),
-                 Key(['shift'],'c',lazy.function(lambda q:q.current_window.cmd_center())),
-                 Key([],'k',lazy.spawn('gkbd-keyboard-display -g 1')),
-                 Key([],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0')),
-                 Key(['shift'],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0.5')),
-                 Key(['control'],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 -0.5')),
-             ])
+        Key([],'i',lazy.function(lambda q:os.system('zenity --text="'+str(q.current_window.info()).replace('"',"'")+'" --info&'))),
+        Key([],'b',lazy.hide_show_bar()),
+        Key([],'t',lazy.function(lambda q:q.current_window.cmd_down_opacity())),
+        Key(['shift'],'t',lazy.function(lambda q:q.current_window.cmd_up_opacity())),
+        Key([],'f11',lazy.window.toggle_fullscreen()),
+        Key([],'h',lazy.function(lambda q:q.current_window.hide() if q.current_window.cmd_is_visible() else q.current_window.unhide())),
+        Key([],'m',lazy.function(lambda q:q.current_window.cmd_toggle_minimize())),
+        Key(['shift'],'m',lazy.function(lambda q:q.current_window.cmd_toggle_maximize())),
+        Key([],'f',lazy.function(lambda q:q.current_window.cmd_bring_to_front())),
+        Key(['control'],'f',lazy.function(lambda q:q.current_window.cmd_static())),
+        Key([],'r',lazy.spawn('redshift -O 4000')),
+        Key(['shift'],'r',lazy.spawn('sh -c "redshift -x;redshift -O 4000"')),
+        Key([],'s',lazy.function(scalescreen,.1)),
+        Key(['shift'],'s',lazy.function(scalescreen,-.1)),
+        Key(['control'],'s',lazy.function(lambda _:os.system(f'zenity --text="{SCALE}" --info&'))),
+        Key([],'c',lazy.spawn('scrot')),
+        Key(['shift'],'c',lazy.function(lambda q:q.current_window.cmd_center())),
+        Key([],'k',lazy.spawn('gkbd-keyboard-display -g 1')),
+        Key([],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0')),
+        Key(['shift'],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')),
+        Key(['control'],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" -0.5')),
+    ])
 ]
 groups=[Group(i) for i in "1234567890u"]
 for i in (i.name for i in groups):
     keys.extend([
-                    Key([mod],i,lazy.group[i].toscreen()),
-                    Key([mod,"shift"],i,lazy.window.togroup(i,switch_group=1)),
-                ])
+        Key([mod],i,lazy.group[i].toscreen()),
+        Key([mod,"shift"],i,lazy.window.togroup(i,switch_group=1)),
+    ])
 
 layouts=[
     xmonad.MonadTall(single_border_width=0,border_focus='#ff0000'),
@@ -299,20 +313,20 @@ layouts=[
     columns.Columns(border_on_single=1,border_focus='#ffffff'),
 ]
 screens=[Screen(
-        #wallpaper=image,        #slow
-        #wallpaper_mode='fill',  #slow
-        bottom=bar.Bar([
-                           widget.GroupBox(disable_drag=1,hide_unused=1,highlight_method='line',highlight_color=[image_colors[0],image_colors[1]],
-                                           visible_groups=[i.name for i in groups if i.name in '0123456789']),
-                           widget.WindowTabs(),
-                           widget.Systray(), #dont remove...
-                           widget.TextBox(text='',fontsize=80,padding=-10,foreground=image_colors[2]),
-                           widget.Battery(format='{char} {percent:2.0%}',background=image_colors[2]),
-                           widget.TextBox(text='',fontsize=80,padding=-10,background=image_colors[2],foreground=image_colors[3]),
-                           widget.Clock(format="%Y/%m/%d;%V   %H:%M:%S",background=image_colors[3]),
-                       ],
-                       size=24, background=image_colors[0], opacity=0.8,
-                       ),)]
+    #wallpaper=image,        #slow
+    #wallpaper_mode='fill',  #slow
+    bottom=bar.Bar([
+        widget.GroupBox(disable_drag=1,hide_unused=1,highlight_method='line',highlight_color=[image_colors[0],image_colors[1]],
+                        visible_groups=[i.name for i in groups if i.name in '0123456789']),
+        widget.WindowTabs(),
+        widget.Systray(), #dont remove...
+        widget.TextBox(text='',fontsize=80,padding=-10,foreground=image_colors[2]),
+        widget.Battery(format='{char} {percent:2.0%}',background=image_colors[2]),
+        widget.TextBox(text='',fontsize=80,padding=-10,background=image_colors[2],foreground=image_colors[3]),
+        widget.Clock(format="%Y/%m/%d;%V   %H:%M:%S",background=image_colors[3]),
+    ],
+                   size=24, background=image_colors[0], opacity=0.8,
+                   ),)]
 os.system('setxkbmap -option caps:swapescape &')
 os.system('nitrogen --restore &') #fast
 
@@ -326,6 +340,6 @@ def autostart()->None:
     os.system('clipmenud &')
     # os.system('sudo modprobe v4l2loopback')
     os.system('xset s off -dpms')
-    os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0.5')
+    os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')
     os.system('sh -c "emacs --daemon"&')
 # vim:fen:
