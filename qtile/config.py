@@ -85,10 +85,12 @@ websites={
     'chatgpt-prompts'          :'https://github.com/f/awesome-chatgpt-prompts',
     'neovim'                   :'https://neovim.io/',
     'proton'                   :'https://mail.proton.me/',
-    'semver'                   :'https ://semver.org/',
-    'wikiperdia-ipa'           :'https ://en.wikipedia.org/wiki/Help:IPA?useskin=vector',
-    'carbon'                   :'https ://carbon.now.sh/',
-    'seterra'                  :'https ://www.geoguessr.com/seterra/',
+    'semver'                   :'https://semver.org/',
+    'wikiperdia-ipa'           :'https://en.wikipedia.org/wiki/Help:IPA?useskin=vector',
+    'carbon'                   :'https://carbon.now.sh/',
+    'seterra'                  :'https://www.geoguessr.com/seterra/',
+    'neovim-discourse'         :'https://neovim.discourse.group/',
+    'waybackmachine'           :'https://web.archive.org/',
     #emacs / vim
     'emacs'                    :'https://www.gnu.org/software/emacs',
     'spacemacs'                :'https://develop.spacemacs.org/doc/DOCUMENTATION.html',
@@ -297,6 +299,7 @@ keys=[
         Key([],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0')),
         Key(['shift'],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')),
         Key(['control'],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" -0.5')),
+        Key([],'7',lazy.spawn('sh -c "echo $(xsel -ob) >> .config/nvim/.other/vim-plugin-list/raw "')),
     ])
 ]
 groups=[Group(i) for i in "1234567890u"]

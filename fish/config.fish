@@ -212,13 +212,15 @@ function Res;sudo killall lightdm;end
 function vb;vim $hburn;end
 function vimb;vim $burn;end
 function testnet;ping -c 1 google.com;end
-alias copy 'xclip -selection c'
+#alias copy 'xclip -selection c'
+alias copy 'xsel -b'
 function clearfuncs;for i in (functions -a|string split ",");functions -e $i;end;end
 function countdown;termdown $argv[1];wmctrl -s ([ "$argv[2]" ]&&echo $argv[2]||echo 0);end
 function styles;for i in (seq 110);printf "\e[$i""m$i\t\e[m";[ (math $i%10) = 0 ]&&echo;end;end
 function mnt;udisksctl mount -b /dev/sdb;end
 function lufp;source "$USBPATH/main/_spam/config.fish";end
 alias tu "env HOME=(mktemp -d) "
+alias scud 'env HOME=$PWD '
 alias givemeno "sudo localectl set-x11-keymap no"
 alias tb "nc termbin.com 9999"
 alias nothing "curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash"
@@ -234,6 +236,9 @@ function encrypt
     end
     if not test -f $argv.zip
         return 1
+    end
+    if test $status != 0
+        return 1;
     end
     if test -d $argv
         for i in (command find $argv -type f)
