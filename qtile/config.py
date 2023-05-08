@@ -91,6 +91,7 @@ websites={
     'seterra'                  :'https://www.geoguessr.com/seterra/',
     'neovim-discourse'         :'https://neovim.discourse.group/',
     'waybackmachine'           :'https://web.archive.org/',
+    'x86'                      :'https://copy.sh/v86/',
     #emacs / vim
     'emacs'                    :'https://www.gnu.org/software/emacs',
     'spacemacs'                :'https://develop.spacemacs.org/doc/DOCUMENTATION.html',
@@ -138,7 +139,7 @@ configs={
     'qutebrowser':f'{HOME}/.config/qutebrowser/config.py',
     'zsh'        :f'{HOME}/.zshrc',
     'bash'       :f'{HOME}/.bashrc',
-    'firefox'    :f'{HOME}/.mozilla/firefox/ntrc3s4e.default/chrome/userChrome.css',
+    'firefox'    :f'{HOME}/.config/firefox/userChrome.css',
     'doom'       :f'{HOME}/.doom.d/config_.org', # TODO ctest
 }
 
@@ -268,6 +269,7 @@ keys=[
     Key([mod,'control'],'z',lazy.spawn('betterlockscreen -l')),
     Key([mod],'F8',lazy.spawn('sh -c "test $(pidof xdotool)&&killall xdotool||xdotool click --delay 5 --repeat 900000 1"')),
     Key([mod],'F9',lazy.spawn('sh -c "test $(pidof xdotool)&&killall xdotool||xdotool click --delay 5 --repeat 900000 3"')),
+    Key([mod,'shift'],'s',lazy.spawn(f'alacritty -e sh -c "python {HOME}/.test/_other/dis.py"')),
     #window2
     KeyChord([mod],'q',[
         Key([],'e',lazy.spawn('sh -c "setxkbmap -option;setxkbmap -option ctrl:swapcaps"')),

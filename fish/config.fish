@@ -173,7 +173,8 @@ function fpm;command setsid mplayer $MUSPATH/(exa $MUSPATH|fzf) >/dev/null 2>&1;
 
 #vim
 function riv
-    invim&&begin;sh -c $argv[2];kill (cut -f 6 -d " " /proc/$fish_pid/stat);end||command $argv[1] $argv[3..]
+    #invim&&begin;sh -c $argv[2];kill (cut -f 6 -d " " /proc/$fish_pid/stat);end||command $argv[1] $argv[3..]
+    invim&&begin;exec sh -c $argv[2];end||command $argv[1] $argv[3..]
 end
 function nvim
     riv nvim "[ $argv ]&&nvr $argv||nvr ." $argv
@@ -257,6 +258,11 @@ abbr rmheader "tail +2"
 alias lightup 'brightnessctl set 10+%'
 alias lightdown 'brightnessctl set 10-%'
 alias beepoff 'sudo rmmod pcspkr.ko.zst'
+function usercreator
+    set web (curl "https://randomuser.me/api/?password=upper,lower,special,number,16-20&seed=$argv"(date +%Y50%m01%d) 2>/dev/null)
+    echo $web|jq .results[0].login.username -r
+    echo $web|jq .results[0].login.password -r
+end
 
 #intaller
 if type fisher >/dev/null 2>&1
