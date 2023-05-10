@@ -116,6 +116,7 @@ websites={
     'lxiym-python'             :'https://learnxinyminutes.com/docs/python',
     'lxiym-rust'               :'https://learnxinyminutes.com/docs/rust',
     'lxiym-zig'                :'https://learnxinyminutes.com/docs/zig/',
+    'lxiym-sql'                :'https://learnxinyminutes.com/docs/sql',
     #linux distro
     'AUR'                      :'https://aur.archlinux.org/',
     'archlinux'                :'https://archlinux.org/',
