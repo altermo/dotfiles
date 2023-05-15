@@ -70,6 +70,7 @@ websites={
     'autohotkey'               :'https://www.autohotkey.com/docs/AutoHotkey.htm',
     'zig'                      :'https://ziglang.org',
     'markdown-basic'           :'https://www.markdownguide.org/basic-syntax/',
+    'nim'                      :'https://nim-lang.org/',
     #other
     'wikiperdia'               :'https://en.wikipedia.org',
     'wikiperdia-sv'            :'https://sv.wikipedia.org',
@@ -141,7 +142,7 @@ configs={
     'zsh'        :f'{HOME}/.zshrc',
     'bash'       :f'{HOME}/.bashrc',
     'firefox'    :f'{HOME}/.config/firefox/userChrome.css',
-    'doom'       :f'{HOME}/.doom.d/config_.org', # TODO ctest
+    'doom'       :f'{HOME}/.doom.d/conf.org', # TODO ctest
 }
 
 try:

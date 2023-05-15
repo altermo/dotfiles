@@ -77,4 +77,4 @@
 
 
 
-(org-babel-load-file "/home/user/.doom.d/config_.org")
+(org-babel-load-file "/home/user/.doom.d/conf.org")

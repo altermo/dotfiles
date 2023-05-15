@@ -1,1 +1,0 @@
-(beacon-mode 1)

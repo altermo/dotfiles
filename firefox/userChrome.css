@@ -8,7 +8,7 @@ display: none;
   display: none;
 }
 #tabbrowser-arrowscrollbox-periphery{
-  -moz-box-flex: 1;
+  flex-grow: 1;
 }
 #tabs-newtab-button{
   width: 100%;

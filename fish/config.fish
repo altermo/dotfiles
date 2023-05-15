@@ -99,6 +99,10 @@ alias doos "doom sync"
 abbr gc "git clone"
 abbr gp "git push"
 abbr gqca "git commit -a -m (git status --porcelain|string join ';')"
+abbr gcd "git checkout development"
+abbr gcm "git checkout main"
+abbr gs "git status"
+abbr gd "git diff"
 
 #typical optinos
 alias firefox 'command setsid firefox'

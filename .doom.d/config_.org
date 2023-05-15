@@ -1,3 +1,0 @@
-#+begin_src emacs-lisp
-(beacon-mode 1)
-#+end_src
