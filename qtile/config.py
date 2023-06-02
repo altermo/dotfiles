@@ -38,6 +38,7 @@ websites={
     'Git-spacemacs'            :'https://github.com/syl20bnr/spacemacs',
     'Git-doomemacs'            :'https://github.com/doomemacs/doomemacs',
     'Git-pynvim'               :'https://github.com/neovim/pynvim',
+    'Git-zig'                  :'https://github.com/ziglang/zig',
     #python
     'python'                   :'https://docs.python.org/3/library/',
     'python-regex'             :'https://docs.python.org/3/library/re.html#regular-expression-syntax',
@@ -72,6 +73,7 @@ websites={
     'markdown-basic'           :'https://www.markdownguide.org/basic-syntax/',
     'nim'                      :'https://nim-lang.org/',
     #other
+    'mega'                     :'https://mega.nz',
     'wikiperdia'               :'https://en.wikipedia.org',
     'wikiperdia-sv'            :'https://sv.wikipedia.org',
     'translate'                :'https://www.deepl.com/translator',
@@ -82,6 +84,7 @@ websites={
     'periodic-table'           :'https://ptable.com',
     'browser-timeline'         :'https://upload.wikimedia.org/wikipedia/commons/7/74/Timeline_of_web_browsers.svg',
     'keybr'                    :'https://www.keybr.com',
+    'speedtype'                :'https://www.speedtyper.dev',
     'chatgpt'                  :'https://chat.openai.com/chat',
     'chatgpt-prompts'          :'https://github.com/f/awesome-chatgpt-prompts',
     'neovim'                   :'https://neovim.io/',
@@ -143,6 +146,10 @@ configs={
     'bash'       :f'{HOME}/.bashrc',
     'firefox'    :f'{HOME}/.config/firefox/userChrome.css',
     'doom'       :f'{HOME}/.doom.d/conf.org', # TODO ctest
+    'gitignore'  :f'{HOME}/.config/git/.gitignore',
+}
+projects={
+    'ua':f'{HOME}/.config/nvim/.other/ua',
 }
 
 try:
@@ -260,6 +267,7 @@ keys=[
     Key([mod],'z',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|Dff"')),
     Key([mod],'o',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.test|Ranger"')),
     Key([mod,'shift'],'o',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.qscript/_|Ranger"')),
+    Key([mod,'shift'],'p',lazy.function(menu_list_and_run,projects,'nvim-qt %s')),
     #shell
     Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Fish -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\r\')"')),
     #other

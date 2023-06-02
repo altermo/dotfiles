@@ -31,7 +31,7 @@ set -x VISUAL /usr/bin/nvr
 set -x PAGER 'bat -p --paging=always'
 set -x MANPAGER "sh -c 'col -bx | bat -l man -p --pager=\"less --SILENT -RF\"'"
 set -x READ_QUICKLY_RATE 300
-fish_add_path "$HOME/.config/bin"
+fish_add_path "$HOME/.local/bin"
 fish_add_path "$HOME/.emacs.d/bin"
 set -p fish_function_path ~/.config/fish/self_functions
 set -p fish_complete_path ~/.config/fish/self_completions
@@ -98,7 +98,8 @@ alias doos "doom sync"
 #git
 abbr gc "git clone"
 abbr gp "git push"
-abbr gqca "git commit -a -m (git status --porcelain|string join ';')"
+#abbr gqca "git commit -a -m (git status --porcelain|string join ';')"
+abbr gca "git commit -a -m"
 abbr gcd "git checkout development"
 abbr gcm "git checkout main"
 abbr gs "git status"
@@ -267,6 +268,7 @@ function usercreator
     echo $web|jq .results[0].login.username -r
     echo $web|jq .results[0].login.password -r
 end
+alias blue 'printf (string repeat -n $COLUMNS "\e[46m "|string repeat -n $LINES)'
 
 #intaller
 if type fisher >/dev/null 2>&1

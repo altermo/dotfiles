@@ -53,6 +53,5 @@
 (package! org-auto-tangle)
 (package! peep-dired)
 (package! beacon)
-;(package! googe)
 ;(package! exwm)
 ;(package! demnu)
