@@ -5,9 +5,7 @@ if not status --is-interactive;exit;end
 #vars
 ##dir_path
 set USBPATH '/run/media/user/ad55d285-c217-4306-8a5d-3a0aab35c3d4'
-set QEMUPATH "$HOME/.wm/qemu"
-set MUSPATH "$USBPATH/ncs"
-set IMPATH "$HOME/.local/share/nvim/site/pack/packer/"
+set IMPATHS "$HOME/.local/share/nvim/site/pack/packer/"
 set CONFSAVE "$USBPATH/confsave"
 set LOGPATH "$HOME/.local/share/qtile/qtile.log" "$HOME/.xsession-errors" "$HOME/.local/state/nvim/log"
 set MYTEMP /tmp/user
@@ -79,26 +77,19 @@ abbr :Q exit
 abbr print printf
 abbr cd z
 
-#qemu
-function runqemu
-    set vm (ls "$QEMUPATH"|sed -s 's/^qemu-\(.*\).sh/\1/g'|fzf)
-    [ "$vm" ]&&echo $vm&&sh "$QEMUPATH"/"qemu-$vm.sh"
-end
-
 #installer
 alias yas "yay -S"
 alias yaS "yay -Ss"
 alias yar "yay -R"
 alias yau "yay -Syyu"
 alias yac "yay -Yc"
-alias yaq "yay -Qi"
+alias yai "yay -Si"
 alias mirror "curl https://archlinux.org/mirrorlist/all/"
-alias doos "doom sync"
 
 #git
 abbr gc "git clone"
 abbr gp "git push"
-#abbr gqca "git commit -a -m (git status --porcelain|string join ';')"
+abbr g_CA "git commit -a -m (git status --porcelain|string join ';')"
 abbr gca "git commit -a -m"
 abbr gcd "git checkout development"
 abbr gcm "git checkout main"
@@ -148,6 +139,7 @@ alias rel watch
 alias qread read-quickly
 alias imgtotxt tesseract
 alias sudo doas
+alias wifi nmtui
 ##other is beter
 alias more 'bat -p --paging=always --pager="less --SILENT -RF"'
 alias less 'bat -p --paging=always --pager="less --SILENT -RF"'
@@ -161,24 +153,21 @@ alias find fd
 #common path
 ##ranger
 function rp;ranger $USBPATH;end
-function rtest;ranger $HOME/.test;end
 function rtmp;ranger $MYTEMP;end
 function rD;ranger ~/Downloads/;end
-function rt;ranger $gtd;end
 ##fzf
 function fc;nclfz ranger $HOME/.config (exa $HOME/.config);end
 function fs;nclfz ranger $HOME/.local/share (exa $HOME/.local/share);end
-function fi;nclfz ranger / $IMPATH;end
+function fi;nclfz ranger / $IMPATHS;end
 function fl;nclfz nvim / $LOGPATH;end
 
 #musik player
 function pm;cd "$USBPATH/apps/musik player fish (7)";fish main.fish;end
 function bm;mplayer "$USBPATH/pdf html"/*.mp3;end
-function fpm;command setsid mplayer $MUSPATH/(exa $MUSPATH|fzf) >/dev/null 2>&1;end
+function fpm;command setsid mplayer $USBPATH/ncs/(exa $USBPATH/ncs|fzf) >/dev/null 2>&1;end
 
 #vim
 function riv
-    #invim&&begin;sh -c $argv[2];kill (cut -f 6 -d " " /proc/$fish_pid/stat);end||command $argv[1] $argv[3..]
     invim&&begin;exec sh -c $argv[2];end||command $argv[1] $argv[3..]
 end
 function nvim
@@ -197,19 +186,19 @@ alias kpn 'pkill -9 -P 1 "nvim\$"'
 alias pnv 'command nvim +"lua require\'plugins\'" +"PackerCompile"'
 
 #emacs
-alias e "emacsclient -c -a emacs"
 alias emacs "emacsclient -c -a 'emacs -nw' -nw"
 alias demacs 'command emacs --daemon'
 alias em "command emacs -q -l ~/.config/emacs/init.el"
 alias ec "command setsid emacsclient >/dev/null"
 alias er "killall emacs;command emacs --daemon"
+alias doos "doom sync"
 
 #other
 alias clock 'termdown -z -Z "%H : %M : %S"'
 alias idonotknowwhattodo 'firefox https://www.ted.com/'
-alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0.5'
-alias mouseslow 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 0'
-alias mousesnail 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" 321 -0.5'
+alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5'
+alias mouseslow 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0'
+alias mousesnail 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" -0.5'
 alias mousewritemove 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" libinput\ Disable\ While\ Typing\ Enabled false'
 function ffuncs;functions -a|string split ,|fzf --preview="fish -ic 'type {1}|bat -pp -l fish --color=always'";end
 alias pf "fzf --preview '[ -d {} ]&&exa -aF {}||bat {} -pp --color=always'"
@@ -218,7 +207,6 @@ function Res;sudo killall lightdm;end
 function vb;vim $hburn;end
 function vimb;vim $burn;end
 function testnet;ping -c 1 google.com;end
-#alias copy 'xclip -selection c'
 alias copy 'xsel -b'
 function clearfuncs;for i in (functions -a|string split ",");functions -e $i;end;end
 function countdown;termdown $argv[1];wmctrl -s ([ "$argv[2]" ]&&echo $argv[2]||echo 0);end
@@ -269,6 +257,9 @@ function usercreator
     echo $web|jq .results[0].login.password -r
 end
 alias blue 'printf (string repeat -n $COLUMNS "\e[46m "|string repeat -n $LINES)'
+alias reload 'exec fish'
+alias paths 'echo $PATH|tr " " "\n"'
+alias tidereset 'echo 1 1 1 1 1 1 y|tide configure'
 
 #intaller
 if type fisher >/dev/null 2>&1
