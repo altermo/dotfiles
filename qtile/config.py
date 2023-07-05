@@ -30,6 +30,7 @@ websites={
     'github'                   :'https://github.com',
     'gitmoji'                  :'https://gitmoji.dev',
     'Git-packer'               :'https://github.com/wbthomason/packer.nvim',
+    'Git-lazy'                 :'https://github.com/folke/lazy.nvim',
     'Git-neovim'               :'https://github.com/neovim/neovim',
     'Git-treesitter'           :'https://github.com/nvim-treesitter/nvim-treesitter',
     'Git-neorg'                :'https://github.com/nvim-neorg/neorg',
@@ -55,7 +56,7 @@ websites={
     'fish'                     :'https://fishshell.com/docs/current/commands.html',
     'ANSI'                     :'https://invisible-island.net/xterm/ctlseqs/ctlseqs.html',
     'CSI'                      :'https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences',
-    'lua'                      :'https://www.lua.org/manual/5.4',
+    'lua'                      :'https://www.lua.org/manual/5.1',
     'fennel-website'           :'https://fennel-lang.org/',
     'esolang'                  :'https://esolangs.org/wiki/Main_Page',
     'compiler-explorer'        :'https://godbolt.org/',
@@ -72,6 +73,7 @@ websites={
     'zig'                      :'https://ziglang.org',
     'markdown-basic'           :'https://www.markdownguide.org/basic-syntax/',
     'nim'                      :'https://nim-lang.org/',
+    'c-keyword'                :'https://en.cppreference.com/w/c/keyword',
     #other
     'mega'                     :'https://mega.nz',
     'wikiperdia'               :'https://en.wikipedia.org',
@@ -93,9 +95,11 @@ websites={
     'wikiperdia-ipa'           :'https://en.wikipedia.org/wiki/Help:IPA?useskin=vector',
     'carbon'                   :'https://carbon.now.sh/',
     'seterra'                  :'https://www.geoguessr.com/seterra/',
+    'neovim-reddit'            :'https://www.reddit.com/r/neovim/',
     'neovim-discourse'         :'https://neovim.discourse.group/',
     'waybackmachine'           :'https://web.archive.org/',
     'x86'                      :'https://copy.sh/v86/',
+    'browser-emulator'         :'https://www.dejavu.org/1992win.htm',
     #emacs / vim
     'emacs'                    :'https://www.gnu.org/software/emacs',
     'spacemacs'                :'https://develop.spacemacs.org/doc/DOCUMENTATION.html',
@@ -150,6 +154,7 @@ configs={
 }
 projects={
     'ua':f'{HOME}/.config/nvim/.other/ua',
+    'nvwm':f'{HOME}/.config/nvim/.other/nvwm',
 }
 
 try:
@@ -254,13 +259,15 @@ keys=[
     #XF86
     Key([],"XF86MonBrightnessUp",lazy.spawn("brightnessctl set +10%")),
     Key([],"XF86MonBrightnessDown",lazy.spawn("brightnessctl set 10%-")),
-    Key([],"XF86AudioRaiseVolume",lazy.spawn("amixer sset Master 10%+")),
-    Key([],"XF86AudioLowerVolume",lazy.spawn("amixer sset Master 10%-")),
-    Key(['shift'],"XF86AudioRaiseVolume",lazy.spawn("amixer sset Master 1%+")),
-    Key(['shift'],"XF86AudioLowerVolume",lazy.spawn("amixer sset Master 1%-")),
+    Key([],"XF86AudioRaiseVolume",lazy.spawn("amixer sset Master 1%+")),
+    Key(['shift'],"XF86AudioRaiseVolume",lazy.spawn("amixer sset Master 10%+")),
+    Key([],"XF86AudioLowerVolume",lazy.spawn("amixer sset Master 1%-")),
+    Key(['shift'],"XF86AudioLowerVolume",lazy.spawn("amixer sset Master 10%-")),
     Key([],"XF86AudioMute",lazy.spawn("amixer sset Master toggle")),
     #neovim
-    Key([mod],'m',lazy.spawn(f'sh -c "cp ~/.bashrc /tmp/temp.bash;{neovimgui} /tmp/temp.bash"')),
+    # Key([mod],'m',lazy.spawn(f'sh -c "cp ~/.bashrc /tmp/temp.bash;{neovimgui} /tmp/temp.bash"')),
+    Key([mod],'m',lazy.spawn(f'sh -c "{neovimgui} /tmp/temp.lua"')),
+    # Key([mod],'m',lazy.spawn(f'sh -c "{neovimgui} /tmp/temp.py"')),
     Key([mod],'a',lazy.spawn(neovimgui)),
     Key([mod],'t',lazy.spawn(f'{neovimgui} -c \'Fish -ic "ntmp;tmp"\'')),
     Key([mod],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #hack
@@ -277,8 +284,6 @@ keys=[
     Key([mod,'shift'],'g',lazy.spawn('qutebrowser https://chat.openai.com/chat --target=window')),
     Key([mod],'backslash',lazy.spawn('zenity --text="help not configured yet..." --info')),
     Key([mod,'control'],'z',lazy.spawn('betterlockscreen -l')),
-    Key([mod],'F8',lazy.spawn('sh -c "test $(pidof xdotool)&&killall xdotool||xdotool click --delay 5 --repeat 900000 1"')),
-    Key([mod],'F9',lazy.spawn('sh -c "test $(pidof xdotool)&&killall xdotool||xdotool click --delay 5 --repeat 900000 3"')),
     Key([mod,'shift'],'s',lazy.spawn(f'alacritty -e sh -c "python {HOME}/.test/_other/dis.py"')),
     #window2
     KeyChord([mod],'q',[
@@ -312,6 +317,8 @@ keys=[
         Key(['shift'],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')),
         Key(['control'],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" -0.5')),
         Key([],'7',lazy.spawn('sh -c "echo $(xsel -ob) >> .config/nvim/.other/vim-plugin-list/raw "')),
+        Key([],'F8',lazy.spawn('sh -c "test $(pidof xdotool)&&killall xdotool||xdotool click --delay 5 --repeat 900000 1"')),
+        Key([],'F9',lazy.spawn('sh -c "test $(pidof xdotool)&&killall xdotool||xdotool click --delay 5 --repeat 900000 3"')),
     ])
 ]
 groups=[Group(i) for i in "1234567890u"]

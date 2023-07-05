@@ -168,7 +168,7 @@ function fpm;command setsid mplayer $USBPATH/ncs/(exa $USBPATH/ncs|fzf) >/dev/nu
 
 #vim
 function riv
-    invim&&begin;exec sh -c $argv[2];end||command $argv[1] $argv[3..]
+    invim&&sh -c $argv[2]&&kill (cut -f 6 -d " " /proc/$fish_pid/stat)||command $argv[1] $argv[3..]
 end
 function nvim
     riv nvim "[ $argv ]&&nvr $argv||nvr ." $argv
@@ -256,7 +256,6 @@ function usercreator
     echo $web|jq .results[0].login.username -r
     echo $web|jq .results[0].login.password -r
 end
-alias blue 'printf (string repeat -n $COLUMNS "\e[46m "|string repeat -n $LINES)'
 alias reload 'exec fish'
 alias paths 'echo $PATH|tr " " "\n"'
 alias tidereset 'echo 1 1 1 1 1 1 y|tide configure'
