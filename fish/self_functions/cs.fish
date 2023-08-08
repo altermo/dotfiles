@@ -26,7 +26,7 @@ function cs
     copying 'packlist'
     type pacman -q&&pacman -Q>packlist.txt
     type pip -q&&pip list>pip.txt 2>/dev/null
-    type flatpak -q&&flatpak list>pip.txt
+    type flatpak -q&&flatpak list>flatpak.txt
     copying 'test'
     cp ~/.test test
     copying 'burn'

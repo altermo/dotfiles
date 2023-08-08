@@ -1,11 +1,11 @@
 #preload
 if not status --is-interactive;exit;end
+if tty >/dev/null&&tty|grep tty >/dev/null;exec zellij;end
 [ $SHLVL = 1 ]&&echo
 
 #vars
 ##dir_path
 set USBPATH '/run/media/user/ad55d285-c217-4306-8a5d-3a0aab35c3d4'
-set IMPATHS "$HOME/.local/share/nvim/site/pack/packer/"
 set CONFSAVE "$USBPATH/confsave"
 set LOGPATH "$HOME/.local/share/qtile/qtile.log" "$HOME/.xsession-errors" "$HOME/.local/state/nvim/log"
 set MYTEMP /tmp/user
@@ -24,11 +24,13 @@ alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
 test "$BROWSER"||set -U BROWSER firefox
 ##other
 set langs 'en' 'es' 'sv' 'hu'
-set -x EDITOR /usr/bin/nvr
-set -x VISUAL /usr/bin/nvr
+set -x EDITOR nvim #/usr/bin/nvr
+set -x VISUAL nvim #/usr/bin/nvr
 set -x PAGER 'bat -p --paging=always'
-set -x MANPAGER "sh -c 'col -bx | bat -l man -p --pager=\"less --SILENT -RF\"'"
-set -x READ_QUICKLY_RATE 300
+#set -x MANPAGER "sh -c 'col -bx | bat -l man -p --pager=\"less --SILENT -RF\"'"
+set -x MANPAGER "bat -l man -p"
+set -x READ_QUICKLY_RATE 350
+fish_add_path "$HOME/.venv/bin"
 fish_add_path "$HOME/.local/bin"
 fish_add_path "$HOME/.emacs.d/bin"
 set -p fish_function_path ~/.config/fish/self_functions
@@ -103,12 +105,12 @@ alias rm 'rm -I'
 alias cp 'cp -rib'
 alias mv 'mv -ib'
 alias ln 'ln -ibs'
-alias du 'du -sh'
-alias du. 'du -sh (exa -a) 2> /dev/null'
 alias mkdir 'mkdir -p'
 alias neofetch 'clear;command neofetch'
 alias wget 'wget -c'
 alias fd 'fd -H'
+#alias ag 'ag --hidden'
+#alias rg 'rg --.'
 alias zip 'zip -r -v'
 function ranger
     riv ranger "nvr -c 'Ranger $argv'" --cmd 'set show_hidden=true' --cmd 'set preview_images=true' $argv
@@ -140,6 +142,7 @@ alias qread read-quickly
 alias imgtotxt tesseract
 alias sudo doas
 alias wifi nmtui
+alias hex hexyl #xxd
 ##other is beter
 alias more 'bat -p --paging=always --pager="less --SILENT -RF"'
 alias less 'bat -p --paging=always --pager="less --SILENT -RF"'
@@ -149,6 +152,8 @@ alias cat "bat -pp"
 alias tree "exa -T"
 alias nano micro
 alias find fd
+alias df duf
+alias du dua
 
 #common path
 ##ranger
@@ -158,7 +163,6 @@ function rD;ranger ~/Downloads/;end
 ##fzf
 function fc;nclfz ranger $HOME/.config (exa $HOME/.config);end
 function fs;nclfz ranger $HOME/.local/share (exa $HOME/.local/share);end
-function fi;nclfz ranger / $IMPATHS;end
 function fl;nclfz nvim / $LOGPATH;end
 
 #musik player
@@ -182,8 +186,24 @@ function nvst
     cat $tmp|tail +7|cut -c 10-|sort -n>/tmp/sut
     rm $tmp
 end
-alias kpn 'pkill -9 -P 1 "nvim\$"'
+alias kpn 'pkill -9 -P 1 "nvim\$";pkill -9 -P 1 -f language_server_linux_x64'
 alias pnv 'command nvim +"lua require\'plugins\'" +"PackerCompile"'
+function fi
+    set mainplugpath "$HOME/.local/share/nvim/site/pack/packer/"
+    set subplugpaths "start/" "opt/"
+    set pa (for i in $subplugpaths;string split0 $mainplugpath/$i/*|string replace $mainplugpath '';end\
+    |fzf --preview "bat -pp $mainplugpath/{}/README.md --color=always")
+    [ $pa ]&&ranger $mainplugpath/$pa
+end
+function fr
+    cd /usr/local/share/nvim/runtime/lua/vim/
+    set pa (fzf --preview "bat -pp {} --color=always")
+    if [ $pa ]
+        nvim $pa
+    else
+        cd -
+    end
+end
 
 #emacs
 alias emacs "emacsclient -c -a 'emacs -nw' -nw"
@@ -194,6 +214,7 @@ alias er "killall emacs;command emacs --daemon"
 alias doos "doom sync"
 
 #other
+alias cargoc "cargo check"
 alias clock 'termdown -z -Z "%H : %M : %S"'
 alias idonotknowwhattodo 'firefox https://www.ted.com/'
 alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5'
@@ -204,15 +225,17 @@ function ffuncs;functions -a|string split ,|fzf --preview="fish -ic 'type {1}|ba
 alias pf "fzf --preview '[ -d {} ]&&exa -aF {}||bat {} -pp --color=always'"
 alias term 'echo $TERM'
 function Res;sudo killall lightdm;end
-function vb;vim $hburn;end
-function vimb;vim $burn;end
+#function vb;vim $hburn;end
+#function vimb;vim $burn;end
+function vb
+    open "obsidian://open?vault=vault&file=Mainin.md"
+end
 function testnet;ping -c 1 google.com;end
 alias copy 'xsel -b'
 function clearfuncs;for i in (functions -a|string split ",");functions -e $i;end;end
 function countdown;termdown $argv[1];wmctrl -s ([ "$argv[2]" ]&&echo $argv[2]||echo 0);end
 function styles;for i in (seq 110);printf "\e[$i""m$i\t\e[m";[ (math $i%10) = 0 ]&&echo;end;end
 function mnt;udisksctl mount -b /dev/sdb;end
-function lufp;source "$USBPATH/main/_spam/config.fish";end
 alias tu "env HOME=(mktemp -d) "
 alias scud 'env HOME=$PWD '
 alias givemeno "sudo localectl set-x11-keymap no"
@@ -265,53 +288,37 @@ if type fisher >/dev/null 2>&1
     function fins
         set name $argv[1]
         switch $name
-            case end
-            case start
+        case end
+        case start
             set -g _fins
             fins jorgebucaran/fisher
-            case clean
+        case clean
             for i in (cat ~/.config/fish/fish_plugins)
                 string match $i $_fins >/dev/null||fisher remove $i
             end
-            case install
+        case install
             fins clean
             for i in $_fins
                 cat ~/.config/fish/fish_plugins|string match $i >/dev/null||fisher install $i
             end
-            case update
+        case update
             fins clean
             fisher update
-            case sync
+        case sync
             fins clean
             fins update
             fins install
-            case '*'
+        case '*'
             echo $name|grep "[a-zA-Z0-9_.-]\+/[a-zA-Z0-9_.-]\+" >/dev/null 2>&1 ||echo "fins error: name $name invalide"&&echo $name|set -a _fins $name
         end
     end
     fins start
-    #funcs
-    fins jorgebucaran/spark.fish
-    fins jorgebucaran/getopts.fish
-    fins laughedelic/fish_logo
-    fins h-matsuo/fish-color-scheme-switcher
-    fins joehillen/to-fish
-    fins jorgebucaran/fishtape
     #keys
     fins nickeb96/puffer-fish
-    fins laughedelic/pisces
     #other
-    #fins patrickf1/fzf.fish
     fins andreiborisov/sponge
-    fins jethrokuan/fzf
-    fins gazorby/fish-exa
-    #fins derekstavis/fish-neovim
     #visual
-    fins gazorby/fish-abbreviation-tips
     fins ilancosman/tide
-    fins decors/fish-colored-man
-    fins catppuccin/fish
-    fins eholic/osflavor
     fins end
 end
 # vim:fen:

@@ -12,7 +12,7 @@ NITYOPATH=f'{HOME}/.config/nitrogen/bg-saved.cfg'
 mod='mod4'
 settings_file=f'{HOME}/.config/qtile/settings.json'
 neovimgui='nvim-qt -- '
-term1=f'{neovimgui} -c Fish'
+term1=f'{neovimgui} -c Shell'
 term2="xterm -fs 10 -fa monospace -bg black -fg white "
 term3="alacritty"
 browser1='firefox'
@@ -100,6 +100,7 @@ websites={
     'waybackmachine'           :'https://web.archive.org/',
     'x86'                      :'https://copy.sh/v86/',
     'browser-emulator'         :'https://www.dejavu.org/1992win.htm',
+    'convcommit'               :'https://www.conventionalcommits.org/en/v1.0.0/',
     #emacs / vim
     'emacs'                    :'https://www.gnu.org/software/emacs',
     'spacemacs'                :'https://develop.spacemacs.org/doc/DOCUMENTATION.html',
@@ -142,6 +143,7 @@ def ctest(*paths:str)->str:
 configs={
     'qtile'      :f'{HOME}/.config/qtile/config.py',
     'fish'       :f'{HOME}/.config/fish/config.fish',
+    'nu'         :f'{HOME}/.config/nushell/init.nu',
     'nvim'       :ctest(f'{HOME}/.config/nvim/init.lua',f'{HOME}/.config/nvim/init.vim'),
     'vim'        :ctest(f'{HOME}/.vim/vimrc',f'{HOME}/.vimrc'),
     'emacs'      :ctest(f'{HOME}/.config/emacs/init.el',f'{HOME}/.emacs.d/init.el',f'{HOME}/.emacs.el'),
@@ -266,17 +268,18 @@ keys=[
     Key([],"XF86AudioMute",lazy.spawn("amixer sset Master toggle")),
     #neovim
     # Key([mod],'m',lazy.spawn(f'sh -c "cp ~/.bashrc /tmp/temp.bash;{neovimgui} /tmp/temp.bash"')),
-    Key([mod],'m',lazy.spawn(f'sh -c "{neovimgui} /tmp/temp.lua"')),
+    # Key([mod],'m',lazy.spawn(f'sh -c "{neovimgui} /tmp/temp.lua"')),
     # Key([mod],'m',lazy.spawn(f'sh -c "{neovimgui} /tmp/temp.py"')),
+    Key([mod],'m',lazy.spawn(f'sh -c "{neovimgui} /tmp/lua/temp.lua"')),
     Key([mod],'a',lazy.spawn(neovimgui)),
-    Key([mod],'t',lazy.spawn(f'{neovimgui} -c \'Fish -ic "ntmp;tmp"\'')),
+    Key([mod],'t',lazy.spawn(f'{neovimgui} -c \':lua vim.system({{"fish","-i","-c","ntmp;nvr $tmp"}})\'')),
     Key([mod],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #hack
     Key([mod],'z',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|Dff"')),
     Key([mod],'o',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.test|Ranger"')),
     Key([mod,'shift'],'o',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.qscript/_|Ranger"')),
     Key([mod,'shift'],'p',lazy.function(menu_list_and_run,projects,'nvim-qt %s')),
     #shell
-    Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Fish -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\r\')"')),
+    Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Shell -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\r\')"')),
     #other
     Key([mod,'control','shift'],'b',lazy.spawn(f'sh -c "{browser1} bing.com/search?q=${{RANDOM:0:10000}}"')),
     Key([mod,'shift'],'c',lazy.spawn('sh -c "nitrogen;qtile cmd-obj -o cmd -f reload_config"')),

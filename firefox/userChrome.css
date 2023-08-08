@@ -1,6 +1,6 @@
-/* #webrtcIndicator {
-display: none;
-} */
+#webrtcIndicator {
+  display: none;
+}
 #back-button,#forward-button {
   display: none;
 }
