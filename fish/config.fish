@@ -22,6 +22,7 @@ end
 alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
 ##variants
 test "$BROWSER"||set -U BROWSER firefox
+test "$TEMPFILE"||set -U TEMPFILE /tmp/lua/temp.lua
 ##other
 set langs 'en' 'es' 'sv' 'hu'
 set -x EDITOR nvim #/usr/bin/nvr
@@ -30,6 +31,7 @@ set -x PAGER 'bat -p --paging=always'
 #set -x MANPAGER "sh -c 'col -bx | bat -l man -p --pager=\"less --SILENT -RF\"'"
 set -x MANPAGER "bat -l man -p"
 set -x READ_QUICKLY_RATE 350
+set -x PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages"
 fish_add_path "$HOME/.venv/bin"
 fish_add_path "$HOME/.local/bin"
 fish_add_path "$HOME/.emacs.d/bin"
@@ -141,7 +143,7 @@ alias rel watch
 alias qread read-quickly
 alias imgtotxt tesseract
 alias sudo doas
-alias wifi nmtui
+alias wifi nmtui-connect
 alias hex hexyl #xxd
 ##other is beter
 alias more 'bat -p --paging=always --pager="less --SILENT -RF"'
@@ -154,6 +156,7 @@ alias nano micro
 alias find fd
 alias df duf
 alias du dua
+alias pip ~/.venv/bin/pip
 
 #common path
 ##ranger
@@ -214,7 +217,9 @@ alias er "killall emacs;command emacs --daemon"
 alias doos "doom sync"
 
 #other
-alias cargoc "cargo check"
+alias server "livereload" #python -m http.server
+alias cargob bacon
+alias cargoc clippy
 alias clock 'termdown -z -Z "%H : %M : %S"'
 alias idonotknowwhattodo 'firefox https://www.ted.com/'
 alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5'
@@ -230,10 +235,14 @@ function Res;sudo killall lightdm;end
 function vb
     open "obsidian://open?vault=vault&file=Mainin.md"
 end
-function testnet;ping -c 1 google.com;end
+function testnet;nm-online;end
 alias copy 'xsel -b'
 function clearfuncs;for i in (functions -a|string split ",");functions -e $i;end;end
-function countdown;termdown $argv[1];wmctrl -s ([ "$argv[2]" ]&&echo $argv[2]||echo 0);end
+function countdown
+    set save (wmctrl -d|grep \*|cut -d\  -f 1)
+    termdown $argv
+    wmctrl -s $save
+end
 function styles;for i in (seq 110);printf "\e[$i""m$i\t\e[m";[ (math $i%10) = 0 ]&&echo;end;end
 function mnt;udisksctl mount -b /dev/sdb;end
 alias tu "env HOME=(mktemp -d) "
@@ -245,6 +254,7 @@ alias ct "touch (date +%Y-%m-%d)'.txt'"
 alias mkt 'mkdir (date +%Y-%m-%d)'
 alias mkc 'mkdir $argv;cd'
 function fec;fennel -c $argv > (echo $argv|sed 's/.fnl$/.lua/');end
+function qunzip;unzip $argv.zip&&cat $argv&&shred -uvz $argv;end
 alias saferm 'shred -uvz'
 function encrypt
     command zip -r --encrypt $argv.zip $argv
@@ -257,14 +267,7 @@ function encrypt
     if test $status != 0
         return 1;
     end
-    if test -d $argv
-        for i in (command find $argv -type f)
-            shred -fuz $i
-        end
-        rm -rf $argv
-    else
-        shred -fuz $argv
-    end
+    shred -fuz $argv
 end
 alias ip 'hostname --ip-addresses'
 function bak;cp $argv $argv.bak;end
@@ -282,6 +285,14 @@ end
 alias reload 'exec fish'
 alias paths 'echo $PATH|tr " " "\n"'
 alias tidereset 'echo 1 1 1 1 1 1 y|tide configure'
+function update_hosts
+    set file (mktemp)
+    curl https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts>$file
+    cat /etc/hosts.own>>$file
+    cat $file|sudo tee /etc/hosts >/dev/null
+    rm $file
+end
+alias blanket "command setsid blanket -h"
 
 #intaller
 if type fisher >/dev/null 2>&1

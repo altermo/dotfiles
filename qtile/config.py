@@ -9,9 +9,10 @@ from libqtile.lazy import lazy
 HOME=os.getenv('HOME')
 DEFAULTIMG=f'{HOME}/.config/qtile/backgrounds/gnome/Icetwigs.jpg'
 NITYOPATH=f'{HOME}/.config/nitrogen/bg-saved.cfg'
+VAULTPATH=f'{HOME}/.gtd/vault'
 mod='mod4'
 settings_file=f'{HOME}/.config/qtile/settings.json'
-neovimgui='nvim-qt -- '
+neovimgui='neovide -- '
 term1=f'{neovimgui} -c Shell'
 term2="xterm -fs 10 -fa monospace -bg black -fg white "
 term3="alacritty"
@@ -70,11 +71,14 @@ websites={
     'turbowarp-extensions'     :'https://extensions.turbowarp.org',
     'http-codes'               :'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status',
     'autohotkey'               :'https://www.autohotkey.com/docs/AutoHotkey.htm',
+    'zig-doc'                  :'https://ziglang.org/documentation/master/',
     'zig'                      :'https://ziglang.org',
     'markdown-basic'           :'https://www.markdownguide.org/basic-syntax/',
     'nim'                      :'https://nim-lang.org/',
     'c-keyword'                :'https://en.cppreference.com/w/c/keyword',
+    'this-week-in-neovim'      :'https://dotfyle.com/this-week-in-neovim',
     #other
+    'ted'                      :'https://www.ted.com',
     'mega'                     :'https://mega.nz',
     'wikiperdia'               :'https://en.wikipedia.org',
     'wikiperdia-sv'            :'https://sv.wikipedia.org',
@@ -101,6 +105,10 @@ websites={
     'x86'                      :'https://copy.sh/v86/',
     'browser-emulator'         :'https://www.dejavu.org/1992win.htm',
     'convcommit'               :'https://www.conventionalcommits.org/en/v1.0.0/',
+    'youtube-to'               :'https://studio.youtube.com/playlist/PL4O0QLldDCNTWh1Z9l2LE-Iq0QjOBz1At/videos',
+    'wolframalpha'             :'https://www.wolframalpha.com/',
+    'obsidian'                 :'https://help.obsidian.md/',
+    'skype'                    :'https://web.skype.com/',
     #emacs / vim
     'emacs'                    :'https://www.gnu.org/software/emacs',
     'spacemacs'                :'https://develop.spacemacs.org/doc/DOCUMENTATION.html',
@@ -146,12 +154,12 @@ configs={
     'nu'         :f'{HOME}/.config/nushell/init.nu',
     'nvim'       :ctest(f'{HOME}/.config/nvim/init.lua',f'{HOME}/.config/nvim/init.vim'),
     'vim'        :ctest(f'{HOME}/.vim/vimrc',f'{HOME}/.vimrc'),
-    'emacs'      :ctest(f'{HOME}/.config/emacs/init.el',f'{HOME}/.emacs.d/init.el',f'{HOME}/.emacs.el'),
+    'emacs'      :ctest(f'{HOME}/.config/emacs/config.org',f'{HOME}/.config/emacs/init.el',f'{HOME}/.emacs.d/init.el',f'{HOME}/.emacs.el'),
     'qutebrowser':f'{HOME}/.config/qutebrowser/config.py',
     'zsh'        :f'{HOME}/.zshrc',
     'bash'       :f'{HOME}/.bashrc',
     'firefox'    :f'{HOME}/.config/firefox/userChrome.css',
-    'doom'       :f'{HOME}/.doom.d/conf.org', # TODO ctest
+    'doom'       :ctest(f'{HOME}/.doom.d/conf.org',f'{HOME}/.doom.d/config.el'),
     'gitignore'  :f'{HOME}/.config/git/.gitignore',
 }
 projects={
@@ -187,7 +195,7 @@ def menu_list_and_run(_,apps:dict['str','str'],bin:str)->None:
     result=os.popen('printf "'+'\n'.join(apps)+'"|dmenu -i').read()
     if result:os.system(bin%apps[result.removesuffix('\n')])
 def smart_kill(q):
-    blacklist=[['Navigator','firefox'],['skype','Skype']]
+    blacklist=[['Navigator','firefox'],['skype','Skype'],['obsidian','obsidian']]
     wm_class=q.current_window.get_wm_class()
     if wm_class not in blacklist:
         q.current_window.kill()
@@ -249,7 +257,9 @@ keys=[
     Key([mod],'n',lazy.spawn(fm1)),
     Key([mod,'shift'],'n',lazy.spawn(fm2)),
     Key([mod],'e',lazy.spawn("emacsclient -c -a 'emacs'")),
-    Key([mod],'v',lazy.spawn('pavucontrol')),
+    Key([mod],'v',lazy.spawn('obsidian')),
+    Key([mod,'shift'],'v',lazy.spawn(f'{fm1} {VAULTPATH}')),
+    Key([mod,'control'],'v',lazy.spawn('pavucontrol')),
     #menu
     Key([mod],'x',lazy.spawn('rofi -show drun')),
     Key([mod,'shift'],'x',lazy.spawn('nwggrid -o 0.5')),
@@ -267,19 +277,19 @@ keys=[
     Key(['shift'],"XF86AudioLowerVolume",lazy.spawn("amixer sset Master 10%-")),
     Key([],"XF86AudioMute",lazy.spawn("amixer sset Master toggle")),
     #neovim
-    # Key([mod],'m',lazy.spawn(f'sh -c "cp ~/.bashrc /tmp/temp.bash;{neovimgui} /tmp/temp.bash"')),
-    # Key([mod],'m',lazy.spawn(f'sh -c "{neovimgui} /tmp/temp.lua"')),
-    # Key([mod],'m',lazy.spawn(f'sh -c "{neovimgui} /tmp/temp.py"')),
-    Key([mod],'m',lazy.spawn(f'sh -c "{neovimgui} /tmp/lua/temp.lua"')),
+    # Key([mod],'m',lazy.spawn(f'sh -c "cp ~/.bashrc /tmp/lua/temp.bash;{neovimgui} /tmp/temp.bash"')),
+     #Key([mod],'m',lazy.spawn(f'sh -c "{neovimgui} /tmp/lua/temp.py"')),
+    #Key([mod],'m',lazy.spawn(f'sh -c "{neovimgui} /tmp/lua/temp"')),
+    Key([mod],'m',lazy.spawn(f"fish -c '{neovimgui} $TEMPFILE'")),
+    Key([mod,'shift'],'m',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py')},'fish -c "set -U TEMPFILE /tmp/lua/temp.%s"')),
     Key([mod],'a',lazy.spawn(neovimgui)),
     Key([mod],'t',lazy.spawn(f'{neovimgui} -c \':lua vim.system({{"fish","-i","-c","ntmp;nvr $tmp"}})\'')),
     Key([mod],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #hack
     Key([mod],'z',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|Dff"')),
-    Key([mod],'o',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.test|Ranger"')),
-    Key([mod,'shift'],'o',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.qscript/_|Ranger"')),
-    Key([mod,'shift'],'p',lazy.function(menu_list_and_run,projects,'nvim-qt %s')),
+    Key([mod,'shift'],'o',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.qscript/scripts|Ranger"')),
+    Key([mod,'shift'],'p',lazy.function(menu_list_and_run,projects,f'{neovimgui} -c "Dff %s"')),
     #shell
-    Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Shell -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\r\')"')),
+    Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Shell -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\rsys.path.append(\\"{HOME}/.venv/lib/python3.11/site-packages\\")\r\')"')),
     #other
     Key([mod,'control','shift'],'b',lazy.spawn(f'sh -c "{browser1} bing.com/search?q=${{RANDOM:0:10000}}"')),
     Key([mod,'shift'],'c',lazy.spawn('sh -c "nitrogen;qtile cmd-obj -o cmd -f reload_config"')),
@@ -287,7 +297,6 @@ keys=[
     Key([mod,'shift'],'g',lazy.spawn('qutebrowser https://chat.openai.com/chat --target=window')),
     Key([mod],'backslash',lazy.spawn('zenity --text="help not configured yet..." --info')),
     Key([mod,'control'],'z',lazy.spawn('betterlockscreen -l')),
-    Key([mod,'shift'],'s',lazy.spawn(f'alacritty -e sh -c "python {HOME}/.test/_other/dis.py"')),
     #window2
     KeyChord([mod],'q',[
         Key([],'e',lazy.spawn('sh -c "setxkbmap -option;setxkbmap -option ctrl:swapcaps"')),
@@ -309,7 +318,7 @@ keys=[
         Key([],'f',lazy.function(lambda q:q.current_window.cmd_bring_to_front())),
         Key(['control'],'f',lazy.function(lambda q:q.current_window.cmd_static())),
         Key([],'r',lazy.spawn('redshift -O 4000')),
-        Key(['shift'],'r',lazy.spawn('sh -c "redshift -x;redshift -O 4000"')),
+        Key(['shift'],'r',lazy.spawn('sh -c "redshift -P -O 4000"')),
         Key([],'s',lazy.function(scalescreen,.1)),
         Key(['shift'],'s',lazy.function(scalescreen,-.1)),
         Key(['control'],'s',lazy.function(lambda _:os.system(f'zenity --text="{SCALE}" --info&'))),
@@ -360,11 +369,12 @@ def autostart()->None:
     os.system(f'xrandr --output LVDS-1 --scale {SCALE}x{SCALE}')
     os.system('nitrogen --restore &') #fast
     os.system('setxkbmap -option caps:swapescape&')
-    os.system('redshift -O 4000&')
+    os.system('redshift -P -O 4000&')
     os.system('picom &')
     os.system('clipmenud &')
     # os.system('sudo modprobe v4l2loopback')
     os.system('xset s off -dpms')
     os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')
     os.system('sh -c "emacs --daemon"&')
+    os.system('blanket -h&')
 # vim:fen:
