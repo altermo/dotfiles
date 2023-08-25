@@ -14,8 +14,8 @@ mod='mod4'
 settings_file=f'{HOME}/.config/qtile/settings.json'
 neovimgui='neovide -- '
 term1=f'{neovimgui} -c Shell'
-term2="xterm -fs 10 -fa monospace -bg black -fg white "
-term3="alacritty"
+term2="alacritty"
+term3="xterm -fs 10 -fa monospace -bg black -fg white "
 browser1='firefox'
 browser2='qutebrowser'
 browser3='torbrowser-launcher'
@@ -78,6 +78,7 @@ websites={
     'c-keyword'                :'https://en.cppreference.com/w/c/keyword',
     'this-week-in-neovim'      :'https://dotfyle.com/this-week-in-neovim',
     #other
+    'schedule'                 :'https://karlskrona.skola24.se/',
     'ted'                      :'https://www.ted.com',
     'mega'                     :'https://mega.nz',
     'wikiperdia'               :'https://en.wikipedia.org',
@@ -258,7 +259,7 @@ keys=[
     Key([mod,'shift'],'n',lazy.spawn(fm2)),
     Key([mod],'e',lazy.spawn("emacsclient -c -a 'emacs'")),
     Key([mod],'v',lazy.spawn('obsidian')),
-    Key([mod,'shift'],'v',lazy.spawn(f'{fm1} {VAULTPATH}')),
+    Key([mod,],'o',lazy.spawn(f'{fm1} {VAULTPATH}')),
     Key([mod,'control'],'v',lazy.spawn('pavucontrol')),
     #menu
     Key([mod],'x',lazy.spawn('rofi -show drun')),
@@ -278,8 +279,6 @@ keys=[
     Key([],"XF86AudioMute",lazy.spawn("amixer sset Master toggle")),
     #neovim
     # Key([mod],'m',lazy.spawn(f'sh -c "cp ~/.bashrc /tmp/lua/temp.bash;{neovimgui} /tmp/temp.bash"')),
-     #Key([mod],'m',lazy.spawn(f'sh -c "{neovimgui} /tmp/lua/temp.py"')),
-    #Key([mod],'m',lazy.spawn(f'sh -c "{neovimgui} /tmp/lua/temp"')),
     Key([mod],'m',lazy.spawn(f"fish -c '{neovimgui} $TEMPFILE'")),
     Key([mod,'shift'],'m',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py')},'fish -c "set -U TEMPFILE /tmp/lua/temp.%s"')),
     Key([mod],'a',lazy.spawn(neovimgui)),

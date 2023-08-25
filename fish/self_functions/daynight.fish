@@ -10,9 +10,9 @@ function daynight
     case night
         touch /tmp/night
         redshift -PO 3000
-        brightnessctl set 50%
+        brightnessctl set 45%
         set prof 3e708a50-f196-4641-8f32-c0eb4e267e23
-        set bg /home/user/.config/qtile/backgrounds/wp2038334-mountains-wallpapers.jpg
+        set bg /home/user/.config/qtile/backgrounds/download.jpg
         set rtheme /usr/share/rofi/themes/DarkBlue.rasi
     end
     dconf write /com/rafaelmardojai/Blanket/active-preset "'$prof'"
