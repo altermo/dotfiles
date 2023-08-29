@@ -77,6 +77,7 @@ websites={
     'nim'                      :'https://nim-lang.org/',
     'c-keyword'                :'https://en.cppreference.com/w/c/keyword',
     'this-week-in-neovim'      :'https://dotfyle.com/this-week-in-neovim',
+    'lua-ls-annotations'       :'https://github.com/LuaLS/lua-language-server/wiki/Annotations',
     #other
     'schedule'                 :'https://karlskrona.skola24.se/',
     'ted'                      :'https://www.ted.com',
@@ -110,6 +111,7 @@ websites={
     'wolframalpha'             :'https://www.wolframalpha.com/',
     'obsidian'                 :'https://help.obsidian.md/',
     'skype'                    :'https://web.skype.com/',
+    'vscode'                   :'https://vscode.dev/',
     #emacs / vim
     'emacs'                    :'https://www.gnu.org/software/emacs',
     'spacemacs'                :'https://develop.spacemacs.org/doc/DOCUMENTATION.html',
@@ -280,7 +282,7 @@ keys=[
     #neovim
     # Key([mod],'m',lazy.spawn(f'sh -c "cp ~/.bashrc /tmp/lua/temp.bash;{neovimgui} /tmp/temp.bash"')),
     Key([mod],'m',lazy.spawn(f"fish -c '{neovimgui} $TEMPFILE'")),
-    Key([mod,'shift'],'m',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py')},'fish -c "set -U TEMPFILE /tmp/lua/temp.%s"')),
+    Key([mod,'shift'],'m',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py','fish')},'fish -c "set -U TEMPFILE /tmp/lua/temp.%s"')),
     Key([mod],'a',lazy.spawn(neovimgui)),
     Key([mod],'t',lazy.spawn(f'{neovimgui} -c \':lua vim.system({{"fish","-i","-c","ntmp;nvr $tmp"}})\'')),
     Key([mod],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #hack
@@ -288,7 +290,7 @@ keys=[
     Key([mod,'shift'],'o',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.qscript/scripts|Ranger"')),
     Key([mod,'shift'],'p',lazy.function(menu_list_and_run,projects,f'{neovimgui} -c "Dff %s"')),
     #shell
-    Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Shell -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\rsys.path.append(\\"{HOME}/.venv/lib/python3.11/site-packages\\")\r\')"')),
+    Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Shell -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\rsys.path.append(\\"{HOME}/.env/lib/python3.11/site-packages\\")\r\')"')),
     #other
     Key([mod,'control','shift'],'b',lazy.spawn(f'sh -c "{browser1} bing.com/search?q=${{RANDOM:0:10000}}"')),
     Key([mod,'shift'],'c',lazy.spawn('sh -c "nitrogen;qtile cmd-obj -o cmd -f reload_config"')),

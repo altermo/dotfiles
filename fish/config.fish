@@ -1,24 +1,15 @@
 #preload
 if not status --is-interactive;exit;end
-if tty >/dev/null&&tty|grep tty >/dev/null;exec zellij;end
 [ $SHLVL = 1 ]&&echo
 
 #vars
-##dir_path
+##path
 set USBPATH '/run/media/user/ad55d285-c217-4306-8a5d-3a0aab35c3d4'
-set CONFSAVE "$USBPATH/confsave"
-set LOGPATH "$HOME/.local/share/qtile/qtile.log" "$HOME/.xsession-errors" "$HOME/.local/state/nvim/log"
 set MYTEMP /tmp/user
+set out "/tmp/out"
+set null "/dev/null"
 test -d /tmp/user||mkdir /tmp/user
-##file_path
-set gtd "$HOME/.gtd"
-set burn "$gtd/school.schedule"
-set hburn "$gtd/mainin.txt"
 ##func
-function nclfz
-    set pa (echo $argv[3..]|string split " "|fzf -1)
-    [ "$pa" ]&&$argv[1] "$argv[2]/$pa"
-end
 alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
 ##variants
 test "$BROWSER"||set -U BROWSER firefox
@@ -31,8 +22,7 @@ set -x PAGER 'bat -p --paging=always'
 #set -x MANPAGER "sh -c 'col -bx | bat -l man -p --pager=\"less --SILENT -RF\"'"
 set -x MANPAGER "bat -l man -p"
 set -x READ_QUICKLY_RATE 350
-set -x PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages"
-fish_add_path "$HOME/.venv/bin"
+set -x PYTHONPATH "$HOME/.env/lib/python3.11/site-packages"
 fish_add_path "$HOME/.local/bin"
 fish_add_path "$HOME/.emacs.d/bin"
 set -p fish_function_path ~/.config/fish/self_functions
@@ -49,6 +39,7 @@ end
 #source
 zoxide init fish| source
 carapace _carapace|source
+finit
 
 #translator
 for i in $langs;for j in $langs
@@ -96,7 +87,8 @@ abbr gp "git push"
 abbr g_CA "git commit -a -m (git status --porcelain|string join ';')"
 abbr gca "git commit -a -m"
 abbr gcd "git checkout development"
-abbr gcm "git checkout main"
+abbr gch "git checkout"
+abbr gmd "git merge development"
 abbr gs "git status"
 abbr gd "git diff"
 
@@ -119,7 +111,7 @@ function ranger
 end
 abbr date 'date +"  %H:%M:%S  %Y/%m/%d;%V"'
 function file;echo (exa -dF --color=always $argv)':'(command file -b $argv);end
-function setsid;command setsid fish -ic "$argv";end
+function fsetsid;setsid fish -ic "$argv";end
 alias termdown 'termdown -B'
 
 #namig
@@ -145,6 +137,7 @@ alias imgtotxt tesseract
 alias sudo doas
 alias wifi nmtui-connect
 alias hex hexyl #xxd
+alias t tldr
 ##other is beter
 alias more 'bat -p --paging=always --pager="less --SILENT -RF"'
 alias less 'bat -p --paging=always --pager="less --SILENT -RF"'
@@ -156,17 +149,12 @@ alias nano micro
 alias find fd
 alias df duf
 alias du dua
-alias pip ~/.venv/bin/pip
+alias pip ~/.env/bin/pip
 
 #common path
-##ranger
 function rp;ranger $USBPATH;end
 function rtmp;ranger $MYTEMP;end
 function rD;ranger ~/Downloads/;end
-##fzf
-function fc;nclfz ranger $HOME/.config (exa $HOME/.config);end
-function fs;nclfz ranger $HOME/.local/share (exa $HOME/.local/share);end
-function fl;nclfz nvim / $LOGPATH;end
 
 #musik player
 function pm;cd "$USBPATH/apps/musik player fish (7)";fish main.fish;end
@@ -191,22 +179,6 @@ function nvst
 end
 alias kpn 'pkill -9 -P 1 "nvim\$";pkill -9 -P 1 -f language_server_linux_x64'
 alias pnv 'command nvim +"lua require\'plugins\'" +"PackerCompile"'
-function fi
-    set mainplugpath "$HOME/.local/share/nvim/site/pack/packer/"
-    set subplugpaths "start/" "opt/"
-    set pa (for i in $subplugpaths;string split0 $mainplugpath/$i/*|string replace $mainplugpath '';end\
-    |fzf --preview "bat -pp $mainplugpath/{}/README.md --color=always")
-    [ $pa ]&&ranger $mainplugpath/$pa
-end
-function fr
-    cd /usr/local/share/nvim/runtime/lua/vim/
-    set pa (fzf --preview "bat -pp {} --color=always")
-    if [ $pa ]
-        nvim $pa
-    else
-        cd -
-    end
-end
 
 #emacs
 alias emacs "emacsclient -c -a 'emacs -nw' -nw"
@@ -217,21 +189,18 @@ alias er "killall emacs;command emacs --daemon"
 alias doos "doom sync"
 
 #other
+alias rich "python -m rich"
 alias server "livereload" #python -m http.server
 alias cargob bacon
-alias cargoc clippy
+alias cargoc cargo\ clippy
 alias clock 'termdown -z -Z "%H : %M : %S"'
 alias idonotknowwhattodo 'firefox https://www.ted.com/'
 alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5'
 alias mouseslow 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0'
 alias mousesnail 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" -0.5'
 alias mousewritemove 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" libinput\ Disable\ While\ Typing\ Enabled false'
-function ffuncs;functions -a|string split ,|fzf --preview="fish -ic 'type {1}|bat -pp -l fish --color=always'";end
-alias pf "fzf --preview '[ -d {} ]&&exa -aF {}||bat {} -pp --color=always'"
 alias term 'echo $TERM'
 function Res;sudo killall lightdm;end
-#function vb;vim $hburn;end
-#function vimb;vim $burn;end
 function vb
     open "obsidian://open?vault=vault&file=Mainin.md"
 end
@@ -243,7 +212,6 @@ function countdown
     termdown $argv
     wmctrl -s $save
 end
-function styles;for i in (seq 110);printf "\e[$i""m$i\t\e[m";[ (math $i%10) = 0 ]&&echo;end;end
 function mnt;udisksctl mount -b /dev/sdb;end
 alias tu "env HOME=(mktemp -d) "
 alias scud 'env HOME=$PWD '
@@ -256,19 +224,7 @@ alias mkc 'mkdir $argv;cd'
 function fec;fennel -c $argv > (echo $argv|sed 's/.fnl$/.lua/');end
 function qunzip;unzip $argv.zip&&cat $argv&&shred -uvz $argv;end
 alias saferm 'shred -uvz'
-function encrypt
-    command zip -r --encrypt $argv.zip $argv
-    if test $status != 0
-        return 1;
-    end
-    if not test -f $argv.zip
-        return 1
-    end
-    if test $status != 0
-        return 1;
-    end
-    shred -fuz $argv
-end
+function encrypt;command zip -r --encrypt $argv.zip $argv;end
 alias ip 'hostname --ip-addresses'
 function bak;cp $argv $argv.bak;end
 abbr choice 'random choice'
@@ -293,6 +249,8 @@ function update_hosts
     rm $file
 end
 alias blanket "command setsid blanket -h"
+alias archwiki "qutebrowser https://wiki.archlinux.org/"
+function lnq;ln $argv (basename $argv);end
 
 #intaller
 if type fisher >/dev/null 2>&1
