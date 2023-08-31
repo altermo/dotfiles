@@ -164,6 +164,7 @@ configs={
     'firefox'    :f'{HOME}/.config/firefox/userChrome.css',
     'doom'       :ctest(f'{HOME}/.doom.d/conf.org',f'{HOME}/.doom.d/config.el'),
     'gitignore'  :f'{HOME}/.config/git/.gitignore',
+    'alacritty'  :f'{HOME}/.config/alacritty/alacritty.yml',
 }
 projects={
     'ua':f'{HOME}/.config/nvim/.other/ua',

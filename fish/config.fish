@@ -4,7 +4,6 @@ if not status --is-interactive;exit;end
 
 #vars
 ##path
-set USBPATH '/run/media/user/ad55d285-c217-4306-8a5d-3a0aab35c3d4'
 set MYTEMP /tmp/user
 set out "/tmp/out"
 set null "/dev/null"
@@ -79,6 +78,7 @@ alias yar "yay -R"
 alias yau "yay -Syyu"
 alias yac "yay -Yc"
 alias yai "yay -Si"
+abbr yaf "yay -Qo"
 alias mirror "curl https://archlinux.org/mirrorlist/all/"
 
 #git
@@ -91,6 +91,7 @@ abbr gch "git checkout"
 abbr gmd "git merge development"
 abbr gs "git status"
 abbr gd "git diff"
+abbr gi "gh gist"
 
 #typical optinos
 alias firefox 'command setsid firefox'
@@ -152,14 +153,11 @@ alias du dua
 alias pip ~/.env/bin/pip
 
 #common path
-function rp;ranger $USBPATH;end
 function rtmp;ranger $MYTEMP;end
 function rD;ranger ~/Downloads/;end
 
 #musik player
-function pm;cd "$USBPATH/apps/musik player fish (7)";fish main.fish;end
-function bm;mplayer "$USBPATH/pdf html"/*.mp3;end
-function fpm;command setsid mplayer $USBPATH/ncs/(exa $USBPATH/ncs|fzf) >/dev/null 2>&1;end
+##TODO
 
 #vim
 function riv
@@ -189,6 +187,8 @@ alias er "killall emacs;command emacs --daemon"
 alias doos "doom sync"
 
 #other
+alias stop 'clear;printf "\e[?1000h";printf "\e[?25l";while test "$(read -n1 -p \ )" != "";printf "\e[?1000h";clear;end;printf "\e[?25h";clear'
+alias h helix
 alias rich "python -m rich"
 alias server "livereload" #python -m http.server
 alias cargob bacon
@@ -251,6 +251,12 @@ end
 alias blanket "command setsid blanket -h"
 alias archwiki "qutebrowser https://wiki.archlinux.org/"
 function lnq;ln $argv (basename $argv);end
+function allwindowfront #HACK
+    for i in (wmctrl -l|cut -d\  -f1)
+        xdotool windowstate --add FULLSCREEN $i
+        xdotool windowstate --remove FULLSCREEN $i
+    end
+end
 
 #intaller
 if type fisher >/dev/null 2>&1
