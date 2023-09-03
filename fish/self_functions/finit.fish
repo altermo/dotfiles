@@ -14,7 +14,7 @@ function fr
     end
 end
 function fi
-    set mainplugpath "$HOME/.local/share/nvim/site/pack/packer/"
+    set mainplugpath "$HOME/.local/share/nvim/site/pack/pckr/"
     set subplugpaths "start/" "opt/"
     set pa (for i in $subplugpaths;string split0 $mainplugpath/$i/*|string replace $mainplugpath '';end\
     |fzf --preview "bat -pp $mainplugpath/{}/README.md --color=always")

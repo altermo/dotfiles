@@ -1,7 +1,5 @@
 function _colors24
-    function rgbcolor
-        printf "\e[48;2;%s;%s;%sm " $argv
-    end
+    function rgbcolor;printf "\e[48;2;%s;%s;%sm " $argv;end
     function calcolor
         set h (math -s0 $argv/43)
         set f (math -s0 $argv-43\*$h)
@@ -21,40 +19,22 @@ function _colors24
             printf 255\n0\n$q
         end
     end
-    function reset
-        printf "\e[0m\n"
-    end
-    for i in (seq 0 127)
-        rgbcolor $i 0 0
-    end
+    function reset;printf "\e[0m\n";end
+    for i in (seq 0 127);rgbcolor $i 0 0;end
     reset
-    for i in (seq 255 -1 128)
-        rgbcolor $i 0 0
-    end
+    for i in (seq 255 -1 128);rgbcolor $i 0 0;end
     reset
-    for i in (seq 0 127)
-        rgbcolor 0 $i 0
-    end
+    for i in (seq 0 127);rgbcolor 0 $i 0;end
     reset
-    for i in (seq 255 -1 128)
-        rgbcolor 0 $i 0
-    end
+    for i in (seq 255 -1 128);rgbcolor 0 $i 0;end
     reset
-    for i in (seq 0 127)
-        rgbcolor 0 0 $i
-    end
+    for i in (seq 0 127);rgbcolor 0 0 $i;end
     reset
-    for i in (seq 255 -1 128)
-        rgbcolor 0 0 $i
-    end
+    for i in (seq 255 -1 128);rgbcolor 0 0 $i;end
     reset
-    for i in (seq 0 127)
-        rgbcolor (calcolor $i)
-    end
+    for i in (seq 0 127);rgbcolor (calcolor $i);end
     reset
-    for i in (seq 255 -1 128)
-        rgbcolor (calcolor $i)
-    end
+    for i in (seq 255 -1 128);rgbcolor (calcolor $i);end
     reset
 end
 function _colorsname
@@ -77,29 +57,26 @@ function _colorsname
     printf "\e[107;30m LightWhite "
     printf "\n"
 end
-function _styles;for i in (seq 110);printf "\e[$i""m$i\t\e[m";[ (math $i%10) = 0 ]&&echo;end;end
-function colors
-    if test "$argv" = 24
-        _colors24;return
-    else if test "$argv" = name
-        _colorsname;return
-    else if test "$argv" = style
-        _styles;return
-    end
+function _colors
     function prcolor
         printf "\e[48:5:$argv[1]""m$argv[2]"
     end
     alias res 'printf "\e[0m\n"'
-    for i in (seq 0 15)
-        prcolor $i " "
-    end
+    for i in (seq 0 15);prcolor $i " ";end
     res
-    for i in (seq 16 231)
-        prcolor $i " "
-        [ (math $i%36) = 15 ]&&res
-    end
-    for i in (seq 232 255)
-        prcolor $i " "
-    end
+    for i in (seq 16 231);prcolor $i " ";[ (math $i%36) = 15 ]&&res;end
+    for i in (seq 232 255);prcolor $i " ";end
     res
+end
+function _styles;for i in (seq 110);printf "\e[$i""m$i\t\e[m";[ (math $i%10) = 0 ]&&echo;end;end
+function colors
+    if test "$argv" = 24
+        _colors24
+    else if test "$argv" = name
+        _colorsname
+    else if test "$argv" = style
+        _styles
+    else
+        _colors
+    end
 end

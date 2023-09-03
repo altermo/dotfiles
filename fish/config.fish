@@ -3,35 +3,27 @@ if not status --is-interactive;exit;end
 [ $SHLVL = 1 ]&&echo
 
 #vars
-##path
-set MYTEMP /tmp/user
-set out "/tmp/out"
-set null "/dev/null"
-test -d /tmp/user||mkdir /tmp/user
-##func
-alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
-##variants
 test "$BROWSER"||set -U BROWSER firefox
 test "$TEMPFILE"||set -U TEMPFILE /tmp/lua/temp.lua
-##other
+alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
+test -d /tmp/user||mkdir /tmp/user
+set fish_greeting
 set langs 'en' 'es' 'sv' 'hu'
 set -x EDITOR nvim #/usr/bin/nvr
 set -x VISUAL nvim #/usr/bin/nvr
 set -x PAGER 'bat -p --paging=always'
-#set -x MANPAGER "sh -c 'col -bx | bat -l man -p --pager=\"less --SILENT -RF\"'"
 set -x MANPAGER "bat -l man -p"
 set -x READ_QUICKLY_RATE 350
-set -x PYTHONPATH "$HOME/.env/lib/python3.11/site-packages"
-fish_add_path "$HOME/.local/bin"
-fish_add_path "$HOME/.emacs.d/bin"
+set -x PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages"
+set -e fish_user_paths
+set -U fish_user_paths $HOME/.local/bin $HOME/.doom/bin
 set -p fish_function_path ~/.config/fish/self_functions
 set -p fish_complete_path ~/.config/fish/self_completions
+fish_vi_key_bindings
 
 #hooks
 if invim
-    function __hook_nvim_lcd -v PWD
-        nvr -c "silent! lcd $PWD" &
-    end
+    function __hook_nvim_lcd -v PWD;nvr -c "silent! lcd $PWD" &;end
     nvr -c "silent! lcd $PWD" &
 end
 
@@ -40,36 +32,11 @@ zoxide init fish| source
 carapace _carapace|source
 finit
 
-#translator
-for i in $langs;for j in $langs
-    alias "tr$i$j" "trans -b $i:$j"
-end;end
-
 #temp
-alias ntmp 'set -U tmp (mktemp -p $MYTEMP)'
+alias ntmp 'set -U tmp (mktemp -p /tmp/user)'
 alias tmp '$EDITOR "$tmp"'
-abbr dtmp 'cd (mktemp -d -p $MYTEMP)'
+abbr dtmp 'cd (mktemp -d -p /tmp/user)'
 abbr nmp 'ntmp;tmp'
-
-#ls and cd
-##ls
-alias ls 'exa -aF'
-alias l 'exa -F'
-alias ll 'l -lh --git'
-alias la 'ls -lh --git'
-alias l. 'ls -d .*' #What?! (bash vesrion: "ls -d $(ls -A|grep '^\.') --color=auto")
-##cd
-alias .. 'z ..'
-alias ... 'z ../..'
-
-#spell corrector
-abbr mkr mkd
-abbr z/ 'z /'
-abbr z.. 'z ..'
-abbr :q exit
-abbr :Q exit
-abbr print printf
-abbr cd z
 
 #installer
 alias yas "yay -S"
@@ -94,31 +61,28 @@ abbr gd "git diff"
 abbr gi "gh gist"
 
 #typical optinos
-alias firefox 'command setsid firefox'
 function cal;command cal -wm --color=always $argv|lolcat;end
 alias rm 'rm -I'
 alias cp 'cp -rib'
+alias xcp 'xcp -rn'
 alias mv 'mv -ib'
 alias ln 'ln -ibs'
 alias mkdir 'mkdir -p'
 alias neofetch 'clear;command neofetch'
 alias wget 'wget -c'
 alias fd 'fd -H'
-#alias ag 'ag --hidden'
-#alias rg 'rg --.'
 alias zip 'zip -r -v'
-function ranger
-    riv ranger "nvr -c 'Ranger $argv'" --cmd 'set show_hidden=true' --cmd 'set preview_images=true' $argv
-end
+function ranger;riv ranger "nvr -c 'Ranger $argv'" --cmd 'set show_hidden=true' --cmd 'set preview_images=true' $argv;end
 abbr date 'date +"  %H:%M:%S  %Y/%m/%d;%V"'
 function file;echo (exa -dF --color=always $argv)':'(command file -b $argv);end
-function fsetsid;setsid fish -ic "$argv";end
 alias termdown 'termdown -B'
 
 #namig
 ##shorter names
-alias fox firefox
-alias fire firefox
+abbr :q exit
+abbr :Q exit
+abbr z.. z\ ..
+abbr z/ z\ ..
 alias c clear
 alias r ranger
 alias rr "command ranger"
@@ -128,21 +92,24 @@ alias mkd mkdir
 alias pow acpi
 alias s sudo
 alias com command
-alias p printf
 alias v vim
 alias g grep
-alias i info
-alias rel watch
-alias qread read-quickly
-alias imgtotxt tesseract
-alias sudo doas
+alias img2txt tesseract
 alias wifi nmtui-connect
-alias hex hexyl #xxd
-alias t tldr
+alias h helix
+alias cargob bacon
+alias cargoc cargo\ clippy
+alias rich "python -m rich"
 ##other is beter
+alias ls 'exa -aF'
+alias l 'exa -F'
+alias ll 'l -lh --git'
+alias la 'ls -lh --git'
+alias hex hexyl #xxd
+alias cp xcp
+abbr cd z
 alias more 'bat -p --paging=always --pager="less --SILENT -RF"'
 alias less 'bat -p --paging=always --pager="less --SILENT -RF"'
-alias youtube-dl yt-dlp
 alias vim nvim
 alias cat "bat -pp"
 alias tree "exa -T"
@@ -150,60 +117,40 @@ alias nano micro
 alias find fd
 alias df duf
 alias du dua
-alias pip ~/.env/bin/pip
-
+alias pip ~/.venv/bin/pip
+alias sudo doas
 #common path
-function rtmp;ranger $MYTEMP;end
-function rD;ranger ~/Downloads/;end
-
-#musik player
-##TODO
+function rtmp;ranger /tmp;end
+function rtmpu;ranger /tmp/user;end
 
 #vim
-function riv
-    invim&&sh -c $argv[2]&&kill (cut -f 6 -d " " /proc/$fish_pid/stat)||command $argv[1] $argv[3..]
-end
-function nvim
-    riv nvim "[ $argv ]&&nvr $argv||nvr ." $argv
-end
+function riv;invim&&sh -c $argv[2]&&kill (cut -f 6 -d " " /proc/$fish_pid/stat)||command $argv[1] $argv[3..];end
+function nvim;riv nvim "[ $argv ]&&nvr $argv||nvr ." $argv;end
 alias spvim "set -e VIMRUNTIME;command vim"
-alias snvim 'nvim-qt --server $NVIM'
-alias uvim 'command nvim -n -u NONE'
 function nvst
-    set tmp (mktemp)
-    command nvim .bashrc +q --startuptime $tmp
-    cat $tmp|tail +7|cut -c 10-|sort -n>/tmp/sut
-    rm $tmp
+    command nvim .bashrc +q --startuptime /tmp/sut
+    cat /tmp/sut|cat|tail +7|cut -c 10-|sort -n>/tmp/sut
 end
 alias kpn 'pkill -9 -P 1 "nvim\$";pkill -9 -P 1 -f language_server_linux_x64'
-alias pnv 'command nvim +"lua require\'plugins\'" +"PackerCompile"'
 
 #emacs
-alias emacs "emacsclient -c -a 'emacs -nw' -nw"
-alias demacs 'command emacs --daemon'
-alias em "command emacs -q -l ~/.config/emacs/init.el"
+alias emacs "setsid emacsclient -c -a 'emacs'"
 alias ec "command setsid emacsclient >/dev/null"
-alias er "killall emacs;command emacs --daemon"
+alias rem "killall emacs;command emacs --daemon"
 alias doos "doom sync"
 
 #other
+for i in $langs;for j in $langs
+    alias "tr$i$j" "trans -b $i:$j"
+end;end
+alias autohidemouse 'unclutter --timeout=.3'
+alias force_exit 'builtin exit'
 alias stop 'clear;printf "\e[?1000h";printf "\e[?25l";while test "$(read -n1 -p \ )" != "";printf "\e[?1000h";clear;end;printf "\e[?25h";clear'
-alias h helix
-alias rich "python -m rich"
-alias server "livereload" #python -m http.server
-alias cargob bacon
-alias cargoc cargo\ clippy
 alias clock 'termdown -z -Z "%H : %M : %S"'
-alias idonotknowwhattodo 'firefox https://www.ted.com/'
 alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5'
 alias mouseslow 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0'
 alias mousesnail 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" -0.5'
 alias mousewritemove 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" libinput\ Disable\ While\ Typing\ Enabled false'
-alias term 'echo $TERM'
-function Res;sudo killall lightdm;end
-function vb
-    open "obsidian://open?vault=vault&file=Mainin.md"
-end
 function testnet;nm-online;end
 alias copy 'xsel -b'
 function clearfuncs;for i in (functions -a|string split ",");functions -e $i;end;end
@@ -215,21 +162,13 @@ end
 function mnt;udisksctl mount -b /dev/sdb;end
 alias tu "env HOME=(mktemp -d) "
 alias scud 'env HOME=$PWD '
-alias givemeno "sudo localectl set-x11-keymap no"
 alias tb "nc termbin.com 9999"
 alias nothing "curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash"
-alias ct "touch (date +%Y-%m-%d)'.txt'"
-alias mkt 'mkdir (date +%Y-%m-%d)'
 alias mkc 'mkdir $argv;cd'
-function fec;fennel -c $argv > (echo $argv|sed 's/.fnl$/.lua/');end
 function qunzip;unzip $argv.zip&&cat $argv&&shred -uvz $argv;end
 alias saferm 'shred -uvz'
 function encrypt;command zip -r --encrypt $argv.zip $argv;end
 alias ip 'hostname --ip-addresses'
-function bak;cp $argv $argv.bak;end
-abbr choice 'random choice'
-abbr lvl 'echo $SHLVL'
-abbr rmheader "tail +2"
 alias lightup 'brightnessctl set 10+%'
 alias lightdown 'brightnessctl set 10-%'
 alias beepoff 'sudo rmmod pcspkr.ko.zst'
@@ -238,8 +177,7 @@ function usercreator
     echo $web|jq .results[0].login.username -r
     echo $web|jq .results[0].login.password -r
 end
-alias reload 'exec fish'
-alias paths 'echo $PATH|tr " " "\n"'
+alias reload 'exec fish -C "$(status current-commandline|string split \;|tail +2)"'
 alias tidereset 'echo 1 1 1 1 1 1 y|tide configure'
 function update_hosts
     set file (mktemp)
@@ -249,51 +187,15 @@ function update_hosts
     rm $file
 end
 alias blanket "command setsid blanket -h"
-alias archwiki "qutebrowser https://wiki.archlinux.org/"
 function lnq;ln $argv (basename $argv);end
-function allwindowfront #HACK
-    for i in (wmctrl -l|cut -d\  -f1)
-        xdotool windowstate --add FULLSCREEN $i
-        xdotool windowstate --remove FULLSCREEN $i
-    end
-end
+alias wifilist 'nmcli device wifi list'
+function fsetsid;setsid fish -ic "$argv";end
 
 #intaller
-if type fisher >/dev/null 2>&1
-    function fins
-        set name $argv[1]
-        switch $name
-        case end
-        case start
-            set -g _fins
-            fins jorgebucaran/fisher
-        case clean
-            for i in (cat ~/.config/fish/fish_plugins)
-                string match $i $_fins >/dev/null||fisher remove $i
-            end
-        case install
-            fins clean
-            for i in $_fins
-                cat ~/.config/fish/fish_plugins|string match $i >/dev/null||fisher install $i
-            end
-        case update
-            fins clean
-            fisher update
-        case sync
-            fins clean
-            fins update
-            fins install
-        case '*'
-            echo $name|grep "[a-zA-Z0-9_.-]\+/[a-zA-Z0-9_.-]\+" >/dev/null 2>&1 ||echo "fins error: name $name invalide"&&echo $name|set -a _fins $name
-        end
-    end
-    fins start
-    #keys
-    fins nickeb96/puffer-fish
-    #other
-    fins andreiborisov/sponge
-    #visual
-    fins ilancosman/tide
-    fins end
+if not type fisher >/dev/null 2>&1
+    curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
 end
-# vim:fen:
+set _plugins jorgebucaran/fisher nickeb96/puffer-fish andreiborisov/sponge ilancosman/tide
+for i in $_plugins
+    cat ~/.config/fish/fish_plugins|string match $i >/dev/null||fisher install $i
+end
