@@ -51,6 +51,8 @@ websites={
     'c-keyword'                :'https://en.cppreference.com/w/c/keyword',
     'this-week-in-neovim'      :'https://dotfyle.com/this-week-in-neovim',
     'lua-ls-annotations'       :'https://github.com/LuaLS/lua-language-server/wiki/Annotations',
+    'pip'                      :'https://pypi.org/',
+    'toml'                     :'https://toml.io/en/',
     #other
     'schedule'                 :'https://karlskrona.skola24.se/',
     'ted'                      :'https://www.ted.com',
@@ -85,6 +87,7 @@ websites={
     'obsidian'                 :'https://help.obsidian.md/',
     'skype'                    :'https://web.skype.com/',
     'vscode'                   :'https://vscode.dev/',
+    'wm-timeline'              :'https://www.gilesorr.com/wm/bloodlines.20151203.svg',
     #emacs / vim
     'emacs'                    :'https://www.gnu.org/software/emacs',
     'spacemacs'                :'https://develop.spacemacs.org/doc/DOCUMENTATION.html',

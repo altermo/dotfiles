@@ -29,6 +29,11 @@ end
 
 #source
 zoxide init fish| source
+if not test -f ~/.config/fish/carapace/carapace.fish
+    mkdir -p ~/.config/fish/carapace
+    carapace --list|awk '{print $1}'|xargs -I{} touch ~/.config/fish/carapace/{}.fish
+end
+set -p fish_complete_path ~/.config/fish/carapace
 carapace _carapace|source
 finit
 
@@ -43,9 +48,12 @@ alias yas "yay -S"
 alias yaS "yay -Ss"
 alias yar "yay -R"
 alias yau "yay -Syyu"
-alias yac "yay -Yc"
+alias yac "yay -Yc&&not yay -Qdtq"
+alias yauc "yay -Syyu&&yay -Yc&&not yay -Qdtq"
 alias yai "yay -Si"
+abbr yaq "yay -Q"
 abbr yaf "yay -Qo"
+abbr yal "yay -Ql"
 alias mirror "curl https://archlinux.org/mirrorlist/all/"
 
 #git
@@ -83,6 +91,7 @@ abbr :q exit
 abbr :Q exit
 abbr z.. z\ ..
 abbr z/ z\ ..
+abbr t tldr
 alias c clear
 alias r ranger
 alias rr "command ranger"
@@ -140,10 +149,12 @@ alias rem "killall emacs;command emacs --daemon"
 alias doos "doom sync"
 
 #other
+alias doimportantstuff genact
+alias list_ports 'lsof -i'
 for i in $langs;for j in $langs
     alias "tr$i$j" "trans -b $i:$j"
 end;end
-alias autohidemouse 'unclutter --timeout=.3'
+abbr hidemouse 'xbanish -a'
 alias force_exit 'builtin exit'
 alias stop 'clear;printf "\e[?1000h";printf "\e[?25l";while test "$(read -n1 -p \ )" != "";printf "\e[?1000h";clear;end;printf "\e[?25h";clear'
 alias clock 'termdown -z -Z "%H : %M : %S"'
@@ -190,6 +201,12 @@ alias blanket "command setsid blanket -h"
 function lnq;ln $argv (basename $argv);end
 alias wifilist 'nmcli device wifi list'
 function fsetsid;setsid fish -ic "$argv";end
+function fedit
+    set file (fd -t file $argv|fzf -1)
+    if not test $file;return;end
+    $EDITOR $file
+end
+alias fixmouse "sudo rmmod psmouse;sudo modprobe psmouse"
 
 #intaller
 if not type fisher >/dev/null 2>&1

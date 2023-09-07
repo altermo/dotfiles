@@ -1,8 +1,9 @@
 function cosy
-    set winlist (wmctrl -l|string split0)
-    setsid alacritty -o window.opacity=0 -e fish -C 'alias exit stop'
+    set winlist (wmctrl -l|cut -d\  -f1|sort|string split0)
+    setsid alacritty -o window.opacity=0 -e fish -C 'alias exit stop;alias h helix\\ \\-c\\ ~/.config/helix/transparent.toml'
     sleep 0.5
-    set win (diff (echo $winlist|sort|psub) (wmctrl -l|sort|psub)|grep ">"|cut -d\  -f2)
+    set winlist2 (wmctrl -l|cut -d\  -f1|sort|string split0)
+    set win (diff (echo $winlist|psub) (echo $winlist2|psub)|grep ">"|cut -d\  -f2)
     if not test "$win";return 2;end
     qtile cmd-obj -o window (math "$win") -f enable_fullscreen
     qtile cmd-obj -o window (math "$win") -f static

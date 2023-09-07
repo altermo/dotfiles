@@ -1,6 +1,7 @@
 import os
 import json
 import re
+
 from websites import websites
 from libqtile import bar,widget,hook
 from libqtile.layout import xmonad,columns
@@ -45,6 +46,7 @@ configs={
 }
 projects={
     'ua':f'{HOME}/.config/nvim/.other/ua',
+    'multiplex':f'{HOME}/.config/nvim/.other/multiplex/',
 }
 
 try:
@@ -142,7 +144,7 @@ keys=[
     Key([mod,],'o',lazy.spawn(f'{fm1} {VAULTPATH}')),
     Key([mod,'control'],'v',lazy.spawn('pavucontrol')),
     #menu
-    Key([mod],'x',lazy.spawn('rofi -show drun')),
+    Key([mod],'x',lazy.spawn('ulauncher-toggle')),
     Key([mod,'shift'],'x',lazy.spawn('nwggrid -o 0.5')),
     Key([mod],'d',lazy.spawn('dmenu_run')),
     Key([mod],'y',lazy.spawn('clipmenu')),
@@ -158,7 +160,7 @@ keys=[
     Key([],"XF86AudioMute",lazy.spawn("amixer sset Master toggle")),
     #neovim
     Key([mod],'m',lazy.spawn(f"fish -c '{neovimgui} $TEMPFILE'")),
-    Key([mod,'shift'],'m',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py','fish')},'fish -c "set -U TEMPFILE /tmp/lua/temp.%s"')),
+    Key([mod,'shift'],'m',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py','fish','html')},'fish -c "set -U TEMPFILE /tmp/lua/temp.%s"')),
     Key([mod],'a',lazy.spawn(neovimgui)),
     Key([mod],'t',lazy.spawn(f'{neovimgui} -c \':lua vim.system({{"fish","-i","-c","ntmp;nvr $tmp"}})\'')),
     #Key([mod],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #TODO
@@ -251,4 +253,5 @@ def autostart()->None:
     os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')
     os.system('sh -c "emacs --daemon"&')
     os.system('blanket -h&')
+    os.system('ulauncher --no-window') #https://github.com/Ulauncher/Ulauncher/milestone/7
 # vim:fen:

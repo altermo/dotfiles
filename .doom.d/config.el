@@ -76,5 +76,4 @@
 ;; they are implemented.
 
 
-
 (org-babel-load-file "/home/user/.doom.d/conf.org")
