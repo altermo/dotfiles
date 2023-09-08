@@ -14,7 +14,7 @@ NITYOPATH=f'{HOME}/.config/nitrogen/bg-saved.cfg'
 VAULTPATH=f'{HOME}/.gtd/vault'
 mod='mod4'
 settings_file=f'{HOME}/.config/qtile/settings.json'
-neovimgui='neovide -- '
+neovimgui='nvim-qt -- '
 term1=f'{neovimgui} -c Shell'
 term2="alacritty"
 browser1='firefox'
@@ -253,5 +253,5 @@ def autostart()->None:
     os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')
     os.system('sh -c "emacs --daemon"&')
     os.system('blanket -h&')
-    os.system('ulauncher --no-window') #https://github.com/Ulauncher/Ulauncher/milestone/7
+    os.system('ulauncher --no-window&') #https://github.com/Ulauncher/Ulauncher/milestone/7
 # vim:fen:
