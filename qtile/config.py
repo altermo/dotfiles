@@ -46,7 +46,7 @@ configs={
 }
 projects={
     'ua':f'{HOME}/.config/nvim/.other/ua',
-    'multiplex':f'{HOME}/.config/nvim/.other/multiplex/',
+    'pack':f'{HOME}/.qscript/scripts/packs'
 }
 
 try:
@@ -72,6 +72,7 @@ if os.path.exists(image):
                 settings.setdefault('cache',{}).setdefault('img',{})[image]=image_colors
                 json.dump(settings,f)
 else:image_colors=[(0,0,0)]*4
+image_colors='#00000000',*image_colors[1:]
 
 def menu_list_and_run(_,apps:dict['str','str'],bin:str)->None:
     result=os.popen('printf "'+'\n'.join(apps)+'"|dmenu -i').read()
@@ -131,25 +132,20 @@ keys=[
     Key([mod,'control'],'q',lazy.shutdown()),
     #spawn
     Key([mod],'b',lazy.spawn(browser1)),
-    Key([mod],'i',lazy.spawn(browser2)),
     Key([mod],'Return',lazy.spawn(term1)),
     Key([mod,'shift'],'Return',lazy.spawn(term2)),
-    Key([mod],'KP_Enter',lazy.spawn("xterm -fs 10 -fa monospace -bg black -fg white ")),
-    Key([mod],'s',lazy.spawn(themesetting)),
-    Key([mod,'shift'],'t',lazy.spawn(topgui)),
+    Key([mod,'shift'],'o',lazy.spawn(topgui)),
     Key([mod],'n',lazy.spawn(fm1)),
-    Key([mod,'shift'],'n',lazy.spawn(fm2)),
     Key([mod],'e',lazy.spawn("emacsclient -c -a 'emacs'")),
     Key([mod],'v',lazy.spawn('obsidian')),
-    Key([mod,],'o',lazy.spawn(f'{fm1} {VAULTPATH}')),
-    Key([mod,'control'],'v',lazy.spawn('pavucontrol')),
+    Key([mod,'shift'],'v',lazy.spawn(f'{fm1} {VAULTPATH}')),
     #menu
     Key([mod],'x',lazy.spawn('ulauncher-toggle')),
     Key([mod,'shift'],'x',lazy.spawn('nwggrid -o 0.5')),
     Key([mod],'d',lazy.spawn('dmenu_run')),
     Key([mod],'y',lazy.spawn('clipmenu')),
-    Key([mod,'shift'],'b',lazy.function(menu_list_and_run,websites,'fish -c \'setsid $BROWSER "%s"&\'')),
-    Key([mod,'shift'],'e',lazy.function(menu_list_and_run,configs,f'{neovimgui} %s')),
+    Key([mod],'i',lazy.function(menu_list_and_run,websites,'fish -c \'setsid $BROWSER "%s"&\'')),
+    Key([mod],'c',lazy.function(menu_list_and_run,configs,f'{neovimgui} %s')),
     #XF86
     Key([],"XF86MonBrightnessUp",lazy.spawn("brightnessctl set +10%")),
     Key([],"XF86MonBrightnessDown",lazy.spawn("brightnessctl set 10%-")),
@@ -159,22 +155,21 @@ keys=[
     Key(['shift'],"XF86AudioLowerVolume",lazy.spawn("amixer sset Master 10%-")),
     Key([],"XF86AudioMute",lazy.spawn("amixer sset Master toggle")),
     #neovim
-    Key([mod],'m',lazy.spawn(f"fish -c '{neovimgui} $TEMPFILE'")),
-    Key([mod,'shift'],'m',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py','fish','html')},'fish -c "set -U TEMPFILE /tmp/lua/temp.%s"')),
+    Key([mod],'t',lazy.spawn(f"fish -c '{neovimgui} $TEMPFILE'")),
+    Key([mod,'shift'],'t',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py','fish','html')},'fish -c "set -U TEMPFILE /tmp/lua/temp.%s"')),
+    Key([mod,'control'],'t',lazy.spawn(f'{neovimgui} -c \':lua vim.system({{"fish","-i","-c","ntmp;nvr $tmp"}})\'')),
     Key([mod],'a',lazy.spawn(neovimgui)),
-    Key([mod],'t',lazy.spawn(f'{neovimgui} -c \':lua vim.system({{"fish","-i","-c","ntmp;nvr $tmp"}})\'')),
-    #Key([mod],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #TODO
+    #Key([mod,'shift'],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #TODO
     Key([mod],'z',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|Dff"')),
-    Key([mod,'shift'],'o',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.qscript/scripts|Ranger"')),
-    Key([mod,'shift'],'p',lazy.function(menu_list_and_run,projects,f'{neovimgui} -c "Dff %s"')),
+    Key([mod],'o',lazy.function(menu_list_and_run,projects,f'{neovimgui} -c "Dff %s"')),
     #shell
     Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Shell -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\rsys.path.append(\\"{HOME}/.venv/lib/python3.11/site-packages\\")\r\')"')),
     #other
     Key([mod,'shift'],'c',lazy.spawn('sh -c "nitrogen;qtile cmd-obj -o cmd -f reload_config"')),
     Key([mod,'control'],'c',lazy.spawn('sh -c "zenity --question --text \'Are you sure you want to clear cache?\'&&cat %s |jq -c \'.\\"cache\\".\\"img\\"={}\'>/tmp/TmP&&mv /tmp/TmP %s"'.replace('%s',settings_file))),
     Key([mod,'shift'],'g',lazy.spawn('qutebrowser https://chat.openai.com/chat --target=window')),
-    Key([mod],'backslash',lazy.spawn('zenity --text="help not configured yet..." --info')),
     Key([mod,'control'],'z',lazy.spawn('betterlockscreen -l')),
+    Key([mod],'space',lazy.spawn('mpvc toggle')),
     #window2
     KeyChord([mod],'q',[
         Key([],'e',lazy.spawn('sh -c "setxkbmap -option;setxkbmap -option ctrl:swapcaps"')),
@@ -190,23 +185,19 @@ keys=[
         Key([],'t',lazy.function(lambda q:q.current_window.cmd_down_opacity())),
         Key(['shift'],'t',lazy.function(lambda q:q.current_window.cmd_up_opacity())),
         Key([],'f11',lazy.window.toggle_fullscreen()),
-        Key([],'h',lazy.function(lambda q:q.current_window.hide() if q.current_window.cmd_is_visible() else q.current_window.unhide())),
         Key([],'m',lazy.function(lambda q:q.current_window.cmd_toggle_minimize())),
-        Key(['shift'],'m',lazy.function(lambda q:q.current_window.cmd_toggle_maximize())),
         Key([],'f',lazy.function(lambda q:q.current_window.cmd_bring_to_front())),
         Key(['control'],'f',lazy.function(lambda q:q.current_window.cmd_static())),
-        Key([],'r',lazy.spawn('redshift -O 4000')),
-        Key(['shift'],'r',lazy.spawn('sh -c "redshift -P -O 4000"')),
         Key([],'s',lazy.function(scalescreen,.1)),
         Key(['shift'],'s',lazy.function(scalescreen,-.1)),
         Key(['control'],'s',lazy.function(lambda _:os.system(f'zenity --text="{SCALE}" --info&'))),
-        Key([],'c',lazy.spawn('scrot')),
-        Key(['shift'],'c',lazy.function(lambda q:q.current_window.cmd_center())),
+        Key([],'space',lazy.spawn('scrot')),
         Key([],'k',lazy.spawn('gkbd-keyboard-display -g 1')),
-        Key([],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0')),
-        Key(['shift'],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')),
-        Key(['control'],'y',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" -0.5')),
+        Key([],'m',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')),
+        Key(['shift'],'m',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0')),
+        Key(['control'],'m',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" -0.5')),
         Key([],'7',lazy.spawn('sh -c "echo $(xsel -ob) >> .config/nvim/.other/vim-plugin-list/raw "')),
+        Key([],'c',lazy.spawn('sh -c "test $(pidof xbanish)&&killall xbanish||xbanish -a"')),
     ])
 ]
 groups=[Group(i) for i in "1234567890u"]
@@ -226,7 +217,8 @@ screens=[Screen(
     #wallpaper=image,        #slow
     #wallpaper_mode='fill',  #slow
     bottom=bar.Bar([
-        widget.GroupBox(disable_drag=1,hide_unused=1,highlight_method='line',highlight_color=[image_colors[0],image_colors[1]],
+        widget.GroupBox(disable_drag=1,hide_unused=1,highlight_method='line',highlight_color=[*[image_colors[0]]*3,image_colors[1]],
+                        this_current_screen_border='#00000000',use_mouse_wheel=False,borderwidth=1,inactive='#707070',
                         visible_groups=[i.name for i in groups if i.name in '0123456789']),
         widget.WindowTabs(),
         widget.Systray(), #dont remove...
@@ -235,23 +227,23 @@ screens=[Screen(
         widget.TextBox(text='',fontsize=80,padding=-10,background=image_colors[2],foreground=image_colors[3]),
         widget.Clock(format="%Y/%m/%d;%V   %H:%M:%S",background=image_colors[3]),
     ],
-                   size=24, background=image_colors[0], opacity=0.8,
+                   size=20, background=image_colors[0], opacity=0.8,
                    ),)]
-os.system('setxkbmap -option caps:swapescape &')
-os.system('nitrogen --restore &') #fast
-
+def autoset():
+    os.system('setxkbmap -option caps:swapescape &')
+    os.system('nitrogen --restore &')
+    os.system('redshift -P -O 4000&')
+    os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')
+autoset()
 @hook.subscribe.startup_once
 def autostart()->None:
     os.system(f'xrandr --output LVDS-1 --scale {SCALE}x{SCALE}')
-    os.system('nitrogen --restore &') #fast
-    os.system('setxkbmap -option caps:swapescape&')
-    os.system('redshift -P -O 4000&')
     os.system('picom &')
     os.system('clipmenud &')
     # os.system('modprobe v4l2loopback')
-    os.system('xset s off -dpms')
-    os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')
+    os.system('xset s off -dpms') #disable screensaver
     os.system('sh -c "emacs --daemon"&')
     os.system('blanket -h&')
     os.system('ulauncher --no-window&') #https://github.com/Ulauncher/Ulauncher/milestone/7
+    autoset()
 # vim:fen:
