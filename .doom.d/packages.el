@@ -50,9 +50,8 @@
 ;(unpin! t)
 
 (package! fennel-mode)
+(package! fish-mode)
 (package! org-auto-tangle)
-(package! peep-dired)
 (package! beacon)
 (package! obsidian)
 ;(package! exwm)
-;(package! demnu)

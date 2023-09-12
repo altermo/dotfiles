@@ -1,9 +1,15 @@
+#+STARTUP: showeverything
+
+# Make autocomplete like neovim's constant autocomplete (with rg and lsp and ai-powerd-autocomplete)
+# Autosave ^look into auto-save-visited-mode
 * Options
 #+begin_src emacs-lisp
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
+(setq bookmark-default-file "~/.config/doom/bookmarks")
 (beacon-mode 1)
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
 (setq doom-theme 'doom-moonlight)
 (setq scroll-margin 5)
 #+end_src
-

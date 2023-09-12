@@ -14,9 +14,9 @@ set -x VISUAL nvim #/usr/bin/nvr
 set -x PAGER 'bat -p --paging=always'
 set -x MANPAGER "bat -l man -p"
 set -x READ_QUICKLY_RATE 350
-set -x PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages"
+set -x PYTHONPATH $PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages"
 set -e fish_user_paths
-set -U fish_user_paths $HOME/.local/bin $HOME/.doom/bin
+set -U fish_user_paths $HOME/.local/bin $HOME/.doom/bin $HOME/.modular/pkg/packages.modular.com_mojo/bin
 set -p fish_function_path ~/.config/fish/self_functions
 set -p fish_complete_path ~/.config/fish/self_completions
 fish_vi_key_bindings
@@ -47,7 +47,6 @@ abbr nmp 'ntmp;tmp'
 alias yas "yay -S"
 alias yaS "yay -Ss"
 alias yar "yay -R"
-alias yau "yay -Syyu"
 alias yac "yay -Yc&&not yay -Qdtq"
 alias yauc "yay -Syyu&&yay -Yc&&not yay -Qdtq"
 alias yai "yay -Si"
@@ -147,6 +146,7 @@ alias kpn 'pkill -9 -P 1 "nvim\$";pkill -9 -P 1 -f language_server_linux_x64'
 alias emacs "setsid emacsclient -c -a 'emacs'"
 alias ec "command setsid emacsclient >/dev/null"
 alias rem "killall emacs;command emacs --daemon"
+alias doou "doom upgrade"
 alias doos "doom sync"
 
 #other
@@ -156,7 +156,7 @@ for i in $langs;for j in $langs
     alias "tr$i$j" "trans -b $i:$j"
 end;end
 abbr hidemouse 'xbanish -a'
-alias force_exit 'builtin exit'
+alias force_exit 'builtin exit' #TODO kill terminal
 alias clock 'termdown -z -Z "%H : %M : %S"'
 alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5'
 alias mouseslow 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0'
@@ -202,9 +202,14 @@ function lnq;ln $argv (basename $argv);end
 alias wifilist 'nmcli device wifi list'
 function fsetsid;setsid fish -ic "$argv";end
 function fedit
-    set file (fd -t file $argv|fzf -1)
+    set file (fd -t file $argv -p|grep '/[^/]*'(basename $argv)'[^/]*$'|fzf -1)
     if not test $file;return;end
     $EDITOR $file
+end
+function fcd
+    set dir (fd -t directory $argv -p|grep '/[^/]*'(basename $argv)'[^/]*/$'|fzf -1)
+    if not test $dir;return;end
+    cd $dir
 end
 alias fixmouse "sudo rmmod psmouse;sudo modprobe psmouse"
 

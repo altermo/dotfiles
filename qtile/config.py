@@ -46,7 +46,8 @@ configs={
 }
 projects={
     'ua':f'{HOME}/.config/nvim/.other/ua',
-    'pack':f'{HOME}/.qscript/scripts/packs'
+    'pack':f'{HOME}/.qscript/scripts/packs',
+    '.qscript':f'{HOME}/.qscript',
 }
 
 try:
@@ -155,9 +156,9 @@ keys=[
     Key(['shift'],"XF86AudioLowerVolume",lazy.spawn("amixer sset Master 10%-")),
     Key([],"XF86AudioMute",lazy.spawn("amixer sset Master toggle")),
     #neovim
-    Key([mod],'t',lazy.spawn(f"fish -c '{neovimgui} $TEMPFILE'")),
-    Key([mod,'shift'],'t',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py','fish','html')},'fish -c "set -U TEMPFILE /tmp/lua/temp.%s"')),
-    Key([mod,'control'],'t',lazy.spawn(f'{neovimgui} -c \':lua vim.system({{"fish","-i","-c","ntmp;nvr $tmp"}})\'')),
+    Key([mod],'s',lazy.spawn(f"fish -c '{neovimgui} $TEMPFILE'")),
+    Key([mod,'shift'],'s',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py','fish','html')},'fish -c "set -U TEMPFILE /tmp/lua/temp.%s"')),
+    Key([mod,'control'],'s',lazy.spawn(f'{neovimgui} -c \':lua vim.system({{"fish","-i","-c","ntmp;nvr $tmp"}})\'')),
     Key([mod],'a',lazy.spawn(neovimgui)),
     #Key([mod,'shift'],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #TODO
     Key([mod],'z',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|Dff"')),

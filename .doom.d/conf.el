@@ -1,3 +1,6 @@
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
+(setq bookmark-default-file "~/.config/doom/bookmarks")
 (beacon-mode 1)
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
