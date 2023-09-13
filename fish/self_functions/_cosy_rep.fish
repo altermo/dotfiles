@@ -4,7 +4,7 @@ function _cosy_rep
         printf '\e[?1000h\e[?25l'
         if test "$(read -n1 -p\ ||exit)" = ""
             printf '\e[?1000l\e[?25h'
-            fish
+            TRANSPARENT=1 fish
         end
     end
 end

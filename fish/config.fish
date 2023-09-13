@@ -58,7 +58,7 @@ alias mirror "curl https://archlinux.org/mirrorlist/all/"
 #git
 abbr gc "git clone"
 abbr gp "git push"
-abbr g_CA "git commit -a -m (git status --porcelain|string join ';')"
+#abbr g_CA "git commit -a -m (git status --porcelain|string join ';')"
 abbr gca "git commit -a -m"
 abbr gcd "git checkout development"
 abbr gch "git checkout"
@@ -212,6 +212,20 @@ function fcd
     cd $dir
 end
 alias fixmouse "sudo rmmod psmouse;sudo modprobe psmouse"
+function gis
+    pushd .
+    cd ~/.config/configs/.other
+    fish init.fish
+    cd ~/.etc/.other
+    fish main.fish 2>/dev/null
+    for i in .config/configs/ .config/nvim .config/nvim/.other/_later/ .mozilla/ .musiclist/ .qscript/ .gtd/vault/ .etc/
+        cd ~/$i
+        if test "$(git status --porcelain)"
+            echo $i
+        end
+    end
+    popd
+end
 
 #intaller
 if not type fisher >/dev/null 2>&1

@@ -48,6 +48,7 @@ projects={
     'ua':f'{HOME}/.config/nvim/.other/ua',
     'pack':f'{HOME}/.qscript/scripts/packs',
     '.qscript':f'{HOME}/.qscript',
+    'nvim':f'{HOME}/.nvim',
 }
 
 try:
