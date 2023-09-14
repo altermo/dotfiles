@@ -218,10 +218,11 @@ function gis
     fish init.fish
     cd ~/.etc/.other
     fish main.fish 2>/dev/null
-    for i in .config/configs/ .config/nvim .config/nvim/.other/_later/ .mozilla/ .musiclist/ .qscript/ .gtd/vault/ .etc/
+    for i in .mozilla/ .config/nvim .config/nvim/.other/_later/ .config/configs/ .musiclist/ .qscript/ .gtd/vault/ .etc/
         cd ~/$i
         if test "$(git status --porcelain)"
             echo $i
+            git status --porcelain
         end
     end
     popd
