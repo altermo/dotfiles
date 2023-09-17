@@ -20,7 +20,7 @@ term2="alacritty"
 browser1='firefox'
 browser2='qutebrowser'
 browser3='torbrowser-launcher'
-fm1=f'{neovimgui} -c Ranger'
+fm1=f'{neovimgui} -c "lua require\'small.ranger\'.run()"'
 fm2='pcmanfm'
 themesetting='lxappearance'
 topgui='gnome-system-monitor'
@@ -49,6 +49,7 @@ projects={
     'pack':f'{HOME}/.qscript/scripts/packs',
     '.qscript':f'{HOME}/.qscript',
     'nvim':f'{HOME}/.nvim',
+    'small':f'{HOME}/.config/nvim/.other/small.nvim'
 }
 
 try:
@@ -162,8 +163,8 @@ keys=[
     Key([mod,'control'],'s',lazy.spawn(f'{neovimgui} -c \':lua vim.system({{"fish","-i","-c","ntmp;nvr $tmp"}})\'')),
     Key([mod],'a',lazy.spawn(neovimgui)),
     #Key([mod,'shift'],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #TODO
-    Key([mod],'z',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|Dff"')),
-    Key([mod],'o',lazy.function(menu_list_and_run,projects,f'{neovimgui} -c "Dff %s"')),
+    Key([mod],'z',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|lua require\'small.dff\'.file_expl()"')),
+    Key([mod],'o',lazy.function(menu_list_and_run,projects,f'{neovimgui} -c "lua require\'small.dff\'.file_expl(\\"%s\\")"')),
     #shell
     Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Shell -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\rsys.path.append(\\"{HOME}/.venv/lib/python3.11/site-packages\\")\r\')"')),
     #other

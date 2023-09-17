@@ -80,7 +80,7 @@ alias neofetch 'clear;command neofetch'
 alias wget 'wget -c'
 alias fd 'fd -H'
 alias zip 'zip -r -v'
-function ranger;riv ranger "nvr -c 'Ranger $argv'" --cmd 'set show_hidden=true' --cmd 'set preview_images=true' $argv;end
+function ranger;riv ranger "nvr -c 'lua require\"small.ranger\".run(\"$argv\")'" --cmd 'set show_hidden=true' --cmd 'set preview_images=true' $argv;end
 abbr date 'date +"  %H:%M:%S  %Y/%m/%d;%V"'
 function file;echo (exa -dF --color=always $argv)':'(command file -b $argv);end
 alias termdown 'termdown -B'
@@ -114,7 +114,6 @@ alias ls 'exa -aF'
 alias l 'exa -F'
 alias ll 'l -lh --git'
 alias la 'ls -lh --git'
-alias hex hexyl #xxd
 alias cp xcp
 abbr cd z
 alias more 'bat -p --paging=always --pager="less --SILENT -RF"'
@@ -218,7 +217,7 @@ function gis
     fish init.fish
     cd ~/.etc/.other
     fish main.fish 2>/dev/null
-    for i in .mozilla/ .config/nvim .config/nvim/.other/_later/ .config/configs/ .musiclist/ .qscript/ .gtd/vault/ .etc/
+    for i in .mozilla .config .config/nvim .config/nvim/.other/_later .config/configs .musiclist .qscript .gtd/vault .etc
         cd ~/$i
         if test "$(git status --porcelain)"
             echo $i
