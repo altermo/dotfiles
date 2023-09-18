@@ -27,3 +27,5 @@
 //user_pref("devtools.chrome.enabled",true)
 //find bar highlight all
 //user_pref("findbar.highlightAll",true)
+//add own search engines
+//user_pref("browser.urlbar.update2.engineAliasRefresh",true)
