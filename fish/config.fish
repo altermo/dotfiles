@@ -48,7 +48,7 @@ alias yas "yay -S"
 alias yaS "yay -Ss"
 alias yar "yay -R"
 alias yac "yay -Yc&&not yay -Qdtq"
-alias yauc "yay -Syyu&&yay -Yc&&not yay -Qdtq"
+alias yauc "nm-online >/dev/null&&yay -Syyu&&yay -Yc&&not yay -Qdtq"
 alias yai "yay -Si"
 abbr yaq "yay -Q"
 abbr yaf "yay -Qo"
@@ -235,3 +235,4 @@ set _plugins jorgebucaran/fisher nickeb96/puffer-fish andreiborisov/sponge ilanc
 for i in $_plugins
     cat ~/.config/fish/fish_plugins|string match $i >/dev/null||fisher install $i
 end
+# vim:fen:

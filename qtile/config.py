@@ -144,7 +144,6 @@ keys=[
     Key([mod,'shift'],'v',lazy.spawn(f'{fm1} {VAULTPATH}')),
     #menu
     Key([mod],'x',lazy.spawn('ulauncher-toggle')),
-    Key([mod,'shift'],'x',lazy.spawn('nwggrid -o 0.5')),
     Key([mod],'d',lazy.spawn('dmenu_run')),
     Key([mod],'y',lazy.spawn('clipmenu')),
     Key([mod],'i',lazy.function(menu_list_and_run,websites,'fish -c \'setsid $BROWSER "%s"&\'')),
@@ -167,12 +166,14 @@ keys=[
     Key([mod],'o',lazy.function(menu_list_and_run,projects,f'{neovimgui} -c "lua require\'small.dff\'.file_expl(\\"%s\\")"')),
     #shell
     Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Shell -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\rsys.path.append(\\"{HOME}/.venv/lib/python3.11/site-packages\\")\r\')"')),
+    Key([mod],'t',lazy.spawn(f'{neovimgui} -c "Shell -c \'tgpt -i\'"')),
     #other
     Key([mod,'shift'],'c',lazy.spawn('sh -c "nitrogen;qtile cmd-obj -o cmd -f reload_config"')),
     Key([mod,'control'],'c',lazy.spawn('sh -c "zenity --question --text \'Are you sure you want to clear cache?\'&&cat %s |jq -c \'.\\"cache\\".\\"img\\"={}\'>/tmp/TmP&&mv /tmp/TmP %s"'.replace('%s',settings_file))),
     Key([mod,'shift'],'g',lazy.spawn('qutebrowser https://chat.openai.com/chat --target=window')),
-    Key([mod,'control'],'z',lazy.spawn('betterlockscreen -l')),
+    Key([mod,'control'],'z',lazy.spawn('slock')),
     Key([mod],'space',lazy.spawn('mpvc toggle')),
+    Key([mod],'period',lazy.spawn('plover -s plover_send_command toggle')),
     #window2
     KeyChord([mod],'q',[
         Key([],'e',lazy.spawn('sh -c "setxkbmap -option;setxkbmap -option ctrl:swapcaps"')),
@@ -247,6 +248,6 @@ def autostart()->None:
     os.system('xset s off -dpms') #disable screensaver
     os.system('sh -c "emacs --daemon"&')
     os.system('blanket -h&')
-    os.system('ulauncher --no-window&') #https://github.com/Ulauncher/Ulauncher/milestone/7
+    #https://github.com/Ulauncher/Ulauncher/milestone/7
     autoset()
 # vim:fen:
