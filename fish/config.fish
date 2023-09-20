@@ -1,6 +1,10 @@
 #preload
 if not status --is-interactive;exit;end
 [ $SHLVL = 1 ]&&echo
+if [ $SHLVL = 1 ]&&not test -e /tmp/gh.not;or test (math (date +%s) - (stat -c %Y /tmp/gh.not)) -gt 30
+    gh api notifications 2>/dev/null|jq 'length'|xargs -I_ fish -c 'test 0 = _||echo -e "\ngihhub: you have recived _ notifications"'&;disown
+    touch /tmp/gh.not
+end
 
 #vars
 test "$BROWSER"||set -U BROWSER firefox
