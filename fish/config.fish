@@ -2,7 +2,7 @@
 if not status --is-interactive;exit;end
 [ $SHLVL = 1 ]&&echo
 if [ $SHLVL = 1 ]&&not test -e /tmp/gh.not;or test (math (date +%s) - (stat -c %Y /tmp/gh.not)) -gt 30
-    gh api notifications 2>/dev/null|jq 'length'|xargs -I_ fish -c 'test 0 = _||echo -e "\ngihhub: you have recived _ notifications"'&;disown
+    gh api notifications 2>/dev/null|jq 'length'|xargs -I_ fish -c 'test 0 = _||echo -e "\e[7m\ngithub: you have recived _ notifications\e[0m"'&;disown
     touch /tmp/gh.not
 end
 

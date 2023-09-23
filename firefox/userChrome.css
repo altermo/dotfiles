@@ -16,6 +16,9 @@
 #alltabs-button,.titlebar-buttonbox-container{
   display: none;
 }
+#nav-bar{
+  box-shadow: none !important;
+}
 
 /* TODO:understand what this snipet of code does*/
 :root {

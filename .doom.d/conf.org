@@ -1,11 +1,14 @@
 #+STARTUP: showeverything
 
 # Make autocomplete like neovim's constant autocomplete (with rg and lsp and ai-powerd-autocomplete)
+# Do opposite: (add-hook 'org-mode-hook 'org-indent-mode)
 * Options
 #+begin_src emacs-lisp
 (setq bookmark-default-file "~/.config/doom/bookmarks")
 (beacon-mode 1)
 (setq doom-theme 'doom-moonlight)
 (setq scroll-margin 5)
-;;Do opposite: (add-hook 'org-mode-hook 'org-indent-mode)
+(evil-define-key 'normal dired-mode-map
+  ;; (kbd "?" 'dired-create-directory)
+  )
 #+end_src
