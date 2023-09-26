@@ -51,8 +51,8 @@ abbr nmp 'ntmp;tmp'
 alias yas "yay -S"
 alias yaS "yay -Ss"
 alias yar "yay -R"
-alias yac "yay -Yc&&not yay -Qdtq"
-alias yauc "nm-online >/dev/null&&yay -Syyu&&yay -Yc&&not yay -Qdtq"
+alias yac "yay -Yc&&pacman -Qqd | pacman -Rsu --print -"
+alias yauc "nm-online >/dev/null&&yay -Syu&&yay -Yc&&pacman -Qqd | pacman -Rsu --print -"
 alias yai "yay -Si"
 abbr yaq "yay -Q"
 abbr yaf "yay -Qo"
@@ -62,7 +62,7 @@ alias mirror "curl https://archlinux.org/mirrorlist/all/"
 #git
 abbr gc "git clone"
 abbr gp "git push"
-#abbr g_CA "git commit -a -m (git status --porcelain|string join ';')"
+abbr ___gCA "git commit -a -m (git status --porcelain|string join ';')"
 abbr gca "git commit -a -m"
 abbr gcd "git checkout development"
 abbr gch "git checkout"
@@ -125,7 +125,6 @@ alias less 'bat -p --paging=always --pager="less --SILENT -RF"'
 alias vim nvim
 alias cat "bat -pp"
 alias tree "exa -T"
-alias nano micro
 alias find fd
 alias df duf
 alias du dua
@@ -204,15 +203,10 @@ alias blanket "command setsid blanket -h"
 function lnq;ln $argv (basename $argv);end
 alias wifilist 'nmcli device wifi list'
 function fsetsid;setsid fish -ic "$argv";end
-function fedit
-    set file (fd -t file $argv -p|grep '/[^/]*'(basename $argv)'[^/]*$'|fzf -1)
-    if not test $file;return;end
-    $EDITOR $file
-end
-function fcd
-    set dir (fd -t directory $argv -p|grep '/[^/]*'(basename $argv)'[^/]*/$'|fzf -1)
+function ffzf
+    set dir (plocate $PWD $argv|grep "^$PWD"|fzf -1)
     if not test $dir;return;end
-    cd $dir
+    test -d $dir&&cd $dir||$EDITOR $dir
 end
 alias fixmouse "sudo rmmod psmouse;sudo modprobe psmouse"
 function gis
@@ -229,6 +223,11 @@ function gis
         end
     end
     popd
+end
+function encsend
+    zip /tmp/enc-out.zip $argv --encrypt
+    /bin/cat /tmp/enc-out.zip|curl -F 'f:1=<-' ix.io
+    rm -fr /tmp/enc-out.zip
 end
 
 #intaller

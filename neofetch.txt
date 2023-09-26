@@ -3,8 +3,8 @@ user@archlinux
 OS: Arch Linux x86_64 
 Host: Latitude E6230 01 
 Kernel: 6.5.4-arch2-1 
-Uptime: 17 hours, 41 mins 
-Packages: 997 (pacman) 
+Uptime: 2 hours, 10 mins 
+Packages: 980 (pacman) 
 Shell: fish 3.6.1 
 Resolution: 1776x999 
 DE: qtile 
@@ -14,5 +14,5 @@ Icons: BeautyLine [GTK2/3]
 Terminal: alacritty 
 CPU: Intel i5-3340M (4) @ 3.400GHz 
 GPU: Intel 3rd Gen Core processor Graphics Controller 
-Memory: 4321MiB / 7849MiB 
+Memory: 2266MiB / 7849MiB 
 
