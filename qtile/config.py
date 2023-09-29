@@ -49,7 +49,9 @@ projects={
     'pack':f'{HOME}/.qscript/scripts/packs',
     '.qscript':f'{HOME}/.qscript',
     'nvim':f'{HOME}/.nvim',
-    'small':f'{HOME}/.config/nvim/.other/small.nvim'
+    'small':f'{HOME}/.config/nvim/.other/small.nvim',
+    'window.nvim':f'{HOME}/.config/nvim/.other/_later/window.nvim',
+    'nzim':f'{HOME}/.config/nvim/.other/_later/neozim/'
 }
 
 try:
