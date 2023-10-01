@@ -143,6 +143,7 @@ function nvst
     cat /tmp/sut|cat|tail +7|cut -c 10-|sort -n>/tmp/sut
 end
 alias kpn 'pkill -9 -P 1 "nvim\$";pkill -9 -P 1 -f language_server_linux_x64'
+alias nvchad 'NVIM_APPNAME=NvChad command nvim'
 
 #emacs
 alias emacs "setsid emacsclient -c -a 'emacs'"

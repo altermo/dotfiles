@@ -20,8 +20,8 @@ function fi
     |fzf --preview "bat -pp $mainplugpath/{}/README.md --color=always")
     [ $pa ]&&ranger $mainplugpath/$pa
 end
-function fc;nclfz ranger $HOME/.config (exa $HOME/.config);end
-function fs;nclfz ranger $HOME/.local/share (exa $HOME/.local/share);end
+function fc;nclfz ranger $HOME/.config (command ls $HOME/.config);end
+function fs;nclfz ranger $HOME/.local/share (command ls $HOME/.local/share);end
 function fl;nclfz nvim / $logpath;end
 function ft;tldr (tldr -l|fzf --preview 'tldr --color=always {}');end
 function ff
