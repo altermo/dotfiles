@@ -58,6 +58,7 @@ abbr yaq "yay -Q"
 abbr yaf "yay -Qo"
 abbr yal "yay -Ql"
 alias mirror "curl https://archlinux.org/mirrorlist/all/"
+abbr yaC "yay -Sc"
 
 #git
 abbr gc "git clone"
@@ -110,7 +111,7 @@ alias g grep
 alias img2txt tesseract
 alias wifi nmtui-connect
 alias h helix
-alias cargob bacon
+alias cargob "watchexec cargo check"
 alias cargoc cargo\ clippy
 alias rich "python -m rich"
 ##other is beter

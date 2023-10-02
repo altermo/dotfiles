@@ -32,6 +32,7 @@ websites={
     'CSI'                      :'https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences',
     'lua'                      :'https://www.lua.org/manual/5.1',
     'fennel-website'           :'https://fennel-lang.org/',
+    'element'                  :'https://app.element.io',
     'esolang'                  :'https://esolangs.org/wiki/Main_Page',
     'compiler-explorer'        :'https://godbolt.org/',
     'cpp-reference'            :'https://cplusplus.com/reference',

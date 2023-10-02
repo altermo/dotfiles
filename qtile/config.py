@@ -16,7 +16,7 @@ mod='mod4'
 settings_file=f'{HOME}/.config/qtile/settings.json'
 neovimgui='nvim-qt -- '
 term1=f'{neovimgui} -c Shell'
-term2="alacritty"
+term2="kitty"
 browser1='firefox'
 browser2='qutebrowser'
 browser3='torbrowser-launcher'
@@ -42,7 +42,7 @@ configs={
     'firefox'    :f'{HOME}/.config/firefox/userChrome.css',
     'doom'       :ctest(f'{HOME}/.doom.d/conf.org',f'{HOME}/.doom.d/config.el'),
     'gitignore'  :f'{HOME}/.config/git/.gitignore',
-    'alacritty'  :f'{HOME}/.config/alacritty/alacritty.yml',
+    'kitty'      :f'{HOME}/.config/kitty/kitty.conf',
 }
 projects={
     'ua':f'{HOME}/.config/nvim/.other/ua',
