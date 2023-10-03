@@ -3,6 +3,7 @@ websites={
     'github'                   :'https://github.com',
     'gitlab'                   :'https://gitlab.com',
     'gitmoji'                  :'https://gitmoji.dev',
+    'Git-kitty'                :'https://github.com/kovidgoyal/kitty',
     'Git-pckr'                 :'https://github.com/lewis6991/pckr.nvim',
     'Git-lazy'                 :'https://github.com/folke/lazy.nvim',
     'Git-neovim'               :'https://github.com/neovim/neovim',
@@ -54,6 +55,7 @@ websites={
     'lua-ls-annotations'       :'https://github.com/LuaLS/lua-language-server/wiki/Annotations',
     'pip'                      :'https://pypi.org/',
     'toml'                     :'https://toml.io/en/',
+    'nushell'                  :'https://www.nushell.sh/book/',
     #other
     'schedule'                 :'https://karlskrona.skola24.se/',
     'ted'                      :'https://www.ted.com',

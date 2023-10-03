@@ -32,7 +32,7 @@ def ctest(*paths:str)->str:
 configs={
     'qtile'      :f'{HOME}/.config/qtile/config.py',
     'fish'       :f'{HOME}/.config/fish/config.fish',
-    'nu'         :f'{HOME}/.config/nushell/init.nu',
+    'nu'         :f'{HOME}/.config/nushell/config.nu',
     'nvim'       :ctest(f'{HOME}/.config/nvim/init.lua',f'{HOME}/.config/nvim/init.vim'),
     'vim'        :ctest(f'{HOME}/.vim/vimrc',f'{HOME}/.vimrc'),
     'emacs'      :ctest(f'{HOME}/.config/emacs/config.org',f'{HOME}/.config/emacs/init.el',f'{HOME}/.emacs.d/init.el',f'{HOME}/.emacs.el'),
@@ -145,10 +145,10 @@ keys=[
     Key([mod],'v',lazy.spawn('obsidian')),
     Key([mod,'shift'],'v',lazy.spawn(f'{fm1} {VAULTPATH}')),
     #menu
-    Key([mod],'x',lazy.spawn('ulauncher-toggle')),
+    Key([mod],'x',lazy.spawn('rofi -show drun')),
     Key([mod],'d',lazy.spawn('dmenu_run')),
     Key([mod],'y',lazy.spawn('clipmenu')),
-    Key([mod],'i',lazy.function(menu_list_and_run,websites,'fish -c \'setsid $BROWSER "%s"&\'')),
+    Key([mod],'i',lazy.function(menu_list_and_run,websites,'fish -c \'setsid firefox "%s"&\'')),
     Key([mod],'c',lazy.function(menu_list_and_run,configs,f'{neovimgui} %s')),
     #XF86
     Key([],"XF86MonBrightnessUp",lazy.spawn("brightnessctl set +10%")),
@@ -250,6 +250,5 @@ def autostart()->None:
     os.system('sh -c "emacs --daemon"&')
     os.system('blanket -h&')
     os.system('redshift -P -O 4000&')
-    # https://github.com/Ulauncher/Ulauncher/milestone/7
     autoset()
 # vim:fen:

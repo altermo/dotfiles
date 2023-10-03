@@ -1,13 +1,15 @@
 #preload
 if not status --is-interactive;exit;end
-[ $SHLVL = 1 ]&&echo
-if [ $SHLVL = 1 ]&&not test -e /tmp/gh.not;or test (math (date +%s) - (stat -c %Y /tmp/gh.not)) -gt 30
-    gh api notifications 2>/dev/null|jq 'length'|xargs -I_ fish -c 'test 0 = _||echo -e "\e[7m\ngithub: you have recived _ notifications\e[0m"'&;disown
-    touch /tmp/gh.not
+if tty>/dev/null
+    echo
+    if test -e /tmp/gh.not&&test (math (date +%s) - (stat -c %Y /tmp/gh.not)) -gt 1
+        gh api notifications 2>/dev/null|jq 'length'|xargs -I_ fish -c 'test 0 = _||echo -e "\e[7m\ngithub: you have recived _ notifications\e[0m"'&;disown
+        touch /tmp/gh.not
+    end
+    not test -e /tmp/gh.not&&touch /tmp/gh.not
 end
 
 #vars
-test "$BROWSER"||set -U BROWSER firefox
 test "$TEMPFILE"||set -U TEMPFILE /tmp/lua/temp.lua
 alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
 test -d /tmp/user||mkdir /tmp/user
@@ -32,20 +34,45 @@ if invim
 end
 
 #source
-zoxide init fish| source
 if not test -f ~/.config/fish/carapace/carapace.fish
     mkdir -p ~/.config/fish/carapace
     carapace --list|awk '{print $1}'|xargs -I{} touch ~/.config/fish/carapace/{}.fish
 end
 set -p fish_complete_path ~/.config/fish/carapace
 carapace _carapace|source
-finit
+zoxide init fish|source
+
+#fzf
+function ffzf
+    set dir (plocate $PWD $argv|grep "^$PWD"|fzf -1)
+    if not test $dir;return;end
+    test -d $dir&&cd $dir||$EDITOR $dir
+end
+function ffuncs;functions -a|fzf --preview="fish -ic 'type {1}|bat -pp -l fish --color=always'";end
+function nclfz
+    set pa (echo $argv[3..]|string split " "|fzf -1)
+    [ "$pa" ]&&$argv[1] "$argv[2]/$pa"
+end
+function fi
+    set mainplugpath "$HOME/.local/share/nvim/site/pack/pckr/"
+    set subplugpaths "start/" "opt/"
+    set pa (for i in $subplugpaths;string split0 $mainplugpath/$i/*|string replace $mainplugpath '';end\
+    |fzf --preview "bat -pp $mainplugpath/{}/README.md --color=always")
+    [ $pa ]&&ranger $mainplugpath/$pa
+end
+function fc;nclfz ranger $HOME/.config (command ls $HOME/.config);end
+function fs;nclfz ranger $HOME/.local/share (command ls $HOME/.local/share);end
+function fl;nclfz nvim / "$HOME/.local/share/qtile/qtile.log" "$HOME/.xsession-errors" "$HOME/.local/state/nvim/log";end
+function ft;tldr (tldr -l|fzf --preview 'tldr --color=always {}');end
+function fr;nclfz nvim /usr/local/share/nvim/runtime/lua/vim/ "$(fd -t f --base-directory /usr/local/share/nvim/runtime/lua/vim)";end
 
 #temp
 alias ntmp 'set -U tmp (mktemp -p /tmp/user)'
 alias tmp '$EDITOR "$tmp"'
 abbr dtmp 'cd (mktemp -d -p /tmp/user)'
 abbr nmp 'ntmp;tmp'
+function rtmp;ranger /tmp;end
+function rtmpu;ranger /tmp/user;end
 
 #installer
 alias yas "yay -S"
@@ -87,7 +114,6 @@ alias fd 'fd -H'
 alias zip 'zip -r -v'
 function ranger;riv ranger "nvr -c 'lua require\"small.ranger\".run(\"$argv\")'" --cmd 'set show_hidden=true' --cmd 'set preview_images=true' $argv;end
 abbr date 'date +"  %H:%M:%S  %Y/%m/%d;%V"'
-function file;echo (exa -dF --color=always $argv)':'(command file -b $argv);end
 alias termdown 'termdown -B'
 
 #namig
@@ -100,12 +126,11 @@ abbr t tldr
 alias c clear
 alias r ranger
 alias rr "command ranger"
-alias py python
 alias cr touch
 alias mkd mkdir
 alias pow acpi
-alias s sudo
 alias com command
+alias % command
 alias v vim
 alias g grep
 alias img2txt tesseract
@@ -131,9 +156,6 @@ alias df duf
 alias du dua
 alias pip ~/.venv/bin/pip
 alias sudo doas
-#common path
-function rtmp;ranger /tmp;end
-function rtmpu;ranger /tmp/user;end
 
 #vim
 function riv;invim&&sh -c $argv[2]&&kill (cut -f 6 -d " " /proc/$fish_pid/stat)||command $argv[1] $argv[3..];end
@@ -154,19 +176,20 @@ alias doou "doom upgrade"
 alias doos "doom sync"
 
 #other
+alias icat 'test $TERM = xterm-kitty&&kitty +kitten icat $argv||imgcat'
+alias dm_sddm 'sudo systemctl disable lightdm && sudo systemctl enable sddm'
+alias dm_lightdm 'sudo systemctl disable sddm && sudo systemctl enable lightdm'
 alias doimportantstuff genact
 alias list_ports 'lsof -i'
 for i in $langs;for j in $langs
     alias "tr$i$j" "trans -b $i:$j"
 end;end
 abbr hidemouse 'xbanish -a'
-alias force_exit 'builtin exit' #TODO kill terminal
 alias clock 'termdown -z -Z "%H : %M : %S"'
 alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5'
 alias mouseslow 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0'
 alias mousesnail 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" -0.5'
 alias mousewritemove 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" libinput\ Disable\ While\ Typing\ Enabled false'
-function testnet;nm-online;end
 alias copy 'xsel -b'
 function clearfuncs;for i in (functions -a|string split ",");functions -e $i;end;end
 function countdown
@@ -175,8 +198,7 @@ function countdown
     wmctrl -s $save
 end
 function mnt;udisksctl mount -b /dev/sdb;end
-alias tu "env HOME=(mktemp -d) "
-alias scud 'env HOME=$PWD '
+alias tu "HOME=(mktemp -d)"
 alias tb "nc termbin.com 9999"
 alias nothing "curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash"
 alias mkc 'mkdir $argv;cd'
@@ -205,11 +227,6 @@ alias blanket "command setsid blanket -h"
 function lnq;ln $argv (basename $argv);end
 alias wifilist 'nmcli device wifi list'
 function fsetsid;setsid fish -ic "$argv";end
-function ffzf
-    set dir (plocate $PWD $argv|grep "^$PWD"|fzf -1)
-    if not test $dir;return;end
-    test -d $dir&&cd $dir||$EDITOR $dir
-end
 alias fixmouse "sudo rmmod psmouse;sudo modprobe psmouse"
 function gis
     pushd .
