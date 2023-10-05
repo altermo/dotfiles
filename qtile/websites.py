@@ -10,7 +10,7 @@ websites={
     'Git-treesitter'           :'https://github.com/nvim-treesitter/nvim-treesitter',
     'Git-neorg'                :'https://github.com/nvim-neorg/neorg',
     'Git-emacs'                :'https://github.com/emacs-mirror/emacs',
-    'Git-spacevim'             :'https://github.com/SpaceVim/SpaceVim',
+    'Git-spacevim'             :'https://gitlab.com/SpaceVim/SpaceVim',
     'Git-spacemacs'            :'https://github.com/syl20bnr/spacemacs',
     'Git-doomemacs'            :'https://github.com/doomemacs/doomemacs',
     'Git-pynvim'               :'https://github.com/neovim/pynvim',

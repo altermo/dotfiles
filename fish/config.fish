@@ -25,6 +25,11 @@ set -e fish_user_paths
 set -U fish_user_paths $HOME/.local/bin $HOME/.doom/bin $HOME/.modular/pkg/packages.modular.com_mojo/bin
 set -p fish_function_path ~/.config/fish/self_functions
 set -p fish_complete_path ~/.config/fish/self_completions
+set fish_cursor_default     block
+set fish_cursor_insert      line
+set fish_cursor_replace_one underscore
+set fish_cursor_replace     underscore
+set fish_cursor_visual      block
 fish_vi_key_bindings
 
 #hooks
@@ -248,6 +253,8 @@ function encsend
     /bin/cat /tmp/enc-out.zip|curl -F 'f:1=<-' ix.io
     rm -fr /tmp/enc-out.zip
 end
+alias exe "chmod u+x (command ls -p|grep -v /|fzf)"
+#TODO: top -b -n 1 -p (pgrep ^nvim\$ -P 1)|awk '{print $1" "$9}'|tail -n+8
 
 #intaller
 if not type fisher >/dev/null 2>&1

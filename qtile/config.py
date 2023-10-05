@@ -138,7 +138,7 @@ keys=[
     #spawn
     Key([mod],'b',lazy.spawn(browser1)),
     Key([mod],'Return',lazy.spawn(term1)),
-    Key([mod,'shift'],'Return',lazy.spawn(term2)),
+    #Key([mod,'shift'],'Return',lazy.spawn(term2)),
     Key([mod,'shift'],'o',lazy.spawn(topgui)),
     Key([mod],'n',lazy.spawn(fm1)),
     Key([mod],'e',lazy.spawn("emacsclient -c -a 'emacs'")),
@@ -212,9 +212,7 @@ for i in (i.name for i in groups):
         Key([mod],i,lazy.group[i].toscreen()),
         Key([mod,"shift"],i,lazy.window.togroup(i,switch_group=1)),
     ])
-
-layouts=[
-    xmonad.MonadTall(single_border_width=0,border_focus='#ff0000'),
+layouts=[ xmonad.MonadTall(single_border_width=0,border_focus='#ff0000'),
     xmonad.MonadTall(single_border_width=0,ratio=0.8,border_focus='#00ff00'),
     xmonad.MonadThreeCol(single_border_width=0,ratio=0.5,border_focus='#0000ff',main_centered=False),
     columns.Columns(border_on_single=1,border_focus='#ffffff'),
