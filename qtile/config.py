@@ -51,7 +51,8 @@ projects={
     'nvim':f'{HOME}/.nvim',
     'small':f'{HOME}/.config/nvim/.other/small.nvim',
     'window.nvim':f'{HOME}/.config/nvim/.other/_later/window.nvim',
-    'nzim':f'{HOME}/.config/nvim/.other/_later/neozim/'
+    'nzim':f'{HOME}/.config/nvim/.other/_later/neozim/',
+    'nlim':f'{HOME}/.config/nvim/.other/_later/neolim/',
 }
 
 try:
@@ -142,11 +143,9 @@ keys=[
     Key([mod,'shift'],'o',lazy.spawn(topgui)),
     Key([mod],'n',lazy.spawn(fm1)),
     Key([mod],'e',lazy.spawn("emacsclient -c -a 'emacs'")),
-    Key([mod],'v',lazy.spawn('obsidian')),
-    Key([mod,'shift'],'v',lazy.spawn(f'{fm1} {VAULTPATH}')),
+    Key([mod],'v',lazy.spawn(f'{fm1} {VAULTPATH}')),
     #menu
-    Key([mod],'x',lazy.spawn('rofi -show drun')),
-    Key([mod],'d',lazy.spawn('dmenu_run')),
+    Key([mod],'x',lazy.spawn('sh -c "setsid $(type rofi&&rofi -show drun||j4-dmenu-desktop --no-exec)"')),
     Key([mod],'y',lazy.spawn('clipmenu')),
     Key([mod],'i',lazy.function(menu_list_and_run,websites,'fish -c \'setsid firefox "%s"&\'')),
     Key([mod],'c',lazy.function(menu_list_and_run,configs,f'{neovimgui} %s')),
@@ -212,8 +211,9 @@ for i in (i.name for i in groups):
         Key([mod],i,lazy.group[i].toscreen()),
         Key([mod,"shift"],i,lazy.window.togroup(i,switch_group=1)),
     ])
+
 layouts=[ xmonad.MonadTall(single_border_width=0,border_focus='#ff0000'),
-    xmonad.MonadTall(single_border_width=0,ratio=0.8,border_focus='#00ff00'),
+    #xmonad.MonadTall(single_border_width=0,ratio=0.8,border_focus='#00ff00'),
     xmonad.MonadThreeCol(single_border_width=0,ratio=0.5,border_focus='#0000ff',main_centered=False),
     columns.Columns(border_on_single=1,border_focus='#ffffff'),
 ]
@@ -233,6 +233,7 @@ screens=[Screen(
     ],
                    size=20, background=image_colors[0], opacity=0.8,
                    ),)]
+
 def autoset():
     os.system('setxkbmap -option caps:swapescape &')
     os.system('nitrogen --restore &')

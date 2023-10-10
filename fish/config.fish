@@ -103,6 +103,7 @@ abbr gmd "git merge development"
 abbr gs "git status"
 abbr gd "git diff"
 abbr gi "gh gist"
+abbr gb "git bisect" #Find buged commit
 
 #typical optinos
 function cal;command cal -wm --color=always $argv|lolcat;end
@@ -254,6 +255,7 @@ function encsend
     rm -fr /tmp/enc-out.zip
 end
 alias exe "chmod u+x (command ls -p|grep -v /|fzf)"
+alias tsh "sudo systemd-nspawn -D $HOME/.os bash"
 #TODO: top -b -n 1 -p (pgrep ^nvim\$ -P 1)|awk '{print $1" "$9}'|tail -n+8
 
 #intaller
