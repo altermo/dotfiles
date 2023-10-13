@@ -1,13 +1,13 @@
+# imports
 import os
 import json
 import re
-
-from websites import websites
 from libqtile import bar,widget,hook
 from libqtile.layout import xmonad,columns
 from libqtile.config import Key,Screen,Group,KeyChord
 from libqtile.lazy import lazy
 
+# variables
 HOME=os.getenv('HOME')
 DEFAULTIMG=f'{HOME}/.config/qtile/backgrounds/gnome/Icetwigs.jpg'
 NITYOPATH=f'{HOME}/.config/nitrogen/bg-saved.cfg'
@@ -18,13 +18,12 @@ neovimgui='nvim-qt -- '
 term1=f'{neovimgui} -c Shell'
 term2="kitty"
 browser1='firefox'
-browser2='qutebrowser'
 browser3='torbrowser-launcher'
 fm1=f'{neovimgui} -c "lua require\'small.ranger\'.run()"'
 fm2='pcmanfm'
 themesetting='lxappearance'
 topgui='gnome-system-monitor'
-
+from websites import websites
 def ctest(*paths:str)->str:
     for i in paths:
         if os.path.isfile(i):return i
@@ -36,7 +35,6 @@ configs={
     'nvim'       :ctest(f'{HOME}/.config/nvim/init.lua',f'{HOME}/.config/nvim/init.vim'),
     'vim'        :ctest(f'{HOME}/.vim/vimrc',f'{HOME}/.vimrc'),
     'emacs'      :ctest(f'{HOME}/.config/emacs/config.org',f'{HOME}/.config/emacs/init.el',f'{HOME}/.emacs.d/init.el',f'{HOME}/.emacs.el'),
-    'qutebrowser':f'{HOME}/.config/qutebrowser/config.py',
     'zsh'        :f'{HOME}/.zshrc',
     'bash'       :f'{HOME}/.bashrc',
     'firefox'    :f'{HOME}/.config/firefox/userChrome.css',
@@ -55,6 +53,7 @@ projects={
     'nlim':f'{HOME}/.config/nvim/.other/_later/neolim/',
 }
 
+# color theme generator from image
 try:
     with open(settings_file) as f:
         settings=json.load(f)
@@ -80,6 +79,7 @@ if os.path.exists(image):
 else:image_colors=[(0,0,0)]*4
 image_colors='#00000000',*image_colors[1:]
 
+# functions
 def menu_list_and_run(_,apps:dict['str','str'],bin:str)->None:
     result=os.popen('printf "'+'\n'.join(apps)+'"|dmenu -i').read()
     if result:os.system(bin%apps[result.removesuffix('\n')])
@@ -106,6 +106,7 @@ def scalescreen(_,scale:int):
 def show_bar_when_switch(_): # TODO
     ...
 
+# keys
 keys=[
     #hjkl
     Key([mod],'h',lazy.layout.left()),
@@ -171,7 +172,7 @@ keys=[
     #other
     Key([mod,'shift'],'c',lazy.spawn('sh -c "nitrogen;qtile cmd-obj -o cmd -f reload_config"')),
     Key([mod,'control'],'c',lazy.spawn('sh -c "zenity --question --text \'Are you sure you want to clear cache?\'&&cat %s |jq -c \'.\\"cache\\".\\"img\\"={}\'>/tmp/TmP&&mv /tmp/TmP %s"'.replace('%s',settings_file))),
-    Key([mod,'shift'],'g',lazy.spawn('qutebrowser https://chat.openai.com/chat --target=window')),
+    Key([mod,'shift'],'g',lazy.spawn('surf https://chat.openai.com/chat')),
     Key([mod,'control'],'z',lazy.spawn('slock')),
     Key([mod],'space',lazy.spawn('mpvc toggle')),
     Key([mod],'period',lazy.spawn('plover -s plover_send_command toggle')),
@@ -212,11 +213,12 @@ for i in (i.name for i in groups):
         Key([mod,"shift"],i,lazy.window.togroup(i,switch_group=1)),
     ])
 
+# layout and screen
 layouts=[ xmonad.MonadTall(single_border_width=0,border_focus='#ff0000'),
-    #xmonad.MonadTall(single_border_width=0,ratio=0.8,border_focus='#00ff00'),
-    xmonad.MonadThreeCol(single_border_width=0,ratio=0.5,border_focus='#0000ff',main_centered=False),
-    columns.Columns(border_on_single=1,border_focus='#ffffff'),
-]
+         #xmonad.MonadTall(single_border_width=0,ratio=0.8,border_focus='#00ff00'),
+         xmonad.MonadThreeCol(single_border_width=0,ratio=0.5,border_focus='#0000ff',main_centered=False),
+         columns.Columns(border_on_single=1,border_focus='#ffffff'),
+         ]
 screens=[Screen(
     #wallpaper=image,        #slow
     #wallpaper_mode='fill',  #slow
@@ -234,6 +236,7 @@ screens=[Screen(
                    size=20, background=image_colors[0], opacity=0.8,
                    ),)]
 
+# autostart
 def autoset():
     os.system('setxkbmap -option caps:swapescape &')
     os.system('nitrogen --restore &')

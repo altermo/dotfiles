@@ -3,7 +3,7 @@ if not status --is-interactive;exit;end
 if tty>/dev/null
     echo
     if test -e /tmp/gh.not&&test (math (date +%s) - (stat -c %Y /tmp/gh.not)) -gt 1
-        gh api notifications 2>/dev/null|jq 'length'|xargs -I_ fish -c 'test 0 = _||echo -e "\e[7m\ngithub: you have recived _ notifications\e[0m"'&;disown
+        timeout 10 gh api notifications 2>/dev/null|jq 'length'|xargs -I_ fish -c 'test 0 = _||echo -e "\e[7m\ngithub: you have recived _ notifications\e[0m"'&;disown
         touch /tmp/gh.not
     end
     not test -e /tmp/gh.not&&touch /tmp/gh.not
@@ -127,7 +127,7 @@ alias termdown 'termdown -B'
 abbr :q exit
 abbr :Q exit
 abbr z.. z\ ..
-abbr z/ z\ ..
+abbr z/ z\ /
 abbr t tldr
 alias c clear
 alias r ranger
