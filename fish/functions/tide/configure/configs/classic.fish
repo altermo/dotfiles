@@ -2,8 +2,6 @@ tide_aws_bg_color 444444
 tide_aws_color FF9900
 tide_character_color $_tide_color_green
 tide_character_color_failure FF0000
-tide_chruby_bg_color 444444
-tide_chruby_color B31209
 tide_cmd_duration_bg_color 444444
 tide_cmd_duration_color 87875F
 tide_cmd_duration_decimals 0
@@ -71,19 +69,24 @@ tide_prompt_color_frame_and_connection 6C6C6C
 tide_prompt_color_separator_same_color 949494
 tide_prompt_min_cols 34
 tide_prompt_pad_items true
+tide_prompt_transient_enabled false
 tide_pulumi_bg_color 444444
 tide_pulumi_color F7BF2A
 tide_pwd_bg_color 444444
 tide_pwd_color_anchors $_tide_color_light_blue
 tide_pwd_color_dirs $_tide_color_dark_blue
 tide_pwd_color_truncated_dirs 8787AF
-tide_pwd_markers .bzr .citc .git .hg .node-version .python-version .ruby-version .shorten_folder_marker .svn .terraform Cargo.toml composer.json CVS go.mod package.json
+tide_pwd_markers .bzr .citc .git .hg .node-version .python-version .ruby-version .shorten_folder_marker .svn .terraform Cargo.toml composer.json CVS go.mod package.json build.zig
+tide_python_bg_color 444444
+tide_python_color 00AFAF
 tide_right_prompt_frame_enabled true
-tide_right_prompt_items status cmd_duration context jobs direnv node virtual_env rustc java php pulumi chruby go gcloud kubectl distrobox toolbox terraform aws nix_shell crystal elixir
+tide_right_prompt_items status cmd_duration context jobs direnv node python rustc java php pulumi ruby go gcloud kubectl distrobox toolbox terraform aws nix_shell crystal elixir zig
 tide_right_prompt_prefix 
 tide_right_prompt_separator_diff_color 
 tide_right_prompt_separator_same_color 
 tide_right_prompt_suffix ''
+tide_ruby_bg_color 444444
+tide_ruby_color B31209
 tide_rustc_bg_color 444444
 tide_rustc_color F74C00
 tide_shlvl_bg_color 444444
@@ -108,5 +111,5 @@ tide_vi_mode_color_default 949494
 tide_vi_mode_color_insert 87AFAF
 tide_vi_mode_color_replace 87AF87
 tide_vi_mode_color_visual FF8700
-tide_virtual_env_bg_color 444444
-tide_virtual_env_color 00AFAF
+tide_zig_bg_color 444444
+tide_zig_color F7A41D

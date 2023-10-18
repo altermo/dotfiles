@@ -103,6 +103,10 @@ def scalescreen(_,scale:int):
     SCALE+=scale
     SCALE=round(SCALE*10)/10
     os.system(f'xrandr --output LVDS-1 --scale {SCALE}x{SCALE}')
+def setscale(_,scale:int):
+    SCALE=scale
+    SCALE=round(SCALE*10)/10
+    os.system(f'xrandr --output LVDS-1 --scale {SCALE}x{SCALE}')
 def show_bar_when_switch(_): # TODO
     ...
 
@@ -197,6 +201,7 @@ keys=[
         Key([],'s',lazy.function(scalescreen,.1)),
         Key(['shift'],'s',lazy.function(scalescreen,-.1)),
         Key(['control'],'s',lazy.function(lambda _:os.system(f'zenity --text="{SCALE}" --info&'))),
+        Key(['shift','control'],'s',lazy.function(setscale,SCALE)),
         Key([],'space',lazy.spawn('scrot')),
         Key([],'k',lazy.spawn('gkbd-keyboard-display -g 1')),
         Key([],'m',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')),

@@ -6,24 +6,19 @@ function powerline_prompt_tails
     set -g fake_tide_right_prompt_suffix ''
     _tide_display_prompt
 
-    _tide_option 2 Blurred
-    set -g fake_tide_left_prompt_prefix '░▒▓'
-    set -g fake_tide_right_prompt_suffix '▓▒░'
-    _tide_display_prompt
-
-    _tide_option 3 Sharp
+    _tide_option 2 Sharp
     set -g fake_tide_left_prompt_prefix 
     set -g fake_tide_right_prompt_suffix 
     _tide_display_prompt
 
-    _tide_option 4 Slanted
-    set -g fake_tide_left_prompt_prefix ''
-    set -g fake_tide_right_prompt_suffix ''
+    _tide_option 3 Slanted
+    set -g fake_tide_left_prompt_prefix 
+    set -g fake_tide_right_prompt_suffix 
     _tide_display_prompt
 
-    _tide_option 5 Round
-    set -g fake_tide_left_prompt_prefix ''
-    set -g fake_tide_right_prompt_suffix ''
+    _tide_option 4 Round
+    set -g fake_tide_left_prompt_prefix 
+    set -g fake_tide_right_prompt_suffix 
     _tide_display_prompt
 
     _tide_menu (status function)
@@ -31,18 +26,15 @@ function powerline_prompt_tails
         case Flat
             set -g fake_tide_left_prompt_prefix ''
             set -g fake_tide_right_prompt_suffix ''
-        case Blurred
-            set -g fake_tide_left_prompt_prefix '░▒▓'
-            set -g fake_tide_right_prompt_suffix '▓▒░'
         case Sharp
             set -g fake_tide_left_prompt_prefix 
             set -g fake_tide_right_prompt_suffix 
         case Slanted
-            set -g fake_tide_left_prompt_prefix ''
-            set -g fake_tide_right_prompt_suffix ''
+            set -g fake_tide_left_prompt_prefix 
+            set -g fake_tide_right_prompt_suffix 
         case Round
-            set -g fake_tide_left_prompt_prefix ''
-            set -g fake_tide_right_prompt_suffix ''
+            set -g fake_tide_left_prompt_prefix 
+            set -g fake_tide_right_prompt_suffix 
     end
-    _next_choice powerline/powerline_prompt_height
+    _next_choice powerline/powerline_prompt_style
 end
