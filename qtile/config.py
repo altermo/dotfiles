@@ -104,6 +104,7 @@ def scalescreen(_,scale:int):
     SCALE=round(SCALE*10)/10
     os.system(f'xrandr --output LVDS-1 --scale {SCALE}x{SCALE}')
 def setscale(_,scale:int):
+    global SCALE
     SCALE=scale
     SCALE=round(SCALE*10)/10
     os.system(f'xrandr --output LVDS-1 --scale {SCALE}x{SCALE}')
@@ -164,7 +165,7 @@ keys=[
     Key([],"XF86AudioMute",lazy.spawn("amixer sset Master toggle")),
     #neovim
     Key([mod],'s',lazy.spawn(f"fish -c '{neovimgui} $TEMPFILE'")),
-    Key([mod,'shift'],'s',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py','fish','html')},'fish -c "set -U TEMPFILE /tmp/lua/temp.%s"')),
+    Key([mod,'shift'],'s',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py','fish','html','c')},'fish -c "set -U TEMPFILE /tmp/lua/temp.%s"')),
     Key([mod,'control'],'s',lazy.spawn(f'{neovimgui} -c \':lua vim.system({{"fish","-i","-c","ntmp;nvr $tmp"}})\'')),
     Key([mod],'a',lazy.spawn(neovimgui)),
     #Key([mod,'shift'],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #TODO
@@ -172,7 +173,6 @@ keys=[
     Key([mod],'o',lazy.function(menu_list_and_run,projects,f'{neovimgui} -c "lua require\'small.dff\'.file_expl(\\"%s\\")"')),
     #shell
     Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Shell -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\rsys.path.append(\\"{HOME}/.venv/lib/python3.11/site-packages\\")\r\')"')),
-    Key([mod],'t',lazy.spawn(f'{neovimgui} -c "Shell -c \'tgpt -i\'"')),
     #other
     Key([mod,'shift'],'c',lazy.spawn('sh -c "nitrogen;qtile cmd-obj -o cmd -f reload_config"')),
     Key([mod,'control'],'c',lazy.spawn('sh -c "zenity --question --text \'Are you sure you want to clear cache?\'&&cat %s |jq -c \'.\\"cache\\".\\"img\\"={}\'>/tmp/TmP&&mv /tmp/TmP %s"'.replace('%s',settings_file))),

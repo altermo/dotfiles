@@ -15,6 +15,7 @@ websites={
     'Git-doomemacs'            :'https://github.com/doomemacs/doomemacs',
     'Git-pynvim'               :'https://github.com/neovim/pynvim',
     'Git-zig'                  :'https://github.com/ziglang/zig',
+    'Git-vim'                  :'https://github.com/vim/vim',
     #python
     'python'                   :'https://docs.python.org/3/library/',
     'python-regex'             :'https://docs.python.org/3/library/re.html#regular-expression-syntax',
