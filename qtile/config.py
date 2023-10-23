@@ -1,11 +1,13 @@
 # imports
 import os
+import subprocess
 import json
 import re
-from libqtile import bar,widget,hook
+from libqtile import bar,widget,hook,qtile
 from libqtile.layout import xmonad,columns
 from libqtile.config import Key,Screen,Group,KeyChord
 from libqtile.lazy import lazy
+if qtile.core.name=='wayland':raise NotImplementedError('wayland configuration not implemented, fallback default')
 
 # variables
 HOME=os.getenv('HOME')
@@ -14,7 +16,7 @@ NITYOPATH=f'{HOME}/.config/nitrogen/bg-saved.cfg'
 VAULTPATH=f'{HOME}/.gtd/vault'
 mod='mod4'
 settings_file=f'{HOME}/.config/qtile/settings.json'
-neovimgui='nvim-qt -- '
+neovimgui='gnvim.sh'
 term1=f'{neovimgui} -c Shell'
 term2="kitty"
 browser1='firefox'
@@ -82,7 +84,7 @@ image_colors='#00000000',*image_colors[1:]
 # functions
 def menu_list_and_run(_,apps:dict['str','str'],bin:str)->None:
     result=os.popen('printf "'+'\n'.join(apps)+'"|dmenu -i').read()
-    if result:os.system(bin%apps[result.removesuffix('\n')])
+    if result:subprocess.Popen(bin%apps[result.removesuffix('\n')],shell=True)
 def smart_kill(q):
     blacklist=[['Navigator','firefox'],['skype','Skype'],['obsidian','obsidian']]
     wm_class=q.current_window.get_wm_class()

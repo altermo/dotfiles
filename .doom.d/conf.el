@@ -1,4 +1,3 @@
-(setq bookmark-default-file "~/.config/doom/bookmarks")
 (beacon-mode 1)
 (setq doom-theme 'doom-moonlight)
 (setq scroll-margin 5)
