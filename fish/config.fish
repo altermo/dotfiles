@@ -49,7 +49,7 @@ zoxide init fish|source
 
 #fzf
 function ffzf
-    set dir (plocate $PWD $argv|grep "^$PWD"|fzf -1)
+    set dir (plocate "$PWD/*" $argv|fzf -1)
     if not test $dir;return;end
     test -d $dir&&cd $dir||$EDITOR $dir
 end
