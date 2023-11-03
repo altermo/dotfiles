@@ -254,9 +254,10 @@ function encsend
     /bin/cat /tmp/enc-out.zip|curl -F 'f:1=<-' ix.io
     rm -fr /tmp/enc-out.zip
 end
+function decget;unzip (curl http://ix.io/4ITp|psub);end
 alias exe "chmod u+x (command ls -p|grep -v /|fzf)"
 alias tsh "sudo systemd-nspawn -D $HOME/.os bash"
-#TODO: top -b -n 1 -p (pgrep ^nvim\$ -P 1)|awk '{print $1" "$9}'|tail -n+8
+alias wm "exec sx qtile start"
 
 #intaller
 if not type fisher >/dev/null 2>&1
