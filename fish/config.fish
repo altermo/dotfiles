@@ -82,7 +82,7 @@ function rtmpu;ranger /tmp/user;end
 #installer
 alias yas "yay -S"
 alias yaS "yay -Ss"
-alias yar "yay -R"
+alias yar "yay -Rc"
 alias yac "yay -Yc&&pacman -Qqd | pacman -Rsu --print -"
 alias yauc "nm-online >/dev/null&&yay -Syu&&yay -Yc&&pacman -Qqd | pacman -Rsu --print -"
 alias yai "yay -Si"
@@ -196,6 +196,7 @@ alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Spee
 alias mouseslow 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0'
 alias mousesnail 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" -0.5'
 alias mousewritemove 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" libinput\ Disable\ While\ Typing\ Enabled false'
+alias ttymouse 'sudo systemctl start gpm.service'
 alias copy 'xsel -b'
 function clearfuncs;for i in (functions -a|string split ",");functions -e $i;end;end
 function countdown
@@ -256,8 +257,10 @@ function encsend
 end
 function decget;unzip (curl http://ix.io/4ITp|psub);end
 alias exe "chmod u+x (command ls -p|grep -v /|fzf)"
-alias tsh "sudo systemd-nspawn -D $HOME/.os bash"
+alias tsh "sudo systemd-nspawn -D $HOME/.os /sbin/init"
 alias wm "exec sx qtile start"
+alias sedit "sudo emacs -nw"
+alias vimtip "curl -s -m 3 https://vtip.43z.one"
 
 #intaller
 if not type fisher >/dev/null 2>&1

@@ -53,7 +53,7 @@ websites={
     'nim'                      :'https://nim-lang.org/',
     'c-keyword'                :'https://en.cppreference.com/w/c/keyword',
     'this-week-in-neovim'      :'https://dotfyle.com/this-week-in-neovim',
-    'lua-ls-annotations'       :'https://github.com/LuaLS/lua-language-server/wiki/Annotations',
+    'lua-ls-annotations'       :'https://luals.github.io/wiki/annotations/',
     'pip'                      :'https://pypi.org/',
     'toml'                     :'https://toml.io/en/',
     'nushell'                  :'https://www.nushell.sh/book/',

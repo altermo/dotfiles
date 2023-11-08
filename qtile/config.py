@@ -160,6 +160,8 @@ keys=[
     #XF86
     Key([],"XF86MonBrightnessUp",lazy.spawn("brightnessctl set +10%")),
     Key([],"XF86MonBrightnessDown",lazy.spawn("brightnessctl set 10%-")),
+    Key(['shift'],"XF86MonBrightnessUp",lazy.spawn("brightnessctl set +1%")),
+    Key(['shift'],"XF86MonBrightnessDown",lazy.spawn("brightnessctl set 1%-")),
     Key([],"XF86AudioRaiseVolume",lazy.spawn("amixer sset Master 1%+")),
     Key(['shift'],"XF86AudioRaiseVolume",lazy.spawn("amixer sset Master 10%+")),
     Key([],"XF86AudioLowerVolume",lazy.spawn("amixer sset Master 1%-")),
