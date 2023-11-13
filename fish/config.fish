@@ -180,7 +180,7 @@ alias ec "command setsid emacsclient >/dev/null"
 alias rem "killall emacs;command emacs --daemon"
 alias doou "doom upgrade"
 alias doos "doom sync"
-alias uemacs "command emacs --init-directory=/home/user/.config/emacs/"
+alias umacs "command emacs --init-directory=/home/user/.config/emacs/"
 
 #other
 alias icat 'test $TERM = xterm-kitty&&kitty +kitten icat $argv||imgcat'

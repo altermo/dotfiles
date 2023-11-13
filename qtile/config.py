@@ -151,6 +151,7 @@ keys=[
     Key([mod,'shift'],'o',lazy.spawn(topgui)),
     Key([mod],'n',lazy.spawn(fm1)),
     Key([mod],'e',lazy.spawn("emacsclient -c -a 'emacs'")),
+    Key([mod,'shift'],'e',lazy.spawn("emacs --init-directory=/home/user/.config/emacs/")),
     Key([mod],'v',lazy.spawn(f'{fm1} {VAULTPATH}')),
     #menu
     Key([mod],'x',lazy.spawn('sh -c "setsid $(type rofi&&rofi -show drun||j4-dmenu-desktop --no-exec)"')),
@@ -247,7 +248,7 @@ screens=[Screen(
 
 # autostart
 def autoset():
-    os.system('sh -c "setxkbmap -option;setxkbmap -option ctrl:swapcaps;xmodmap -e \'remove Lock = Caps_Lock\';xmodmap -e \'keysym Caps_Lock = Control_L\';xmodmap -e \'add Control = Control_L\'"&')
+    os.system('sh -c "setxkbmap -option;setxkbmap -option ctrl:swapcaps;xmodmap -e \'remove Lock = Caps_Lock\';xmodmap -e \'keysym Caps_Lock = Control_L\';xmodmap -e \'add Control = Control_L\r"&')
     os.system('nitrogen --restore &')
     os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')
 autoset()
