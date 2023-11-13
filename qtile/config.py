@@ -247,7 +247,7 @@ screens=[Screen(
 
 # autostart
 def autoset():
-    os.system('setxkbmap -option caps:swapescape &')
+    os.system('sh -c "setxkbmap -option;setxkbmap -option ctrl:swapcaps;xmodmap -e \'remove Lock = Caps_Lock\';xmodmap -e \'keysym Caps_Lock = Control_L\';xmodmap -e \'add Control = Control_L\'"&')
     os.system('nitrogen --restore &')
     os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')
 autoset()
@@ -261,5 +261,8 @@ def autostart()->None:
     os.system('sh -c "emacs --daemon"&')
     os.system('blanket -h&')
     os.system('redshift -P -O 4000&')
+    os.system('xcape -e "Control_L=Escape"')
+    os.system('xcape -e "Alt_L=Return"')
+    os.system('xcape -e "Super_L=BackSpace"')
     autoset()
 # vim:fen:

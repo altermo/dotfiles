@@ -172,7 +172,7 @@ function nvst
     cat /tmp/sut|cat|tail +7|cut -c 10-|sort -n>/tmp/sut
 end
 alias kpn 'pkill -9 -P 1 "nvim\$";pkill -9 -P 1 -f language_server_linux_x64'
-alias nvchad 'NVIM_APPNAME=NvChad command nvim'
+alias vimacs 'NVIM_APPNAME=vimacs command nvim'
 
 #emacs
 alias emacs "setsid emacsclient -c -a 'emacs'"
@@ -180,6 +180,7 @@ alias ec "command setsid emacsclient >/dev/null"
 alias rem "killall emacs;command emacs --daemon"
 alias doou "doom upgrade"
 alias doos "doom sync"
+alias uemacs "command emacs --init-directory=/home/user/.config/emacs/"
 
 #other
 alias icat 'test $TERM = xterm-kitty&&kitty +kitten icat $argv||imgcat'
@@ -259,7 +260,6 @@ function decget;unzip (curl http://ix.io/4ITp|psub);end
 alias exe "chmod u+x (command ls -p|grep -v /|fzf)"
 alias tsh "sudo systemd-nspawn -D $HOME/.os /sbin/init"
 alias wm "exec sx qtile start"
-alias sedit "sudo emacs -nw"
 alias vimtip "curl -s -m 3 https://vtip.43z.one"
 
 #intaller
