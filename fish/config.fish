@@ -171,8 +171,13 @@ function nvst
     command nvim .bashrc +q --startuptime /tmp/sut
     cat /tmp/sut|cat|tail +7|cut -c 10-|sort -n>/tmp/sut
 end
+function ntime
+    if [ "$argv[1]" = nvim ];set argv[1] /usr/local/bin/nvim;end
+    time $argv[1] +"autocmd VimEnter * quit" $argv[2..]
+end
 alias kpn 'pkill -9 -P 1 "nvim\$";pkill -9 -P 1 -f language_server_linux_x64'
 alias vimacs 'NVIM_APPNAME=vimacs command nvim'
+alias nvchad 'NVIM_APPNAME=NvChad command nvim'
 
 #emacs
 alias emacs "setsid emacsclient -c -a 'emacs'"

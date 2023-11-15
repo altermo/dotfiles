@@ -53,6 +53,7 @@ projects={
     'window.nvim':f'{HOME}/.config/nvim/.other/_later/window.nvim',
     'nzim':f'{HOME}/.config/nvim/.other/_later/neozim/',
     'nlim':f'{HOME}/.config/nvim/.other/_later/neolim/',
+    'nvwm':f'{HOME}/.config/nvim/.other/_later/nvwm/'
 }
 
 # color theme generator from image
@@ -248,7 +249,7 @@ screens=[Screen(
 
 # autostart
 def autoset():
-    os.system('sh -c "setxkbmap -option;setxkbmap -option ctrl:swapcaps;xmodmap -e \'remove Lock = Caps_Lock\';xmodmap -e \'keysym Caps_Lock = Control_L\';xmodmap -e \'add Control = Control_L\r"&')
+    os.system('sh -c "setxkbmap -option;setxkbmap -option ctrl:swapcaps;xmodmap -e \'remove Lock = Caps_Lock\';xmodmap -e \'keysym Caps_Lock = Control_L\';xmodmap -e \'add Control = Control_L\'\r"&')
     os.system('nitrogen --restore &')
     os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')
 autoset()
