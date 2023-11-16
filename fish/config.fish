@@ -175,7 +175,7 @@ function ntime
     if [ "$argv[1]" = nvim ];set argv[1] /usr/local/bin/nvim;end
     time $argv[1] +"autocmd VimEnter * quit" $argv[2..]
 end
-alias kpn 'pkill -9 -P 1 "nvim\$";pkill -9 -P 1 -f language_server_linux_x64'
+alias kpn 'pkill -9 -P 1 "^nvim\$";pkill -9 -P 1 -f language_server_linux_x64;pkill -9 -P 1 -f "^node\$"'
 alias vimacs 'NVIM_APPNAME=vimacs command nvim'
 alias nvchad 'NVIM_APPNAME=NvChad command nvim'
 
