@@ -48,12 +48,11 @@ projects={
     'ua':f'{HOME}/.config/nvim/.other/ua',
     'pack':f'{HOME}/.qscript/scripts/packs',
     '.qscript':f'{HOME}/.qscript',
-    'nvim':f'{HOME}/.nvim',
     'small':f'{HOME}/.config/nvim/.other/small.nvim',
     'window.nvim':f'{HOME}/.config/nvim/.other/_later/window.nvim',
     'nzim':f'{HOME}/.config/nvim/.other/_later/neozim/',
     'nlim':f'{HOME}/.config/nvim/.other/_later/neolim/',
-    'nvwm':f'{HOME}/.config/nvim/.other/_later/nvwm/'
+    'nvwm':f'{HOME}/.config/nvim/.other/nvwm-save/'
 }
 
 # color theme generator from image
