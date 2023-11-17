@@ -188,7 +188,7 @@ alias doos "doom sync"
 alias umacs "command emacs --init-directory=/home/user/.config/emacs/"
 
 #other
-alias icat 'test $TERM = xterm-kitty&&kitty +kitten icat $argv||imgcat'
+alias icat 'test $TERM = xterm-kitty&&kitty +kitten icat $argv||chafa'
 alias dm_sddm 'sudo systemctl disable lightdm && sudo systemctl enable sddm'
 alias dm_lightdm 'sudo systemctl disable sddm && sudo systemctl enable lightdm'
 alias doimportantstuff genact
@@ -197,6 +197,7 @@ for i in $langs;for j in $langs
     alias "tr$i$j" "trans -b $i:$j"
 end;end
 abbr hidemouse 'xbanish -a'
+abbr - 'z -'
 alias clock 'termdown -z -Z "%H : %M : %S"'
 alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5'
 alias mouseslow 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0'
@@ -228,7 +229,7 @@ function usercreator
     echo $web|jq .results[0].login.password -r
 end
 alias reload 'exec fish -C "$(status current-commandline|string split \;|tail +2)"'
-alias tidereset 'echo 1 1 1 1 1 1 y|tide configure'
+alias tidereset 'echo 1 1 1 1 1 1 1 y|tide configure'
 function update_hosts
     set file (mktemp)
     curl https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts>$file

@@ -1,5 +1,5 @@
 from tempfile import NamedTemporaryFile
-from ranger.ext.img_display import ImageDisplayer,W3MImageDisplayer,register_image_displayer,KittyImageDisplayer
+from ranger.ext.img_display import ImageDisplayer,register_image_displayer,KittyImageDisplayer
 from subprocess import run
 import os
 import PIL.Image
@@ -26,5 +26,14 @@ elif 'kitty' in os.environ['TERM']:
         ...
 else:
     @register_image_displayer('image')
-    class DisplayerW3M(W3MImageDisplayer):
-        ...
+    class DisplayerChafa(ImageDisplayer):
+        def draw(self,path,start_x,start_y,width,height):
+            out=run(['chafa','-s','%sx%s'%(width,height),path],capture_output=True).stdout.decode()
+            for n,i in enumerate(out.splitlines()):
+                print('\x1b[%d;%dH%s'%(start_y+n,start_x,i),end='',flush=True)
+        def clear(self,start_x,start_y,width,height):
+            for n in range(height):
+                print('\x1b[%d;%dH%s'%(start_y+n,start_x,' '*width),end='',flush=True)
+
+
+

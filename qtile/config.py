@@ -1,4 +1,4 @@
-  imports
+# imports
 import os
 import subprocess
 import json
@@ -39,10 +39,10 @@ configs={
     'emacs'      :ctest(f'{HOME}/.config/emacs/config.org',f'{HOME}/.config/emacs/init.el',f'{HOME}/.emacs.d/init.el',f'{HOME}/.emacs.el'),
     'zsh'        :f'{HOME}/.zshrc',
     'bash'       :f'{HOME}/.bashrc',
-    'firefox'    :f'{HOME}/.config/firefox/userChrome.css',
     'doom'       :ctest(f'{HOME}/.doom.d/conf.org',f'{HOME}/.doom.d/config.el'),
-    'gitignore'  :f'{HOME}/.config/git/.gitignore',
     'kitty'      :f'{HOME}/.config/kitty/kitty.conf',
+    'ranger'     :f'{HOME}/.config/ranger/rc.conf',
+    'hyprland'   :f'{HOME}/.config/hypr/hyprland.conf',
 }
 projects={
     'ua':f'{HOME}/.config/nvim/.other/ua',
@@ -138,7 +138,8 @@ keys=[
     Key([mod],'bar',lazy.next_layout()),
     Key([mod,'shift'],'bar',lazy.prev_layout()),
     Key([mod],'w',lazy.function(smart_kill)),
-    Key([mod,'shift'],'w',lazy.spawn('sh -c \'xkill -id $(xdotool getactivewindow|xargs printf 0x%x"\n")\'')),
+    Key([mod,'shift'],'w',lazy.window.kill()),
+    Key([mod,'control'],'w',lazy.spawn('sh -c \'xkill -id $(xdotool getactivewindow|xargs printf 0x%x"\n")\'')),
     Key([mod],'f',lazy.window.toggle_floating()),
     #qtile
     Key([mod,'control'],'r',lazy.reload_config()),
