@@ -7,7 +7,7 @@ from libqtile import bar,widget,hook,qtile
 from libqtile.layout import xmonad,columns
 from libqtile.config import Key,Screen,Group,KeyChord
 from libqtile.lazy import lazy
-if qtile.core.name=='wayland':raise NotImplementedError('wayland configuration not implemented, fallback default')
+#if qtile.core.name=='wayland':raise NotImplementedError('wayland configuration not implemented, fallback default')
 
 # variables
 HOME=os.getenv('HOME')
@@ -49,7 +49,6 @@ projects={
     'pack':f'{HOME}/.qscript/scripts/packs',
     '.qscript':f'{HOME}/.qscript',
     'small':f'{HOME}/.config/nvim/.other/small.nvim',
-    'window.nvim':f'{HOME}/.config/nvim/.other/_later/window.nvim',
     'nzim':f'{HOME}/.config/nvim/.other/_later/neozim/',
     'nlim':f'{HOME}/.config/nvim/.other/_later/neolim/',
     'nvwm':f'{HOME}/.config/nvim/.other/nvwm-save/'
@@ -188,9 +187,6 @@ keys=[
     Key([mod],'period',lazy.spawn('plover -s plover_send_command toggle')),
     #window2
     KeyChord([mod],'q',[
-        Key([],'e',lazy.spawn('sh -c "setxkbmap -option;setxkbmap -option ctrl:swapcaps"')),
-        Key([],'v',lazy.spawn('sh -c "setxkbmap -option;setxkbmap -option caps:swapescape"')),
-        Key([],'k',lazy.spawn('setxkbmap -option')),
         Key([],'n',lazy.spawn('setxkbmap no')),
         Key([],'s',lazy.spawn('setxkbmap se')),
         Key([],'u',lazy.spawn('setxkbmap us')),
@@ -249,22 +245,19 @@ screens=[Screen(
 
 # autostart
 def autoset():
-    os.system('sh -c "setxkbmap -option;setxkbmap -option ctrl:swapcaps;xmodmap -e \'remove Lock = Caps_Lock\';xmodmap -e \'keysym Caps_Lock = Control_L\';xmodmap -e \'add Control = Control_L\'\r"&')
     os.system('nitrogen --restore &')
-    os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5')
+    os.system('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5 &')
+    os.system('setxkbmap no &')
 autoset()
 @hook.subscribe.startup_once
 def autostart()->None:
-    os.system(f'xrandr --output LVDS-1 --scale {SCALE}x{SCALE}')
+    os.system(f'xrandr --output LVDS-1 --scale {SCALE}x{SCALE} &')
     os.system('picom &')
     os.system('clipmenud &')
     # os.system('modprobe v4l2loopback')
-    os.system('xset s off -dpms') #disable screensaver
+    os.system('xset s off -dpms &') #disable screensaver
     os.system('sh -c "emacs --daemon"&')
     os.system('blanket -h&')
     os.system('redshift -P -O 4000&')
-    os.system('xcape -e "Control_L=Escape"')
-    os.system('xcape -e "Alt_L=Return"')
-    os.system('xcape -e "Super_L=BackSpace"')
     autoset()
 # vim:fen:

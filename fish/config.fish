@@ -22,7 +22,7 @@ set -x MANPAGER "bat -l man -p"
 set -x READ_QUICKLY_RATE 350
 set -x PYTHONPATH $PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages"
 set -e fish_user_paths
-set -U fish_user_paths $HOME/.local/bin $HOME/.doom/bin $HOME/.modular/pkg/packages.modular.com_mojo/bin
+set -U fish_user_paths $HOME/.local/bin $HOME/.doom/bin $HOME/.cargo/bin
 set -p fish_function_path ~/.config/fish/self_functions
 set -p fish_complete_path ~/.config/fish/self_completions
 set fish_cursor_default     block
@@ -136,7 +136,6 @@ alias cr touch
 alias mkd mkdir
 alias pow acpi
 alias com command
-alias % command
 alias v vim
 alias g grep
 alias img2txt tesseract
