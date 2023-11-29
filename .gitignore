@@ -1,0 +1,5 @@
+fish/fishd.tmp.*
+fish/carapace/*
+fish/conf.d/*
+fish/completions/*
+fish/function/*
