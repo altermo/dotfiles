@@ -2,4 +2,4 @@ fish/fishd.tmp.*
 fish/conf.d/*
 fish/carapace/*
 fish/completions/*
-fish/function/*
+fish/functions/*
