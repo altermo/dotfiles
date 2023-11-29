@@ -243,7 +243,7 @@ function fsetsid;setsid fish -ic "$argv";end
 alias fixmouse "sudo rmmod psmouse;sudo modprobe psmouse"
 function gis
     pushd .
-    cd ~/.config/configs/.other
+    cd ~/.dotfiles/.other
     fish init.fish
     cd ~/.etc/.other
     fish main.fish 2>/dev/null

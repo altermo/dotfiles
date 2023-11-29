@@ -15,7 +15,7 @@ if 'NVIM' in os.environ:
             image=image.resize((width*8,height*16))
             with NamedTemporaryFile(prefix='ranger_thumb_',suffix='.png',delete=True) as tmpf:
                 image.save(tmpf,format='png',compress_level=0)
-                run(['nvr','-c','lua require("small.kitty.image").render("%s",%d,%d,%d,%d)'%(tmpf.name,start_x+1,start_y+1,width,height)])
+                run(['nvr','-c','lua require("small.kitty.image").render("%s",%d,%d,%d,%d,0)'%(tmpf.name,start_x+1,start_y+1,width,height)])
         def clear(self,*_):
             run(['nvr','-c','lua require("small.kitty.image").clear()'])
         def quit(self,*_):
@@ -34,6 +34,3 @@ else:
         def clear(self,start_x,start_y,width,height):
             for n in range(height):
                 print('\x1b[%d;%dH%s'%(start_y+n,start_x,' '*width),end='',flush=True)
-
-
-
