@@ -247,7 +247,7 @@ function gis
     fish init.fish
     cd ~/.etc/.other
     fish main.fish 2>/dev/null
-    for i in .mozilla .config .config/nvim .config/nvim/.other/_later .config/configs .musiclist .qscript .gtd/vault .etc
+    for i in .mozilla .config .config/nvim .config/nvim/.other/_later .dotfiles .musiclist .qscript .gtd/vault .etc
         cd ~/$i
         if test "$(git status --porcelain)"
             echo $i
