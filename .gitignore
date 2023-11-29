@@ -3,3 +3,4 @@ fish/conf.d/*
 fish/carapace/*
 fish/completions/*
 fish/functions/*
+fish/fish_variables
