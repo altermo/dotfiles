@@ -17,6 +17,9 @@ websites={
     'Git-zig'                  :'https://github.com/ziglang/zig',
     'Git-vim'                  :'https://github.com/vim/vim',
     'Git-Hyprland'             :'https://github.com/hyprwm/Hyprland',
+    'Git-tgpt'                 :'https://github.com/aandrew-me/tgpt',
+    'Git-keyd'                 :'https://github.com/rvaiya/keyd',
+    'Git-kmonad'               :'https://github.com/kmonad/kmonad',
     #python
     'python'                   :'https://docs.python.org/3/library/',
     'python-regex'             :'https://docs.python.org/3/library/re.html#regular-expression-syntax',
