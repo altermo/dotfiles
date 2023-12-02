@@ -7,7 +7,7 @@ from libqtile import bar,widget,hook,qtile
 from libqtile.layout import xmonad,columns
 from libqtile.config import Key,Screen,Group,KeyChord
 from libqtile.lazy import lazy
-#if qtile.core.name=='wayland':raise NotImplementedError('wayland configuration not implemented, fallback default')
+if qtile.core.name=='wayland':raise NotImplementedError('wayland configuration not implemented, fallback default')
 
 # variables
 HOME=os.getenv('HOME')
@@ -39,6 +39,7 @@ configs={
     'emacs'      :ctest(f'{HOME}/.config/emacs/config.org',f'{HOME}/.config/emacs/init.el',f'{HOME}/.emacs.d/init.el',f'{HOME}/.emacs.el'),
     'zsh'        :f'{HOME}/.zshrc',
     'bash'       :f'{HOME}/.bashrc',
+    'spacemacs'  :ctest(f'{HOME}/.spacemacs.d/init.el',f'{HOME}/.spacemacs'),
     'doom'       :ctest(f'{HOME}/.doom.d/conf.org',f'{HOME}/.doom.d/config.el'),
     'kitty'      :f'{HOME}/.config/kitty/kitty.conf',
     'ranger'     :f'{HOME}/.config/ranger/rc.conf',

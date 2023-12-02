@@ -256,10 +256,10 @@ function gis
 end
 function encsend
     zip /tmp/enc-out.zip $argv --encrypt
-    /bin/cat /tmp/enc-out.zip|curl -F 'f:1=<-' ix.io
+    /bin/cat /tmp/enc-out.zip|curl -F file=@- 0x0.st
     rm -fr /tmp/enc-out.zip
 end
-function decget;unzip (curl http://ix.io/4ITp|psub);end
+function decget;unzip (curl "$argv"|psub);end
 alias exe "chmod u+x (command ls -p|grep -v /|fzf)"
 alias tsh "sudo systemd-nspawn -D $HOME/.os /sbin/init"
 alias wm "exec sx qtile start"
