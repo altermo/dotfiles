@@ -7,7 +7,7 @@ from libqtile import bar,widget,hook,qtile
 from libqtile.layout import xmonad,columns
 from libqtile.config import Key,Screen,Group,KeyChord
 from libqtile.lazy import lazy
-if qtile.core.name=='wayland':raise NotImplementedError('wayland configuration not implemented, fallback default')
+#if qtile.core.name=='wayland':raise NotImplementedError('wayland configuration not implemented, fallback default')
 
 # variables
 HOME=os.getenv('HOME')

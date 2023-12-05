@@ -23,6 +23,6 @@ function daynight
     qtile cmd-obj -o cmd -f reload_config
     redshift $REDSHIFT
     for i in (nvr --serverlist)
-        timeout 1 nvr --servername $i -c "colorscheme own"&
+        timeout 1 nvr --servername $i -c "exec 'colorscheme '.g:colors_name"&
     end
 end

@@ -74,7 +74,6 @@ websites={
     'qtile'                    :'https://docs.qtile.org/en/stable/index.html',
     'periodic-table'           :'https://ptable.com',
     'browser-timeline'         :'https://upload.wikimedia.org/wikipedia/commons/7/74/Timeline_of_web_browsers.svg',
-    'keybr'                    :'https://www.keybr.com',
     'speedtype-dev'            :'https://www.speedtyper.dev',
     'speedtype'                :'https://monkeytype.com/',
     'chatgpt'                  :'https://chat.openai.com/chat',
