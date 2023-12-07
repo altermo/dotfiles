@@ -4,4 +4,3 @@ fish/carapace/*
 fish/completions/*
 fish/functions/*
 fish/fish_variables
-.spacemacs.d/.spacemacs.env
