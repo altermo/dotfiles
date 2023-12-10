@@ -49,7 +49,8 @@ zoxide init fish|source
 
 #fzf
 function ffzf
-    set dir (plocate "$PWD/*" $argv|fzf -1)
+    set dit (test "$PWD" = "/"&&echo "/*"||echo "$PWD/*")
+    set dir (plocate "$dit" $argv|fzf -1)
     if not test $dir;return;end
     test -d $dir&&cd $dir||$EDITOR $dir
 end
@@ -80,17 +81,18 @@ function rtmp;ranger /tmp;end
 function rtmpu;ranger /tmp/user;end
 
 #installer
-alias yas "yay -S"
-alias yaS "yay -Ss"
-alias yar "yay -Rc"
-alias yac "yay -Yc&&pacman -Qqd | pacman -Rsu --print -"
-alias yauc "nm-online >/dev/null&&yay -Syu --devel&&yay -Yc&&pacman -Qqd | pacman -Rsu --print -"
-alias yai "yay -Si"
-abbr yaq "yay -Q"
-abbr yaf "yay -Qo"
-abbr yal "yay -Ql"
+alias _clear 'test "$(paru -Qtdq)"&&paru -Qtdq | paru -Rns -'
+alias yas "paru -S"
+alias yaS "paru -Ss"
+alias yar "paru -Rc"
+alias yac "_clear&&pacman -Qqd >/dev/null&&pacman -Qqd | pacman -Rsu --print -"
+alias yauc "nm-online >/dev/null&&paru -Syu --devel&&yac"
+alias yai "paru -Si"
+abbr yaq "paru -Q"
+abbr yaf "paru -Qo"
+abbr yal "paru -Ql"
 alias mirror "curl https://archlinux.org/mirrorlist/all/"
-abbr yaC "yay -Sc"
+abbr yaC "paru -Sc"
 
 #git
 abbr gc "git clone"
@@ -165,7 +167,6 @@ alias sudo doas
 #vim
 function riv;invim&&sh -c $argv[2]&&kill (cut -f 6 -d " " /proc/$fish_pid/stat)||command $argv[1] $argv[3..];end
 function nvim;riv nvim "[ $argv ]&&nvr $argv||nvr ." $argv;end
-alias spvim "set -e VIMRUNTIME;command vim"
 function nvst
     command nvim .bashrc +q --startuptime /tmp/sut
     cat /tmp/sut|cat|tail +7|cut -c 10-|sort -n>/tmp/sut
@@ -177,6 +178,7 @@ end
 alias kpn 'pkill -9 -P 1 "^nvim\$";pkill -9 -P 1 -f language_server_linux_x64;pkill -9 -P 1 -f "^node\$"'
 alias vimacs 'NVIM_APPNAME=vimacs command nvim'
 alias nvchad 'NVIM_APPNAME=NvChad command nvim'
+alias spvim 'NVIM_APPNAME=SpaceVim command nvim'
 
 #emacs
 alias emacs "setsid emacsclient -c -a 'emacs'"

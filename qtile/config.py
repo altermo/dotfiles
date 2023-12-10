@@ -5,7 +5,7 @@ import json
 import re
 from libqtile import bar,widget,hook,qtile
 from libqtile.layout import xmonad,columns
-from libqtile.config import Key,Screen,Group,KeyChord
+from libqtile.config import Key,Screen,Group,KeyChord,Match
 from libqtile.lazy import lazy
 #if qtile.core.name=='wayland':raise NotImplementedError('wayland configuration not implemented, fallback default')
 
@@ -212,9 +212,11 @@ keys=[
         Key(['control'],'m',lazy.spawn('xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" -0.5')),
         Key([],'7',lazy.spawn('sh -c "echo $(xsel -ob) >> .config/nvim/.other/vim-plugin-list/raw "')),
         Key([],'c',lazy.spawn('sh -c "test $(pidof xbanish)&&killall xbanish||xbanish -a"')),
+        Key([],'p',lazy.spawn('sh -c "killall picon|setsid picom"')),
     ])
 ]
 groups=[Group(i) for i in "1234567890u"]
+groups.append(Group('m',matches=[Match(wm_class='surf')]))
 for i in (i.name for i in groups):
     keys.extend([
         Key([mod],i,lazy.group[i].toscreen()),
