@@ -62,6 +62,7 @@ websites={
     'toml'                     :'https://toml.io/en/',
     'nushell'                  :'https://www.nushell.sh/book/',
     #other
+    'kitty'                    :'https://sw.kovidgoyal.net/kitty/',
     'schedule'                 :'https://karlskrona.skola24.se/',
     'ted'                      :'https://www.ted.com',
     'mega'                     :'https://mega.nz',

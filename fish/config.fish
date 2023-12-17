@@ -2,7 +2,7 @@
 if not status --is-interactive;exit;end
 if tty>/dev/null
     echo
-    if test -e /tmp/gh.not&&test (math (date +%s) - (stat -c %Y /tmp/gh.not)) -gt 1
+    if test -e /tmp/gh.not&&test (math (date +%s) - (stat -c %Y /tmp/gh.not)) -gt 60
         timeout 10 gh api notifications 2>/dev/null|jq 'length'|xargs -I_ fish -c 'test 0 = _||echo -e "\e[7m\ngithub: you have recived _ notifications\e[0m"'&;disown
         touch /tmp/gh.not
     end
@@ -175,7 +175,7 @@ function ntime
     if [ "$argv[1]" = nvim ];set argv[1] /usr/local/bin/nvim;end
     time $argv[1] +"autocmd VimEnter * quit" $argv[2..]
 end
-alias kpn 'pkill -9 -P 1 "^nvim\$";pkill -9 -P 1 -f language_server_linux_x64;pkill -9 -P 1 -f "^node\$"'
+alias kpn 'pkill -9 -P 1 "^nvim\$";pkill -9 -P 1 -f language_server_linux_x64;pkill -9 -P 1 -f "^node"'
 alias vimacs 'NVIM_APPNAME=vimacs command nvim'
 alias nvchad 'NVIM_APPNAME=NvChad command nvim'
 alias spvim 'NVIM_APPNAME=SpaceVim command nvim'
@@ -247,7 +247,7 @@ function gis
     pushd .
     cd ~/.etc/.other
     fish main.fish 2>/dev/null
-    for i in .mozilla .config .config/nvim .config/nvim/.other/_later .config/dotfiles .musiclist .qscript .gtd/vault .etc
+    for i in .mozilla .config .config/nvim .config/nvim/.other/_later .config/dotfiles .musiclist .qscript .gtd/vault .etc .config/nvim/.other/small.nvim/ .config/nvim/.other/ua/ .config/nvim/.other/ua_/ .config/nvim/.other/vim-plugin-list/
         cd ~/$i
         if test "$(git status --porcelain)"
             echo $i

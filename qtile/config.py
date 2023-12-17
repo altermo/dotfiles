@@ -50,9 +50,8 @@ projects={
     'pack':f'{HOME}/.qscript/scripts/packs',
     '.qscript':f'{HOME}/.qscript',
     'small':f'{HOME}/.config/nvim/.other/small.nvim',
-    'nzim':f'{HOME}/.config/nvim/.other/_later/neozim/',
     'nlim':f'{HOME}/.config/nvim/.other/_later/neolim/',
-    'nvwm':f'{HOME}/.config/nvim/.other/nvwm-save/'
+    'nxwm':f'{HOME}/.config/nvim/.other/nxwm/'
 }
 
 # color theme generator from image
