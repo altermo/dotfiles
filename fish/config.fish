@@ -60,10 +60,11 @@ function nclfz
     [ "$pa" ]&&$argv[1] "$argv[2]/$pa"
 end
 function fi
-    set mainplugpath "$HOME/.local/share/nvim/site/pack/pckr/"
-    set subplugpaths "start/" "opt/"
-    set pa (for i in $subplugpaths;string split0 $mainplugpath/$i/*|string replace $mainplugpath '';end\
-    |fzf --preview "bat -pp $mainplugpath/{}/README.md --color=always")
+    #set mainplugpath "$HOME/.local/share/nvim/site/pack/pckr/"
+    #set subplugpaths "start/" "opt/"
+    #set pa (for i in $subplugpaths;string split0 $mainplugpath/$i/*|string replace $mainplugpath '';end\
+    set mainplugpath "/home/user/.local/share/nvim/lazy/"
+    set pa (ls $mainplugpath|fzf --preview "bat -pp $mainplugpath/{}/README.md --color=always")
     [ $pa ]&&ranger $mainplugpath/$pa
 end
 function fc;nclfz ranger $HOME/.config (command ls $HOME/.config);end
@@ -85,7 +86,7 @@ alias _clear 'test "$(paru -Qtdq)"&&paru -Qtdq | paru -Rns -'
 alias yas "paru -S"
 alias yaS "paru -Ss"
 alias yar "paru -Rc"
-alias yac "_clear&&pacman -Qqd >/dev/null&&pacman -Qqd | pacman -Rsu --print -"
+alias yac "_clear&&paru -Qqd | paru -Rsu --print -"
 alias yauc "nm-online >/dev/null&&paru -Syu --devel&&yac"
 alias yai "paru -Si"
 abbr yaq "paru -Q"

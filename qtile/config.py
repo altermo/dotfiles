@@ -152,7 +152,7 @@ keys=[
     Key([mod],'n',lazy.spawn(fm1)),
     Key([mod],'e',lazy.spawn("emacsclient -c -a 'emacs'")),
     Key([mod,'shift'],'e',lazy.spawn("emacs --init-directory=/home/user/.config/emacs/")),
-    Key([mod],'v',lazy.spawn(f'{fm1} {VAULTPATH}')),
+    Key([mod],'v',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|lua require\'small.dff\'.file_expl(\'{VAULTPATH}\')"')),
     #menu
     Key([mod],'x',lazy.spawn('sh -c "setsid $(type rofi&&rofi -show drun||j4-dmenu-desktop --no-exec)"')),
     Key([mod],'y',lazy.spawn('clipmenu')),
