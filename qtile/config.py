@@ -97,7 +97,7 @@ def smart_kill(q):
     if num_ins_open>1:
         q.current_window.kill()
         return
-    os.system('zenity --text="no" --info &')
+    os.system('Xdialog --wmclass dialog --infobox "no" 0x0&')
 SCALE=1.3
 def scalescreen(_,scale:int):
     global SCALE
@@ -180,7 +180,7 @@ keys=[
     Key([mod],'p',lazy.spawn(f'{neovimgui} -c "Shell -c ipython" -c "call feedkeys(\'import os,sys,string,json,math,time,functools,itertools\rfrom __future__ import barry_as_FLUFL\rsys.path.append(\\"{HOME}/.venv/lib/python3.11/site-packages\\")\r\')"')),
     #other
     Key([mod,'shift'],'c',lazy.spawn('sh -c "nitrogen;qtile cmd-obj -o cmd -f reload_config"')),
-    Key([mod,'control'],'c',lazy.spawn('sh -c "zenity --question --text \'Are you sure you want to clear cache?\'&&cat %s |jq -c \'.\\"cache\\".\\"img\\"={}\'>/tmp/TmP&&mv /tmp/TmP %s"'.replace('%s',settings_file))),
+    Key([mod,'control'],'c',lazy.spawn('sh -c "Xdialog --wmclass dialog --yesno \'Are you sure you want to clear cache?\' 0x0&&cat %s |jq -c \'.\\"cache\\".\\"img\\"={}\'>/tmp/TmP&&mv /tmp/TmP %s"'.replace('%s',settings_file))),
     Key([mod,'shift'],'g',lazy.spawn('surf https://chat.openai.com/chat')),
     Key([mod,'control'],'z',lazy.spawn('slock')),
     Key([mod],'space',lazy.spawn('mpvc toggle')),
@@ -192,7 +192,7 @@ keys=[
         Key([],'u',lazy.spawn('setxkbmap us')),
     ]),
     KeyChord([mod],'g',[
-        Key([],'i',lazy.function(lambda q:os.system('zenity --text="'+str(q.current_window.info()).replace('"',"'")+'" --info&'))),
+        Key([],'i',lazy.function(lambda q:os.system('Xdialog --wmclass dialog --msgbox "'+str(q.current_window.info()).replace('"',"'")+'" 0x0&'))),
         Key([],'b',lazy.hide_show_bar()),
         Key([],'t',lazy.function(lambda q:q.current_window.cmd_down_opacity())),
         Key(['shift'],'t',lazy.function(lambda q:q.current_window.cmd_up_opacity())),
@@ -202,7 +202,7 @@ keys=[
         Key(['control'],'f',lazy.function(lambda q:q.current_window.cmd_static())),
         Key([],'s',lazy.function(scalescreen,.1)),
         Key(['shift'],'s',lazy.function(scalescreen,-.1)),
-        Key(['control'],'s',lazy.function(lambda _:os.system(f'zenity --text="{SCALE}" --info&'))),
+        Key(['control'],'s',lazy.function(lambda _:os.system(f'Xdialog --wmclass dialog --msgbox "{SCALE}" 0x0&'))),
         Key(['shift','control'],'s',lazy.function(setscale,SCALE)),
         Key([],'space',lazy.spawn('scrot')),
         Key([],'k',lazy.spawn('gkbd-keyboard-display -g 1')),
