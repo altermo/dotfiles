@@ -47,11 +47,11 @@ configs={
 }
 projects={
     'ua':f'{HOME}/.config/nvim/.other/ua',
+    'ua_':f'{HOME}/.config/nvim/.other/ua_',
     'pack':f'{HOME}/.qscript/scripts/packs',
     '.qscript':f'{HOME}/.qscript',
     'small':f'{HOME}/.config/nvim/.other/small.nvim',
     'nlim':f'{HOME}/.config/nvim/.other/_later/neolim/',
-    'nxwm':f'{HOME}/.config/nvim/.other/nxwm/'
 }
 
 # color theme generator from image
@@ -170,10 +170,9 @@ keys=[
     Key([],"XF86AudioMute",lazy.spawn("amixer sset Master toggle")),
     #neovim
     Key([mod],'s',lazy.spawn(f"fish -c '{neovimgui} $TEMPFILE'")),
-    Key([mod,'shift'],'s',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py','fish','html','c')},'fish -c "set -U TEMPFILE /tmp/lua/temp.%s"')),
-    Key([mod,'control'],'s',lazy.spawn(f'{neovimgui} -c \':lua vim.system({{"fish","-i","-c","ntmp;nvr $tmp"}})\'')),
+    Key([mod,'shift'],'s',lazy.function(menu_list_and_run,{i:i for i in ('lua','md','txt','py','fish','html','c')},'fish -c "set -U TEMPFILE /tmp/user/temp.%s"')),
+    Key([mod,'control'],'s',lazy.spawn(f'{neovimgui} -c "lua vim.cmd.edit(\'/tmp/user/temp.\'..vim.fn.rand())"')),
     Key([mod],'a',lazy.spawn(neovimgui)),
-    #Key([mod,'shift'],'c',lazy.spawn(f'{neovimgui} -c "edit .bashrc" -c "au VimEnter * CodiNew python"')), #TODO
     Key([mod],'z',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|lua require\'small.dff\'.file_expl()"')),
     Key([mod],'o',lazy.function(menu_list_and_run,projects,f'{neovimgui} -c "lua require\'small.dff\'.file_expl(\\"%s\\")"')),
     #shell
@@ -184,6 +183,8 @@ keys=[
     Key([mod,'shift'],'g',lazy.spawn('surf https://chat.openai.com/chat')),
     Key([mod,'control'],'z',lazy.spawn('slock')),
     Key([mod],'space',lazy.spawn('mpvc toggle')),
+    Key([mod,'shift'],'space',lazy.spawn('mpvc next')),
+    Key([mod,'shift','mod1'],'space',lazy.spawn('mpvc prev')),
     Key([mod],'period',lazy.spawn('plover -s plover_send_command toggle')),
     #window2
     KeyChord([mod],'q',[

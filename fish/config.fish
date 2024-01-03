@@ -1,31 +1,27 @@
 #preload
 if not status --is-interactive;exit;end
-if tty>/dev/null
-    echo
-    if test -e /tmp/gh.not&&test (math (date +%s) - (stat -c %Y /tmp/gh.not)) -gt 60
-        timeout 10 gh api notifications 2>/dev/null|jq 'length'|xargs -I_ fish -c 'test 0 = _||echo -e "\e[7m\ngithub: you have recived _ notifications\e[0m"'&;disown
-        touch /tmp/gh.not
-    end
-    not test -e /tmp/gh.not&&touch /tmp/gh.not
+if tty>/dev/null&&test (math (date +%s) - (stat -c %Y /tmp/gh.not 2>/dev/null||echo 0)) -gt 60
+    setsid sh -c 'nm-online -q||exit
+    notif=$(gh api notifications|jq "length")
+    test 0 = $notif||echo -e "\e[7m\ngithub: you have received $notif notifications\e[0m"'&
+    touch /tmp/gh.not
 end
 
 #vars
-test "$TEMPFILE"||set -U TEMPFILE /tmp/lua/temp.lua
 alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
+test "$TEMPFILE"||set -U TEMPFILE /tmp/user/temp.lua
 test -d /tmp/user||mkdir /tmp/user
 set fish_greeting
 set langs 'en' 'es' 'sv' 'hu'
 set -x EDITOR nvim #/usr/bin/nvr
 set -x VISUAL nvim #/usr/bin/nvr
-set -x PAGER 'bat -p --paging=always'
-set -x MANPAGER "bat -l man -p"
+set -x PAGER 'bat --decorations never --paging=always --pager="less --SILENT -RF"'
+set -x MANPAGER "$PAGER -l man"
 set -x READ_QUICKLY_RATE 350
-set -x PYTHONPATH $PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages"
-set -e fish_user_paths
-set -U fish_user_paths $HOME/.local/bin $HOME/.doom/bin $HOME/.cargo/bin
+set -x PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages"
+set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin
 set -p fish_function_path ~/.config/fish/self_functions
 set -p fish_complete_path ~/.config/fish/self_completions
-set fish_cursor_default     block
 set fish_cursor_insert      line
 set fish_cursor_replace_one underscore
 set fish_cursor_replace     underscore
@@ -48,67 +44,40 @@ carapace _carapace|source
 zoxide init fish|source
 
 #fzf
-function ffzf
-    set dit (test "$PWD" = "/"&&echo "/*"||echo "$PWD/*")
-    set dir (plocate "$dit" $argv|fzf -1)
-    if not test $dir;return;end
-    test -d $dir&&cd $dir||$EDITOR $dir
-end
+function ff;plocate (dirname $PWD/.) $argv|fzf|read out&&test -d $out&&cd $out||begin;test -f $out&&$EDITOR $out;end;end
 function ffuncs;functions -a|fzf --preview="fish -ic 'type {1}|bat -pp -l fish --color=always'";end
-function nclfz
-    set pa (echo $argv[3..]|string split " "|fzf -1)
-    [ "$pa" ]&&$argv[1] "$argv[2]/$pa"
-end
-function fi
-    #set mainplugpath "$HOME/.local/share/nvim/site/pack/pckr/"
-    #set subplugpaths "start/" "opt/"
-    #set pa (for i in $subplugpaths;string split0 $mainplugpath/$i/*|string replace $mainplugpath '';end\
-    set mainplugpath "/home/user/.local/share/nvim/lazy/"
-    set pa (ls $mainplugpath|fzf --preview "bat -pp $mainplugpath/{}/README.md --color=always")
-    [ $pa ]&&ranger $mainplugpath/$pa
-end
-function fc;nclfz ranger $HOME/.config (command ls $HOME/.config);end
-function fs;nclfz ranger $HOME/.local/share (command ls $HOME/.local/share);end
-function fl;nclfz nvim / "$HOME/.local/share/qtile/qtile.log" "$HOME/.xsession-errors" "$HOME/.local/state/nvim/log";end
-function ft;tldr (tldr -l|fzf --preview 'tldr --color=always {}');end
-function fr;nclfz nvim /usr/local/share/nvim/runtime/lua/vim/ "$(fd -t f --base-directory /usr/local/share/nvim/runtime/lua/vim)";end
-
-#temp
-alias ntmp 'set -U tmp (mktemp -p /tmp/user)'
-alias tmp '$EDITOR "$tmp"'
-abbr dtmp 'cd (mktemp -d -p /tmp/user)'
-abbr nmp 'ntmp;tmp'
-function rtmp;ranger /tmp;end
-function rtmpu;ranger /tmp/user;end
+function fc;exa ~/.config|fzf|read out&&test $out&&ranger ~/.config/$out;end
+function ft;tldr -l|fzf --preview 'tldr --color=always {}'|xargs -r tldr;end
 
 #installer
-alias _clear 'test "$(paru -Qtdq)"&&paru -Qtdq | paru -Rns -'
-alias yas "paru -S"
-alias yaS "paru -Ss"
-alias yar "paru -Rc"
-alias yac "_clear&&paru -Qqd | paru -Rsu --print -"
-alias yauc "nm-online >/dev/null&&paru -Syu --devel&&yac"
-alias yai "paru -Si"
-abbr yaq "paru -Q"
-abbr yaf "paru -Qo"
-abbr yal "paru -Ql"
-alias mirror "curl https://archlinux.org/mirrorlist/all/"
-abbr yaC "paru -Sc"
+alias paru_update "nm-online >/dev/null&&paru -Syu --devel"
+alias paru_clear 'test "$(paru -Qtdq)"&&paru -Qtdq | paru -Rns -'
+alias paru_loop_msg 'paru -Qqd | paru -Rsu --print -'
+alias pas "paru -S"
+alias par "paru -Rc"
+alias pac "paru_clear&&paru_loop_msg"
+alias pauc "paru_update&&paru_clear&&paru_loop_msg"
+alias paS "paru -Ss"
+alias pai "paru -Si"
+alias paq "paru -Q"
+alias paf "paru -Qo"
+alias pal "paru -Ql"
+alias paC "paru -Sc"
+abbr mirror "curl https://archlinux.org/mirrorlist/all/"
 
 #git
+#abbr gCA "git commit -a -m (git status --porcelain|string join ';')"
 abbr gc "git clone"
 abbr gp "git push"
-abbr ___gCA "git commit -a -m (git status --porcelain|string join ';')"
 abbr gca "git commit -a -m"
-abbr gcd "git checkout development"
-abbr gch "git checkout"
+abbr gt "git checkout"
 abbr gmd "git merge development"
 abbr gs "git status"
 abbr gd "git diff"
 abbr gi "gh gist"
 abbr gb "git bisect" #Find buged commit
 
-#typical optinos
+#optinos
 function cal;command cal -wm --color=always $argv|lolcat;end
 alias rm 'rm -I'
 alias cp 'cp -rib'
@@ -121,8 +90,6 @@ alias neofetch 'clear;command fastfetch'
 alias wget 'wget -c'
 alias fd 'fd -H'
 alias zip 'zip -r -v'
-function ranger;riv ranger "nvr -c 'lua require\"small.ranger\".run(\"$argv\")'" --cmd 'set show_hidden=true' --cmd 'set preview_images=true' $argv;end
-abbr date 'date +"  %H:%M:%S  %Y/%m/%d;%V"'
 alias termdown 'termdown -B'
 
 #namig
@@ -131,83 +98,81 @@ abbr :q exit
 abbr :Q exit
 abbr z.. z\ ..
 abbr z/ z\ /
+abbr - z\ -
 abbr t tldr
-alias c clear
-alias r ranger
-alias rr "command ranger"
-alias cr touch
-alias mkd mkdir
-alias pow acpi
-alias com command
-alias v vim
-alias g grep
-alias img2txt tesseract
-alias wifi nmtui-connect
-alias h helix
+abbr c clear
+abbr r ranger
+abbr rr "command ranger"
+abbr cr touch
+abbr mkd mkdir
+abbr pow acpi
+abbr com command
+abbr v nvim
+abbr g grep
+abbr img2txt tesseract
+abbr wifi nmtui-connect
+abbr list_ports 'lsof -i'
+abbr copy 'xsel -b'
+##other
 alias cargob "watchexec cargo check"
 alias cargoc cargo\ clippy
 alias rich "python -m rich"
-##other is beter
+abbr date 'date +"  %H:%M:%S  %Y/%m/%d;%V"'
 alias ls 'exa -aF'
 alias l 'exa -F'
 alias ll 'l -lh --git'
 alias la 'ls -lh --git'
-alias cp xcp
-abbr cd z
-alias more 'bat -p --paging=always --pager="less --SILENT -RF"'
-alias less 'bat -p --paging=always --pager="less --SILENT -RF"'
-alias vim nvim
+abbr cp xcp
+alias more "$PAGER"
+alias less "$PAGER"
 alias cat "bat -pp"
-alias tree "exa -T"
-alias find fd
-alias df duf
-alias du dua
 alias pip ~/.venv/bin/pip
-alias sudo doas
+abbr cd z
+abbr vim nvim
+abbr tree "exa -T"
+abbr find fd
+abbr df duf
+abbr du dua
+abbr sudo doas
 
 #vim
 function riv;invim&&sh -c $argv[2]&&kill (cut -f 6 -d " " /proc/$fish_pid/stat)||command $argv[1] $argv[3..];end
-function nvim;riv nvim "[ $argv ]&&nvr $argv||nvr ." $argv;end
-function nvst
-    command nvim .bashrc +q --startuptime /tmp/sut
-    cat /tmp/sut|cat|tail +7|cut -c 10-|sort -n>/tmp/sut
+function nvim
+    if string match -q -r -- '^[-+]' $argv
+        command nvim $argv
+        return
+    end
+    riv nvim "[ $argv ]&&nvr $argv||nvr ." $argv
 end
-function ntime
-    if [ "$argv[1]" = nvim ];set argv[1] /usr/local/bin/nvim;end
-    time $argv[1] +"autocmd VimEnter * quit" $argv[2..]
-end
-alias kpn 'pkill -9 -P 1 "^nvim\$";pkill -9 -P 1 -f language_server_linux_x64;pkill -9 -P 1 -f "^node"'
+function ntime;time $argv[1] +"autocmd VimEnter * quit" $argv[2..];end
+alias kpn 'pkill -9 -P 1 "^nvim\$";pkill -9 -P 1 -f language_server_linux_x64'
 alias vimacs 'NVIM_APPNAME=vimacs command nvim'
 alias nvchad 'NVIM_APPNAME=NvChad command nvim'
 alias spvim 'NVIM_APPNAME=SpaceVim command nvim'
 
 #emacs
 alias emacs "setsid emacsclient -c -a 'emacs'"
-alias ec "command setsid emacsclient >/dev/null"
+alias ec "setsid emacsclient >/dev/null"
 alias rem "killall emacs;command emacs --daemon"
-alias doou "doom upgrade"
-alias doos "doom sync"
 alias umacs "command emacs --init-directory=/home/user/.config/emacs/"
 
 #other
+function ranger;riv ranger "nvr -c 'lua require\"small.ranger\".run(\"$argv\")'" $argv;end
+abbr dtmp 'cd (mktemp -d -p /tmp/user)'
+function rtmp;ranger /tmp;end
+function rtmpu;ranger /tmp/user;end
 alias icat 'test $TERM = xterm-kitty&&kitty +kitten icat $argv||chafa'
-alias dm_sddm 'sudo systemctl disable lightdm && sudo systemctl enable sddm'
-alias dm_lightdm 'sudo systemctl disable sddm && sudo systemctl enable lightdm'
-alias doimportantstuff genact
-alias list_ports 'lsof -i'
 for i in $langs;for j in $langs
     alias "tr$i$j" "trans -b $i:$j"
 end;end
-abbr hidemouse 'xbanish -a'
-abbr - 'z -'
 alias clock 'termdown -z -Z "%H : %M : %S"'
 alias mousefast 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0.5'
 alias mouseslow 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" 0'
 alias mousesnail 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" "libinput Accel Speed" -0.5'
 alias mousewritemove 'xinput set-prop "AlpsPS/2 ALPS GlidePoint" libinput\ Disable\ While\ Typing\ Enabled false'
-alias ttymouse 'sudo systemctl start gpm.service'
-alias copy 'xsel -b'
-function clearfuncs;for i in (functions -a|string split ",");functions -e $i;end;end
+alias mousehide 'xbanish -a'
+alias mousetty 'sudo systemctl start gpm.service'
+function clearfuncs;for i in (functions -a);functions -e $i;end;end
 function countdown
     set save (wmctrl -d|grep \*|cut -d\  -f 1)
     termdown $argv
@@ -215,13 +180,14 @@ function countdown
 end
 function mnt;udisksctl mount -b /dev/sdb;end
 alias tu "HOME=(mktemp -d)"
-alias tb "nc termbin.com 9999"
+#alias tb "nc termbin.com 9999"
+alias tb "curl -F file=@- 0x0.st"
 alias nothing "curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash"
 alias mkc 'mkdir $argv;cd'
 function qunzip;unzip $argv.zip&&cat $argv&&shred -uvz $argv;end
 alias saferm 'shred -uvz'
 function encrypt;command zip -r --encrypt $argv.zip $argv;end
-alias ip 'hostname --ip-addresses'
+alias ip "/bin/ip addr | awk '/inet / {print \$2}'"
 alias lightup 'brightnessctl set 10+%'
 alias lightdown 'brightnessctl set 10-%'
 alias beepoff 'sudo rmmod pcspkr.ko.zst'
@@ -233,17 +199,13 @@ end
 alias reload 'exec fish -C "$(status current-commandline|string split \;|tail +2)"'
 alias tidereset 'echo 1 1 1 1 1 1 1 y|tide configure'
 function update_hosts
-    set file (mktemp)
-    curl https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts>$file
-    cat /etc/hosts.own>>$file
-    cat $file|sudo tee /etc/hosts >/dev/null
-    rm $file
+    begin;curl https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts;
+        cat /etc/hosts.own;end|sudo tee /etc/hosts >/dev/null
 end
 alias blanket "command setsid blanket -h"
 function lnq;ln $argv (basename $argv);end
 alias wifilist 'nmcli device wifi list'
 function fsetsid;setsid fish -ic "$argv";end
-alias fixmouse "sudo rmmod psmouse;sudo modprobe psmouse"
 function gis
     pushd .
     cd ~/.etc/.other
@@ -263,12 +225,12 @@ function encsend
     rm -fr /tmp/enc-out.zip
 end
 function decget;unzip (curl "$argv"|psub);end
-alias exe "chmod u+x (command ls -p|grep -v /|fzf)"
+alias exe "command ls -p|grep -v /|fzf|xargs -r chmod u+x"
 alias tsh "sudo systemd-nspawn -D $HOME/.os /sbin/init"
 alias wm "exec sx qtile start"
 alias vimtip "curl -s -m 3 https://vtip.43z.one"
 
-#intaller
+#installer
 if not type fisher >/dev/null 2>&1
     curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
 end

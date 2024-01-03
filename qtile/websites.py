@@ -97,6 +97,7 @@ websites={
     'skype'                    :'https://web.skype.com/',
     'vscode'                   :'https://vscode.dev/',
     'wm-timeline'              :'https://www.gilesorr.com/wm/bloodlines.20151203.svg',
+    'dotfyle'                  :'https://dotfyle.com/',
     #emacs / vim
     'emacs'                    :'https://www.gnu.org/software/emacs',
     'spacemacs'                :'https://develop.spacemacs.org/doc/DOCUMENTATION.html',
