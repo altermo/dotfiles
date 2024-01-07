@@ -19,31 +19,25 @@ settings_file=f'{HOME}/.config/qtile/settings.json'
 neovimgui='gnvim.sh'
 term1=f'{neovimgui} -c Shell'
 term2="kitty"
-browser1='firefox'
-browser3='torbrowser-launcher'
-fm1=f'{neovimgui} -c "lua require\'small.ranger\'.run()"'
-fm2='pcmanfm'
-themesetting='lxappearance'
+browser='firefox'
+file_manager=f'{neovimgui} -c "lua require\'small.ranger\'.run()"'
 topgui='gnome-system-monitor'
 from websites import websites
 def ctest(*paths:str)->str:
-    for i in paths:
-        if os.path.isfile(i):return i
-    return paths[-1]
+    return [*filter(os.path.isfile,paths),paths[-1]][0]
 configs={
-    'qtile'      :f'{HOME}/.config/qtile/config.py',
-    'fish'       :f'{HOME}/.config/fish/config.fish',
-    'nu'         :f'{HOME}/.config/nushell/config.nu',
-    'nvim'       :ctest(f'{HOME}/.config/nvim/init.lua',f'{HOME}/.config/nvim/init.vim'),
-    'vim'        :ctest(f'{HOME}/.vim/vimrc',f'{HOME}/.vimrc'),
-    'emacs'      :ctest(f'{HOME}/.config/emacs/config.org',f'{HOME}/.config/emacs/init.el',f'{HOME}/.emacs.d/init.el',f'{HOME}/.emacs.el'),
-    'zsh'        :f'{HOME}/.zshrc',
-    'bash'       :f'{HOME}/.bashrc',
-    'spacemacs'  :ctest(f'{HOME}/.spacemacs.d/init.el',f'{HOME}/.spacemacs'),
-    'doom'       :ctest(f'{HOME}/.doom.d/conf.org',f'{HOME}/.doom.d/config.el'),
-    'kitty'      :f'{HOME}/.config/kitty/kitty.conf',
-    'ranger'     :f'{HOME}/.config/ranger/rc.conf',
-    'hyprland'   :f'{HOME}/.config/hypr/hyprland.conf',
+    'qtile'    :f'{HOME}/.config/qtile/config.py',
+    'fish'     :f'{HOME}/.config/fish/config.fish',
+    'nu'       :f'{HOME}/.config/nushell/config.nu',
+    'nvim'     :ctest(f'{HOME}/.config/nvim/init.lua',f'{HOME}/.config/nvim/init.vim'),
+    'vim'      :ctest(f'{HOME}/.vim/vimrc',f'{HOME}/.vimrc'),
+    'emacs'    :ctest(f'{HOME}/.config/emacs/config.org',f'{HOME}/.config/emacs/init.el',f'{HOME}/.emacs.d/init.el',f'{HOME}/.emacs.el'),
+    'zsh'      :f'{HOME}/.zshrc',
+    'bash'     :f'{HOME}/.bashrc',
+    'spacemacs':ctest(f'{HOME}/.spacemacs.d/init.el',f'{HOME}/.spacemacs'),
+    'kitty'    :f'{HOME}/.config/kitty/kitty.conf',
+    'ranger'   :f'{HOME}/.config/ranger/rc.conf',
+    'hyprland' :f'{HOME}/.config/hypr/hyprland.conf',
 }
 projects={
     'ua':f'{HOME}/.config/nvim/.other/ua',
@@ -63,7 +57,7 @@ except (FileNotFoundError,json.decoder.JSONDecodeError):
 if os.path.exists(NITYOPATH):
     with open(NITYOPATH) as f:
         images=re.findall('file=(.*)',f.read())
-        image=(images[0] if len(images) else DEFAULTIMG)
+    image=(images[0] if len(images) else DEFAULTIMG)
 else:image=DEFAULTIMG
 if os.path.exists(image):
     if image in settings.get('cache',{}).get('img',{}):
@@ -85,7 +79,7 @@ def menu_list_and_run(_,apps:dict['str','str'],bin:str)->None:
     result=os.popen('printf "'+'\n'.join(apps)+'"|dmenu -i').read()
     if result:subprocess.Popen(bin%apps[result.removesuffix('\n')],shell=True)
 def smart_kill(q):
-    blacklist=[['Navigator','firefox'],['skype','Skype'],['obsidian','obsidian']]
+    blacklist=[['Navigator','firefox'],['skype','Skype']]
     wm_class=q.current_window.get_wm_class()
     if wm_class not in blacklist:
         q.current_window.kill()
@@ -145,11 +139,11 @@ keys=[
     Key(['control','mod1'],'delete',lazy.restart()),
     Key([mod,'control'],'q',lazy.shutdown()),
     #spawn
-    Key([mod],'b',lazy.spawn(browser1)),
+    Key([mod],'b',lazy.spawn(browser)),
     Key([mod],'Return',lazy.spawn(term1)),
-    #Key([mod,'shift'],'Return',lazy.spawn(term2)),
+    Key([mod,'shift'],'Return',lazy.spawn(term2)),
     Key([mod,'shift'],'o',lazy.spawn(topgui)),
-    Key([mod],'n',lazy.spawn(fm1)),
+    Key([mod],'n',lazy.spawn(file_manager)),
     Key([mod],'e',lazy.spawn("emacsclient -c -a 'emacs'")),
     Key([mod,'shift'],'e',lazy.spawn("emacs --init-directory=/home/user/.config/emacs/")),
     Key([mod],'v',lazy.spawn(f'{neovimgui} -c "cd {HOME}/.config/nvim|lua require\'small.dff\'.file_expl(\'{VAULTPATH}\')"')),
@@ -234,16 +228,16 @@ screens=[Screen(
     #wallpaper_mode='fill',  #slow
     bottom=bar.Bar([
         widget.GroupBox(disable_drag=1,hide_unused=1,highlight_method='line',highlight_color=[*[image_colors[0]]*3,image_colors[1]],
-                        this_current_screen_border='#00000000',use_mouse_wheel=False,borderwidth=1,inactive='#707070',
+                        use_mouse_wheel=False,borderwidth=1,inactive='#707070',
                         visible_groups=[i.name for i in groups if i.name in '0123456789']),
         widget.WindowTabs(),
         widget.Systray(), #dont remove...
-        widget.TextBox(text='',fontsize=80,padding=-10,foreground=image_colors[2]),
+        widget.TextBox(text='',fontsize=30,padding=-1,foreground=image_colors[2]),
         widget.Battery(format='{char} {percent:2.0%}',background=image_colors[2]),
-        widget.TextBox(text='',fontsize=80,padding=-10,background=image_colors[2],foreground=image_colors[3]),
-        widget.Clock(format="%Y/%m/%d;%V   %H:%M:%S",background=image_colors[3]),
+        widget.TextBox(text='',fontsize=30,padding=-1,background=image_colors[2],foreground=image_colors[3]),
+        widget.Clock(format="%Y/%m/%d;%V %H:%M:%S",background=image_colors[3]),
     ],
-                   size=20, background=image_colors[0], opacity=0.8,
+                   size=20, background=image_colors[0],opacity=0.8,
                    ),)]
 
 # autostart

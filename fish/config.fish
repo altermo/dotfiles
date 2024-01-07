@@ -4,6 +4,7 @@ if tty>/dev/null&&test (math (date +%s) - (stat -c %Y /tmp/gh.not 2>/dev/null||e
     setsid sh -c 'nm-online -q||exit
     notif=$(gh api notifications|jq "length")
     test 0 = $notif||echo -e "\e[7m\ngithub: you have received $notif notifications\e[0m"'&
+    disown
     touch /tmp/gh.not
 end
 
@@ -46,7 +47,7 @@ zoxide init fish|source
 #fzf
 function ff;plocate (dirname $PWD/.) $argv|fzf|read out&&test -d $out&&cd $out||begin;test -f $out&&$EDITOR $out;end;end
 function ffuncs;functions -a|fzf --preview="fish -ic 'type {1}|bat -pp -l fish --color=always'";end
-function fc;exa ~/.config|fzf|read out&&test $out&&ranger ~/.config/$out;end
+function fc;command ls ~/.config|fzf|read out&&test $out&&ranger ~/.config/$out;end
 function ft;tldr -l|fzf --preview 'tldr --color=always {}'|xargs -r tldr;end
 
 #installer
@@ -116,7 +117,7 @@ abbr copy 'xsel -b'
 ##other
 alias cargob "watchexec cargo check"
 alias cargoc cargo\ clippy
-alias rich "python -m rich"
+#alias rich "python -m rich"
 abbr date 'date +"  %H:%M:%S  %Y/%m/%d;%V"'
 alias ls 'exa -aF'
 alias l 'exa -F'
