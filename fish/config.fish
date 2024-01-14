@@ -56,8 +56,8 @@ alias paru_clear 'test "$(paru -Qtdq)"&&paru -Qtdq | paru -Rns -'
 alias paru_loop_msg 'paru -Qqd | paru -Rsu --print -'
 alias pas "paru -S"
 alias par "paru -Rc"
-alias pac "paru_clear&&paru_loop_msg"
-alias pauc "paru_update&&paru_clear&&paru_loop_msg"
+alias pac "paru_clear;paru_loop_msg"
+alias pauc "paru_update&&paru_clear;paru_loop_msg"
 alias paS "paru -Ss"
 alias pai "paru -Si"
 alias paq "paru -Q"
