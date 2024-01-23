@@ -37,6 +37,7 @@ websites={
     'ANSI'                     :'https://invisible-island.net/xterm/ctlseqs/ctlseqs.html',
     'CSI'                      :'https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences',
     'lua'                      :'https://www.lua.org/manual/5.1',
+    'luajit'                   :'https://luajit.org/',
     'fennel-website'           :'https://fennel-lang.org/',
     'element'                  :'https://app.element.io',
     'esolang'                  :'https://esolangs.org/wiki/Main_Page',
@@ -126,7 +127,7 @@ websites={
     #linux distro
     'AUR'                      :'https://aur.archlinux.org/',
     'archlinux'                :'https://archlinux.org/',
-    'distro-timeline'          :'https://upload.wikimedia.org/wikipedia/commons/b/b5/Linux_Distribution_Timeline_21_10_2021.svg',
+    'distro-timeline'          :'https://upload.wikimedia.org/wikipedia/commons/1/1b/Linux_Distribution_Timeline.svg',
     'archwiki'                 :'https://wiki.archlinux.org/',
     'kail'                     :'https://www.kali.org/',
     'nix'                      :'https://nixos.org/',
