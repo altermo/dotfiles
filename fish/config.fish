@@ -115,6 +115,7 @@ abbr img2txt tesseract
 abbr wifi nmtui-connect
 abbr list_ports 'lsof -i'
 abbr copy 'xsel -b'
+abbr unmount umount
 ##other
 alias cargob "watchexec cargo check"
 alias cargoc cargo\ clippy
@@ -163,7 +164,6 @@ function ranger;riv ranger "nvr -c 'lua require\"small.ranger\".run(\"$argv\")'"
 abbr dtmp 'cd (mktemp -d -p /tmp/user)'
 function rtmp;ranger /tmp;end
 function rtmpu;ranger /tmp/user;end
-alias icat 'test $TERM = xterm-kitty&&kitty +kitten icat $argv||chafa'
 for i in $langs;for j in $langs
     alias "tr$i$j" "trans -b $i:$j"
 end;end
@@ -182,7 +182,6 @@ function countdown
 end
 function mnt;udisksctl mount -b /dev/sdb;end
 alias tu "HOME=(mktemp -d)"
-#alias tb "nc termbin.com 9999"
 alias tb "curl -F file=@- 0x0.st"
 alias nothing "curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash"
 alias mkc 'mkdir $argv;cd'
@@ -199,7 +198,6 @@ function usercreator
     echo $web|jq .results[0].login.password -r
 end
 alias reload 'exec fish -C "$(status current-commandline|string split \;|tail +2)"'
-alias tidereset 'echo 1 1 1 1 1 1 1 y|tide configure'
 function update_hosts
     begin;curl https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts;
         cat /etc/hosts.own;end|sudo tee /etc/hosts >/dev/null
