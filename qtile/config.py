@@ -254,7 +254,8 @@ def autostart()->None:
     # os.system('modprobe v4l2loopback')
     os.system('xset s off -dpms &') #disable screensaver
     os.system('sh -c "emacs --daemon"&')
-    os.system('sh -c "sleep 10;blanket -h"&') #TODO
+    os.system('sh -c "sleep 1;blanket"&') #TODO
+    os.system('sh -c "sleep 1;mpv --loop --volume=50 --no-config ~/Downloads/d185a0ee12c196724070a9199b3a2b43.mp3&"&')
     os.system('redshift -P -O 4000&')
     autoset()
 # vim:fen:
