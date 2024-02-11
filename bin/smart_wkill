@@ -1,0 +1,7 @@
+#!/bin/bash
+blacklist=("firefox" "skype")
+if [[ " ${blacklist[*]} " == *" $(hyprctl activewindow -j|jq .class -r) "* ]]; then
+    Xdialog --wmclass dialog --infobox "no" 0x0&
+    exit
+fi
+hyprctl dispatch killactive

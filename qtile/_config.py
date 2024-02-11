@@ -1,1 +1,0 @@
-/usr/share/doc/qtile/default_config.py

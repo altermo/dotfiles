@@ -7,6 +7,9 @@
 #new-tab-button .toolbarbutton-icon,#tabs-newtab-button .toolbarbutton-icon{
   display: none;
 }
+.titlebar-spacer{
+  display: none;
+}
 #tabbrowser-arrowscrollbox-periphery{
   flex-grow: 1;
 }

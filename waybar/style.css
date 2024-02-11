@@ -1,0 +1,53 @@
+* {
+  border: none;
+  border-radius: 0;
+  font-size: 9px;
+  font-family: sans;
+  padding: 0px;
+  min-height: 0;
+  min-width: 0;
+}
+window {
+  background-color: rgba(0,0,0,0);
+}
+box {
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+#workspaces button.empty {
+    color: dimgray;
+}
+#workspaces button.active {
+    box-shadow: inset 0px -100px 2px -100px rgb(64, 197, 47);
+}
+
+#window,
+#workspaces button,
+#battery,
+#clock,
+#tray {
+    color: lightgray;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+#battery {
+  background-color: rgb(52, 148, 4);
+}
+
+#clock {
+  background-color: rgb(16, 128, 108);
+}
+
+#custom-sep1 {
+  color: rgb(52, 148, 4);
+  font-size:12.7px;
+}
+#custom-sep2 {
+  color: rgb(16, 128, 108);
+  background-color: rgb(52, 148, 4);
+  font-size:12.7px;
+}

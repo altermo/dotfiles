@@ -1,0 +1,13 @@
+#!/bin/bash
+
+declare -A dict
+keys=()
+while read -r line; do
+    IFS=$'\t' read -r key value <<< "$line"
+     dict[$key]=$value
+     keys+=("$key")
+done <<< $(grep -v ^# $1)
+key="$(echo "${keys[@]}"|tr ' ' '\n'|wofi --show dmenu)"
+if [[ -n "$key" ]]; then
+ exec "$2" $(echo "${dict[$key]}")
+fi

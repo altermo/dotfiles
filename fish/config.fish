@@ -227,9 +227,11 @@ end
 function decget;unzip (curl "$argv"|psub);end
 alias exe "command ls -p|grep -v /|fzf|xargs -r chmod u+x"
 alias tsh "sudo systemd-nspawn -D $HOME/.os /sbin/init"
-alias wm "exec sx qtile start"
+#alias wm "exec sx qtile start"
+alias wm "exec Hyprland"
 alias vimtip "curl -s -m 3 https://vtip.43z.one"
 abbr icargo evcxr
+alias weather "curl wttr.in/\?nFQ"
 
 #installer
 if not type fisher >/dev/null 2>&1

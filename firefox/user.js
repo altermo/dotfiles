@@ -18,7 +18,7 @@
 
 ///OTHER
 //Scale hole browser by x%
-//user_pref("layout.css.devPixelsPerPx",0.94)
+//user_pref("layout.css.devPixelsPerPx",0.70)
 //Hide the webcam is open indicator
 //user_pref("privacy.webrtc.hideGlobalIndicator",true)
 //On start blank:0 home:1 last visited:2 previous session:3

@@ -1,0 +1,18 @@
+#!/bin/python
+import sys
+import g4f
+
+def main(args):
+    if len(args)<2:
+        print('Usage: chat {Prompt}')
+        return
+    inp=' '.join(args[1:])
+    response = g4f.ChatCompletion.create(
+        model=g4f.models.gpt_4_turbo,
+        messages=[{"role": "user", "content": inp}],
+        stream=True,
+    )
+    for message in response:
+        print(message, flush=True, end='')
+if __name__=='__main__':
+    main(sys.argv)

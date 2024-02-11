@@ -1,0 +1,28 @@
+{
+    "position": "bottom",
+    "layer": "top",
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-right": ["tray", "custom/sep1", "battery", "custom/sep2", "clock"],
+    "hyprland/workspaces": {
+        "disable-scrool":true ,
+        "format": "{icon}",
+        "format-icons": {
+            "10": "0"
+        }
+    },
+    "custom/sep1":{"format": ""},
+    "custom/sep2":{"format": ""},
+    "tray": {
+    },
+        "clock": {
+        "format": "{:%Y/%m/%d;%V %H:%M:%S}"
+    },
+        "battery": {
+        "states": { "critical": 15 },
+        "format": "V {capacity}%",
+        "format-charging": "^ {capacity}%",
+        "format-plugged": "? {capacity}%",
+        "format-full": "Full"
+    }
+}
+// vim:ft=jsonc:
