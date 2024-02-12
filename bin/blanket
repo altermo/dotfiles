@@ -1,2 +1,2 @@
 #! /bin/sh
-flatpak run com.rafaelmardojai.Blanket
+exec flatpak run com.rafaelmardojai.Blanket

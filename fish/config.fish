@@ -230,6 +230,7 @@ alias tsh "sudo systemd-nspawn -D $HOME/.os /sbin/init"
 #alias wm "exec sx qtile start"
 alias wm "exec Hyprland"
 alias vimtip "curl -s -m 3 https://vtip.43z.one"
+alias nvimtip "curl https://www.vimiscool.tech/neotip"
 abbr icargo evcxr
 alias weather "curl wttr.in/\?nFQ"
 

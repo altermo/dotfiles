@@ -1,6 +1,6 @@
 {
     "position": "bottom",
-    "layer": "top",
+    "layer": "bottom",
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
     "modules-right": ["tray", "custom/sep1", "battery", "custom/sep2", "clock"],
     "hyprland/workspaces": {
@@ -25,4 +25,3 @@
         "format-full": "Full"
     }
 }
-// vim:ft=jsonc:

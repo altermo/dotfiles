@@ -1,7 +1,12 @@
 #!/bin/bash
 blacklist=("firefox" "skype")
-if [[ " ${blacklist[*]} " == *" $(hyprctl activewindow -j|jq .class -r) "* ]]; then
-    Xdialog --wmclass dialog --infobox "no" 0x0&
+class=$(hyprctl activewindow -j|jq .class -r)
+if [[ " ${blacklist[*]} " != *" $class "* ]]; then
+    hyprctl dispatch killactive
     exit
 fi
-hyprctl dispatch killactive
+if [[ "$(hyprctl clients -j|jq .[].class -r|grep firefox|wc -l)" > 1 ]]; then
+    hyprctl dispatch killactive
+    exit
+fi
+Xdialog --wmclass dialog --infobox "no" 0x0&
