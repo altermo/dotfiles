@@ -13,7 +13,7 @@ mail	https://mail.google.com/mail/u/0/h/
 maps	https://www.google.com/maps
 drive	https://drive.google.com
 #prgm lang
-python	https://docs.python.org/3/library/,
+python	https://docs.python.org/3/library/
 fish	https://fishshell.com/docs/current/commands.html
 ANSI	https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
 CSI	https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences
