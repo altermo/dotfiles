@@ -1,0 +1,29 @@
+#!/bin/bash
+DEFAULT_LS='exa -aF'
+DEFAULT_CAT='bat -pp --color=always'
+if test -n "$1";then
+    path=$(realpath $1)
+else
+    path=$PWD
+fi
+while :;do
+    if not test -e $path;then
+        echo "$path is not a valid path"
+        exit 1
+    fi
+    cd $path
+    ret=$(for i in $(ls -A $path);do
+    test -d $i&&echo "$i/"||echo $i
+done|fzf --bind backward-eof:"execute(echo ..)+abort"\
+    --preview "[ -d {} ]&&$DEFAULT_LS {}||$DEFAULT_CAT {}" --prompt "$path > " --sync)
+    if test $? != 0&&test "$ret" != "..";then
+        echo $path
+        exit
+    fi
+    echo $path > ~/out
+    path=$(realpath -s "$path/$ret")
+    if test -f $path;then
+        echo $path
+        exit
+    fi
+done

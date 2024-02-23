@@ -1,0 +1,87 @@
+#!/bin/bash
+
+_colors24(){
+    rgbcolor(){
+        printf "\e[48;2;%s;%s;%sm " $*
+    }
+    calcolor(){
+        h=$(( $1 / 43 ))
+        f=$(( $1 - 43 * $h ))
+        t=$(( $f * 255 / 43 ))
+        q=$(( 255 - $t ))
+        case "$h" in
+            0) rgbcolor 255 $t 0;;
+            1) rgbcolor $q 255 0;;
+            2) rgbcolor 0 255 $t;;
+            3) rgbcolor 0 $q 255;;
+            4) rgbcolor $t 0 255;;
+            5) rgbcolor 255 0 $q;;
+        esac
+    }
+    for i in $(seq 0 127);do rgbcolor $i 0 0;done
+    printf "\e[0m\n"
+    for i in $(seq 255 -1 128);do rgbcolor $i 0 0;done
+    printf "\e[0m\n"
+    for i in $(seq 0 127);do rgbcolor 0 $i 0;done
+    printf "\e[0m\n"
+    for i in $(seq 255 -1 128);do rgbcolor 0 $i 0;done
+    printf "\e[0m\n"
+    for i in $(seq 0 127);do rgbcolor 0 0 $i;done
+    printf "\e[0m\n"
+    for i in $(seq 255 -1 128);do rgbcolor 0 0 $i;done
+    printf "\e[0m\n"
+    for i in $(seq 0 127);do calcolor $i;done
+    printf "\e[0m\n"
+    for i in $(seq 255 -1 128);do calcolor $i;done
+    printf "\e[0m\n"
+}
+_colorsname() {
+    printf "\e[40;37m Black "
+    printf "\e[41;37m Red "
+    printf "\e[42;37m Green "
+    printf "\e[43;30m Yellow "
+    printf "\e[44;37m Blue "
+    printf "\e[45;37m Magenta "
+    printf "\e[46;30m Cyan "
+    printf "\e[47;30m White "
+    printf "\e[0m\n"
+    printf "\e[100;37m LightBlack "
+    printf "\e[101;30m LightRed "
+    printf "\e[102;30m LightGreen "
+    printf "\e[103;30m LightYellow "
+    printf "\e[104;30m LightBlue "
+    printf "\e[105;30m LightMagenta "
+    printf "\e[106;30m LightCyan "
+    printf "\e[107;30m LightWhite "
+    printf "\e[0m\n"
+}
+_colors(){
+    prcolor(){
+        printf "\e[48:5:$1""m$2"
+    }
+    for i in $(seq 0 15);do
+        prcolor $i " "
+    done
+    printf "\e[0m\n"
+    for i in $(seq 16 231);do
+        prcolor $i " "
+        [ $(($i % 36)) = 15 ]&&printf "\e[0m\n"
+    done
+    for i in $(seq 232 255);do
+        prcolor $i " "
+    done
+    printf "\e[0m\n"
+}
+_styles(){
+    for i in $(seq 110);do
+        printf "\e[$i""m$i\t\e[m"
+        test $(( $i % 10 )) = 0&&echo
+    done
+}
+
+case "$1" in
+    24)    _colors24;;
+    name)  _colorsname;;
+    style) _styles;;
+    *)     _colors;;
+esac

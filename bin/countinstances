@@ -1,0 +1,23 @@
+#!/bin/bash
+
+flag='c'
+while getopts "cw" opt; do
+  case $opt in
+    c)  flag="c";;
+    w)  flag="w";;
+    \?) exit 1;;
+  esac
+done
+
+shift $((OPTIND-1))
+if [ $# -ne 1 ]; then
+  echo "Usage: $(basename $0) [-c|-w] file">&2
+  exit 1
+fi
+arg=$1
+
+if [ $flag = "c" ]; then
+  cat $arg|tr -d '\n'|fold -w 1|sort|uniq -c|sort -n
+elif [ $flag = "w" ]; then
+  cat $arg|tr -s '[:space:]' '\n'|sort|uniq -c|sort -n
+fi

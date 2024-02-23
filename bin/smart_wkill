@@ -1,5 +1,5 @@
 #!/bin/bash
-blacklist=("firefox" "skype")
+blacklist=("firefox" "Skype")
 class=$(hyprctl activewindow -j|jq .class -r)
 if [[ " ${blacklist[*]} " != *" $class "* ]]; then
     hyprctl dispatch killactive

@@ -14,10 +14,11 @@
     "custom/sep2":{"format": ""},
     "tray": {
     },
-        "clock": {
+    "clock": {
+        "interval": 1,
         "format": "{:%Y/%m/%d;%V %H:%M:%S}"
     },
-        "battery": {
+    "battery": {
         "states": { "critical": 15 },
         "format": "V {capacity}%",
         "format-charging": "^ {capacity}%",

@@ -21,8 +21,7 @@ set -x MANPAGER "$PAGER -l man"
 set -x READ_QUICKLY_RATE 350
 set -x PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages"
 set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin
-set -p fish_function_path ~/.config/fish/self_functions
-set -p fish_complete_path ~/.config/fish/self_completions
+set -p fish_complete_path ~/.config/fish/outer_completions
 set fish_cursor_insert      line
 set fish_cursor_replace_one underscore
 set fish_cursor_replace     underscore

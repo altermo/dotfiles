@@ -1,0 +1,10 @@
+#!/bin/python3
+import sys
+def main(argv)->None:
+    if not argv:print('use: spark 1 2 3');return
+    argv=[*map(int,argv)]
+    mi=min(argv)
+    ma=max(argv)-mi
+    print(''.join(('▁','▂','▃','▄','▅','▆','▇','█')[(i-mi)*7//ma] for i in argv))
+if __name__=='__main__':
+    main(sys.argv[1:])
