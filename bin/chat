@@ -8,7 +8,7 @@ def main(args):
         return
     inp=' '.join(args[1:])
     response = g4f.ChatCompletion.create(
-        model=g4f.models.gpt_4_turbo,
+        model=g4f.models.llama2_70b,
         messages=[{"role": "user", "content": inp}],
         stream=True,
     )

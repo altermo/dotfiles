@@ -20,7 +20,7 @@ set -x PAGER 'bat --decorations never --paging=always --pager="less --SILENT -RF
 set -x MANPAGER "$PAGER -l man"
 set -x READ_QUICKLY_RATE 350
 set -x PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages"
-set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin
+set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin $HOME/.nix-profile/bin/
 set -p fish_complete_path ~/.config/fish/outer_completions
 set fish_cursor_insert      line
 set fish_cursor_replace_one underscore
@@ -92,6 +92,7 @@ alias wget 'wget -c'
 alias fd 'fd -H'
 alias zip 'zip -r -v'
 alias termdown 'termdown -B'
+alias clear 'TERM=xterm env clear'
 
 #namig
 ##shorter names
@@ -175,9 +176,9 @@ alias mousehide 'xbanish -a'
 alias mousetty 'sudo systemctl start gpm.service'
 function clearfuncs;for i in (functions -a);functions -e $i;end;end
 function countdown
-    set save (wmctrl -d|grep \*|cut -d\  -f 1)
+    set save (hyprctl activeworkspace -j|jq .id)
     termdown $argv
-    wmctrl -s $save
+    hyprctl dispatch workspace $save
 end
 function mnt;udisksctl mount -b /dev/sdb;end
 alias tu "HOME=(mktemp -d)"
@@ -196,7 +197,7 @@ function usercreator
     echo $web|jq .results[0].login.username -r
     echo $web|jq .results[0].login.password -r
 end
-alias reload 'exec fish -C "$(status current-commandline|string split \;|tail +2)"'
+alias reset 'exec fish -C "$(status current-commandline|string split \;|tail +2)"'
 function update_hosts
     begin;curl https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts;
         cat /etc/hosts.own;end|sudo tee /etc/hosts >/dev/null

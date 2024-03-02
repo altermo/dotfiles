@@ -70,4 +70,5 @@ AUR	https://aur.archlinux.org/
 archlinux	https://archlinux.org/
 distro-timeline	https://upload.wikimedia.org/wikipedia/commons/1/1b/Linux_Distribution_Timeline.svg
 archwiki	https://wiki.archlinux.org/
+nixos	https://nixos.org/
 # vim:tabstop=20:
