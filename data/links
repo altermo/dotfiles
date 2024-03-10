@@ -71,4 +71,5 @@ archlinux	https://archlinux.org/
 distro-timeline	https://upload.wikimedia.org/wikipedia/commons/1/1b/Linux_Distribution_Timeline.svg
 archwiki	https://wiki.archlinux.org/
 nixos	https://nixos.org/
+rep-graph	https://repology.org/repositories/graphs
 # vim:tabstop=20:
