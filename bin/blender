@@ -1,2 +1,0 @@
-#!/bin/sh
-WAYLAND_DISPLAY= flatpak run org.blender.Blender
