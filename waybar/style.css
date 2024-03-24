@@ -37,6 +37,18 @@ box {
 #battery {
   background-color: rgb(52, 148, 4);
 }
+@keyframes warn {
+    to {
+      color: #f53c3c;
+    }
+}
+#battery.critical:not(.charging) {
+    animation-name: warn;
+    animation-duration: 0.25s;
+    animation-timing-function: steps(10);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
 
 #clock {
   background-color: rgb(16, 128, 108);

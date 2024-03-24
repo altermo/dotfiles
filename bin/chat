@@ -2,13 +2,13 @@
 import sys
 import g4f
 
-def main(args):
+def main(args:list[str]):
     if len(args)<2:
         inp=input('>')
     else:
         inp=' '.join(args[1:])
     response = g4f.ChatCompletion.create(
-        #model=g4f.models.claude_v2,
+        #model=g4f.models.claude_3_opus,
         model=g4f.models.llama2_70b,
         messages=[{"role": "user", "content": inp}],
         stream=True,

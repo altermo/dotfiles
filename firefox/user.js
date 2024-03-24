@@ -29,3 +29,5 @@
 //user_pref("findbar.highlightAll",true)
 //add own search engines
 //user_pref("browser.urlbar.update2.engineAliasRefresh",true)
+//don't close firefox when closing last tab
+//user_pref("browser.tabs.closeWindowWithLastTab",false)

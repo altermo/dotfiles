@@ -1,0 +1,6 @@
+#!/bin/bash
+ if test -n "$NVIM"; then
+     nvr -c ":bwipeout!" -c ":edit $@"
+ else
+     nvim $@
+ fi

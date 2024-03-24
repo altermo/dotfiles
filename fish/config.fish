@@ -14,6 +14,7 @@ test "$TEMPFILE"||set -U TEMPFILE /tmp/user/temp.lua
 test -d /tmp/user||mkdir /tmp/user
 set fish_greeting
 set langs 'en' 'es' 'sv' 'hu'
+set FILEMANAGER joshuto
 set -x EDITOR nvim #/usr/bin/nvr
 set -x VISUAL nvim #/usr/bin/nvr
 set -x PAGER 'bat --decorations never --paging=always --pager="less --SILENT -RF"'
@@ -45,7 +46,7 @@ zoxide init fish|source
 #fzf
 function ff;plocate (dirname $PWD/.) $argv|fzf|read out&&test -d $out&&cd $out||begin;test -f $out&&$EDITOR $out;end;end
 function ffuncs;functions -a|fzf --preview="fish -ic 'type {1}|bat -pp -l fish --color=always'";end
-function fc;env ls ~/.config|fzf|read out&&test $out&&ranger ~/.config/$out;end
+function fc;env ls ~/.config|fzf|read out&&test $out&&$FILEMANAGER ~/.config/$out;end
 function ft;tldr -l|fzf --preview 'tldr --color=always {}'|xargs -r tldr;end
 
 #installer
@@ -99,7 +100,7 @@ abbr z/ z\ /
 abbr - z\ -
 abbr t tldr
 abbr c clear
-abbr r ranger
+abbr r $FILEMANAGER
 abbr cr touch
 abbr mkd mkdir
 abbr pow acpi
@@ -151,7 +152,6 @@ alias rem "killall emacs;env emacs --daemon"
 alias umacs "env emacs --init-directory=/home/user/.config/emacs/"
 
 #other
-function ranger;riv ranger "nvr -c 'lua require\"small.ranger\".run(\"$argv\")'" $argv;end
 abbr dtmp 'cd (mktemp -d -p /tmp/user)'
 abbr ctu 'cd /tmp/user'
 for i in $langs;for j in $langs
@@ -206,7 +206,7 @@ end
 function encsend
     zip /tmp/enc-out.zip $argv --encrypt
     /bin/cat /tmp/enc-out.zip|curl -F file=@- 0x0.st
-    rm -fr /tmp/enc-out.zip
+    rm -f /tmp/enc-out.zip
 end
 function decget;unzip (curl "$argv"|psub);end
 function exe;test -n "$argv"&&chmod u+x $argv||env ls -p|grep -v /|fzf|xargs -r chmod u+x;end
