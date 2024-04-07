@@ -1,6 +1,6 @@
 #!/bin/bash
- if test -n "$NVIM"; then
-     nvr -c ":bwipeout!" -c ":edit $@"
- else
-     nvim $@
- fi
+if test -n "$NVIM"; then
+ nvr -c ":set bufhidden=wipe" -c ":lcd $PWD" -c ":new $@" -c ":wincmd p" -c ":wincmd q" -c ":wincmd p"
+else
+ exec nvim $@
+fi

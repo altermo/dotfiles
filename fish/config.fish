@@ -14,14 +14,15 @@ test "$TEMPFILE"||set -U TEMPFILE /tmp/user/temp.lua
 test -d /tmp/user||mkdir /tmp/user
 set fish_greeting
 set langs 'en' 'es' 'sv' 'hu'
-set FILEMANAGER joshuto
-set -x EDITOR nvim #/usr/bin/nvr
-set -x VISUAL nvim #/usr/bin/nvr
+set FILEMANAGER ranger
+set -x EDITOR nvim
+set -x VISUAL nvim
 set -x PAGER 'bat --decorations never --paging=always --pager="less --SILENT -RF"'
 set -x MANPAGER "$PAGER -l man"
 set -x READ_QUICKLY_RATE 350
 set -x PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages"
 set -x GTK_THEME Adwaita:dark
+set -x GIT_EXTERNAL_DIFF "difft --display=inline --syntax-highlight=off --color=always"
 set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin $HOME/.nix-profile/bin/
 set -p fish_complete_path ~/.config/fish/outer_completions
 set fish_cursor_insert      line
@@ -111,6 +112,7 @@ abbr wifi nmtui-connect
 abbr list_ports 'lsof -i'
 abbr unmount umount
 ##other
+alias ed "nvim --clean -E"
 abbr cargob "watchexec cargo check"
 abbr cargoc cargo\ clippy
 #alias rich "python -m rich"

@@ -1,0 +1,23 @@
+#!/usr/bin/env -S nvim -l
+if not vim.env.NVIM then
+    error('$NVIM not set')
+end
+if #arg==0 then
+    error('no arguments')
+end
+local i=0
+local socket=vim.fn.sockconnect('pipe',vim.env.NVIM,{rpc=true})
+while i<#arg do
+    i=i+1
+    if arg[i]=='-c' then
+        i=i+1
+        assert(arg[i],'no argument after -c')
+        vim.rpcrequest(socket,'nvim_exec2',arg[i],{})
+    elseif arg[i]:sub(1,1)=='-' then
+        error('unknown option '..arg[i])
+    else
+        vim.rpcrequest(socket,'nvim_cmd',{cmd='edit',args={arg[i]}},{})
+    end
+end
+-- vim:ft=lua:
+
