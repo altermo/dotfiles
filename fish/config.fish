@@ -75,6 +75,7 @@ abbr ga "git commit -a --amend"
 abbr gt "git checkout"
 abbr gs "git status"
 abbr gd "git diff"
+abbr gdd "env -u GIT_EXTERNAL_DIFF git diff"
 
 #optinos
 function cal;env cal -wm --color=always $argv|lolcat;end
@@ -127,7 +128,6 @@ alias less "$PAGER"
 alias cat "bat -pp"
 alias pip ~/.venv/bin/pip
 abbr cd z
-abbr vim nvim
 abbr tree "eza -T"
 abbr find fd
 abbr df duf
