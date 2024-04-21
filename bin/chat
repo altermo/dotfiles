@@ -8,8 +8,9 @@ def main(args:list[str]):
     else:
         inp=' '.join(args[1:])
     response = g4f.ChatCompletion.create(
-        #model=g4f.models.claude_3_opus,
-        model=g4f.models.llama2_70b,
+        # model=g4f.models.claude_3_opus,
+        # model=g4f.models.gpt_35_turbo_16k_0613,
+        model=g4f.models.llama3_8b_instruct,
         messages=[{"role": "user", "content": inp}],
         stream=True,
     )

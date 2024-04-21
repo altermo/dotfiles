@@ -64,7 +64,7 @@ alias paq "paru -Q"
 alias paf "paru -Qo"
 alias pal "paru -Ql"
 alias paC "paru -Sc"
-abbr mirror "curl https://archlinux.org/mirrorlist/all/"
+alias mirrorlist_update "curl -s 'https://archlinux.org/mirrorlist/?country=FR&country=GB&protocol=https&use_mirror_status=on' | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -|sudo tee /etc/pacman.d/mirrorlist"
 
 #git
 #abbr gCA "git commit -a -m (git status --porcelain|string join ';')"
@@ -218,6 +218,7 @@ alias vimtip "curl -s -m 3 https://vtip.43z.one"
 alias nvimtip "curl https://www.vimiscool.tech/neotip"
 abbr icargo evcxr
 abbr weather "curl wttr.in/\?nFQ"
+abbr scan_open_ports "nmap -p- 127.0.0.1"
 
 #installer
 if not type fisher >/dev/null 2>&1
