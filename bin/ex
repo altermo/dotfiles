@@ -1,5 +1,5 @@
 #!/bin/bash
-not [ -f "$1" ]&&echo "'$1' is not a valid file!"&&exit 1
+! [ -f "$1" ]&&echo "'$1' is not a valid file!"&&exit 1
 case "$1" in
     *.tar.bz2) tar xvjf "$1";;
     *.tar.gz)  tar xvzf "$1";;

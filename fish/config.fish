@@ -20,7 +20,7 @@ set -x VISUAL nvim
 set -x PAGER 'bat --decorations never --paging=always --pager="less --SILENT -RF"'
 set -x MANPAGER "$PAGER -l man"
 set -x READ_QUICKLY_RATE 350
-set -x PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages"
+set -x PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages" "$HOME/.venv/lib/python3.12/site-packages"
 set -x GTK_THEME Adwaita:dark
 set -x GIT_EXTERNAL_DIFF "difft --display=inline --syntax-highlight=off --color=always"
 set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin $HOME/.nix-profile/bin/
