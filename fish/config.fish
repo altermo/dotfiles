@@ -86,7 +86,7 @@ alias mv 'mv -ib'
 alias ln 'ln -ibs'
 alias mkdir 'mkdir -p'
 alias touch 'mkdir -p (dirname $argv)&&env touch'
-alias neofetch 'clear;fastfetch'
+alias neofetch 'clear;fastfetch|lolcat'
 alias wget 'wget -c'
 alias fd 'fd -H'
 alias zip 'zip -r -v'
@@ -145,7 +145,7 @@ function nvim
 end
 function ntime;time $argv[1] +"autocmd VimEnter * quit" $argv[2..];end
 alias kpn 'pkill -9 -P 1 "^nvim\$";pkill -9 -P 1 -f language_server_linux_x64'
-function nvims;echo vimacs\nNvChad\nSpaceVim|fzf|read out&&test -n "$out"&&NVIM_APPNAME=$out env nvim;end
+function nvims;echo vimacs\nNvChad\nSpaceVim\nLazyVim|fzf|read out&&test -n "$out"&&NVIM_APPNAME=$out env nvim;end
 
 #emacs
 alias emacs "setsid emacsclient -c -a 'emacs'"

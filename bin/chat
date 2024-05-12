@@ -1,20 +1,54 @@
 #!/bin/python
+import readline
+_=readline
 import sys
-import g4f
+
+def run(model,messages):
+    print('Importing g4f',flush=True,end='')
+    import g4f
+    print(f'\x1b[2K\rCreating request ({model.name})',flush=True,end='')
+    response = g4f.ChatCompletion.create(
+        model=model,
+        messages=messages,
+        stream=True,
+    )
+    flag=True
+    print(f'\x1b[2K\rGetting response ({model.name})',flush=True,end='')
+    for message in filter(lambda x: type(x)==str,response):
+        if flag:
+            print('\x1b[2K\r',flush=True,end='')
+            flag=False
+        print(message, flush=True, end='')
+    print()
 
 def main(args:list[str]):
     if len(args)<2:
         inp=input('>')
     else:
         inp=' '.join(args[1:])
-    response = g4f.ChatCompletion.create(
-        # model=g4f.models.claude_3_opus,
-        # model=g4f.models.gpt_35_turbo_16k_0613,
-        model=g4f.models.llama3_70b_instruct,
-        messages=[{"role": "user", "content": inp}],
-        stream=True,
-    )
-    for message in response:
-        print(message, flush=True, end='')
+    if len(inp)>0 and inp[0]=='\x1b':
+        messages=[]
+        role="user"
+        while 1:
+            inp=input(f'({role})>')
+            if inp=='':
+                break
+            messages.append({"role": role, "content": inp})
+            role="user" if role=="system" else "system"
+    else:
+        messages=[{"role": "user", "content": inp}]
+    print('Importing g4f',flush=True,end='')
+    import g4f
+    for model in (
+        g4f.models.llama3_70b_instruct,
+        g4f.models.gpt_35_turbo_0613,
+        g4f.models.gpt_4_turbo,
+    ):
+        try:
+            run(model,messages)
+        except Exception:
+            pass
+        else:
+            return
 if __name__=='__main__':
     main(sys.argv)

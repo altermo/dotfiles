@@ -1,0 +1,7 @@
+#!/bin/bash
+
+pid=$(pidof swaybg)
+swaybg -i "$1"&
+disown
+sh -c "sleep 1; for p in $pid; do kill \$p 2>/dev/null; done"&
+disown

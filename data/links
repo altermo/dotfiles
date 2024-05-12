@@ -31,6 +31,7 @@ zig-doc	https://ziglang.org/documentation/master/
 pip	https://pypi.org/
 toml	https://toml.io/en/
 nushell-doc	https://www.nushell.sh/book/
+utf-8	https://en.wikipedia.org/wiki/UTF-8
 #other
 lua-ls-annotations	https://luals.github.io/wiki/annotations/
 this-week-in-neovim	https://dotfyle.com/this-week-in-neovim
@@ -50,7 +51,6 @@ chatgpt	https://chat.openai.com/chat
 proton	https://mail.proton.me/
 semver	https://semver.org/
 wikiperdia-ipa	https://en.wikipedia.org/wiki/Help:IPA?useskin=vector
-carbon	https://carbon.now.sh/
 neovim-reddit	https://www.reddit.com/r/neovim/
 neovim-discourse	https://neovim.discourse.group/
 waybackmachine	https://web.archive.org/
