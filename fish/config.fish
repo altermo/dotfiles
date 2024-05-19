@@ -64,7 +64,7 @@ alias paq "paru -Q"
 alias paf "paru -Qo"
 alias pal "paru -Ql"
 alias paC "paru -Sc"
-alias mirrorlist_update "curl -s 'https://archlinux.org/mirrorlist/?country=FR&country=GB&protocol=https&use_mirror_status=on' | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -|sudo tee /etc/pacman.d/mirrorlist"
+alias mirrorlist_update "curl -s 'https://archlinux.org/mirrorlist/?country=NO&country=SE&country=DK&country=FI&country=DE&country=PL&protocol=https&use_mirror_status=on' | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -|sudo tee /etc/pacman.d/mirrorlist"
 
 #git
 #abbr gCA "git commit -a -m (git status --porcelain|string join ';')"
@@ -157,7 +157,9 @@ alias umacs "env emacs --init-directory=/home/user/.config/emacs/"
 abbr dtmp 'cd (mktemp -d -p /tmp/user)'
 abbr ctu 'cd /tmp/user'
 for i in $langs;for j in $langs
-    alias "tr$i$j" "trans -b $i:$j"
+    if test $i != $j
+        alias "tr$i$j" "trans -b $i:$j"
+    end
 end;end
 alias clock 'termdown -z -Z "%H : %M : %S"'
 alias mousetty 'sudo systemctl start gpm.service'

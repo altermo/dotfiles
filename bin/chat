@@ -40,9 +40,14 @@ def main(args:list[str]):
     print('Importing g4f',flush=True,end='')
     import g4f
     for model in (
+        #Primary
+        g4f.models.command_r_plus,
         g4f.models.llama3_70b_instruct,
-        g4f.models.gpt_35_turbo_0613,
+        g4f.models.gpt_4o,
+        #Backup
+        g4f.models.mixtral_8x7b,
         g4f.models.gpt_4_turbo,
+        g4f.models.gpt_35_turbo_16k_0613, # Often uses wrong language
     ):
         try:
             run(model,messages)
@@ -50,5 +55,6 @@ def main(args:list[str]):
             pass
         else:
             return
+    raise Exception('No model found')
 if __name__=='__main__':
     main(sys.argv)
