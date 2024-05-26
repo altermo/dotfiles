@@ -19,7 +19,7 @@ box {
     color: dimgray;
 }
 #workspaces button.active {
-    box-shadow: inset 0px -100px 2px -100px /*1*/rgb(29,148,176);
+    box-shadow: inset 0px -100px 2px -100px /*1*/rgb(64, 197, 47);
 }
 
 #window,
@@ -35,7 +35,7 @@ box {
 }
 
 #battery {
-  background-color: /*2*/rgb(4,147,149);
+  background-color: /*2*/rgb(52, 148, 4);
 }
 @keyframes warn {
     to {
@@ -51,15 +51,15 @@ box {
 }
 
 #clock {
-  background-color: /*3*/rgb(129,108,150);
+  background-color: /*3*/rgb(16, 128, 108);
 }
 
 #custom-sep1 {
-  color: /*2*/rgb(4,147,149);
+  color: /*2*/rgb(52, 148, 4);
   font-size:12.7px;
 }
 #custom-sep2 {
-  color: /*3*/rgb(129,108,150);
-  background-color: /*2*/rgb(4,147,149);
+  color: /*3*/rgb(16, 128, 108);
+  background-color: /*2*/rgb(52, 148, 4);
   font-size:12.7px;
 }

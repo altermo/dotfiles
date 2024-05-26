@@ -1,7 +1,38 @@
 #!/bin/bash
 
+flag=false
+while getopts "w" opt; do
+  case $opt in
+    w)  flag=true;;
+    \?) exit 1;;
+  esac
+done
+shift $((OPTIND-1))
+if [ $# -ne 1 ]; then
+  echo "Usage: $(basename $0) [-w] file">&2
+  exit 1
+fi
+
 pid=$(pidof swaybg)
 swaybg -i "$1"&
 disown
 sh -c "sleep 1; for p in $pid; do kill \$p 2>/dev/null; done"&
+disown
+
+if [ $flag = false ]; then
+  exit 0
+fi
+killall -q waybar
+colors=$(extractcolor "$1")
+
+temp_file=$(mktemp)
+temp_file2=$(mktemp)
+cat ~/.config/waybar/style.css > "$temp_file"
+for i in 0 1 2 3; do
+    rgb=$(echo "$colors" | jq -r ".[$i]"|tr -d "\n"|tr '[' '('|tr ']' ')'|tr -d ' ')
+    cat $temp_file|sed 's/\(\/\*'$i'\*\/rgb\)(.*)/\1'$rgb'/g' > "$temp_file2"
+    mv "$temp_file2" "$temp_file"
+done
+mv "$temp_file" ~/.config/waybar/style.css
+waybar&
 disown
