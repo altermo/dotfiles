@@ -40,14 +40,11 @@ def main(args:list[str]):
     print('Importing g4f',flush=True,end='')
     import g4f
     for model in (
-        #Primary
+        g4f.models.llama_3_70b_instruct,
+        g4f.models.llama_3_70b_chat_hf,
         g4f.models.command_r_plus,
         g4f.models.gpt_4o,
-        g4f.models.llama3_70b_instruct,
-        #Backup
-        g4f.models.mixtral_8x7b,
-        g4f.models.gpt_4_turbo,
-        g4f.models.gpt_35_turbo_16k_0613, # Often uses wrong language
+        g4f.models.llama_3_1_405b_instruct_FP8,
     ):
         try:
             run(model,messages)
