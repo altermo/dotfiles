@@ -92,6 +92,7 @@ alias fd 'fd -H'
 alias zip 'zip -r -v'
 alias termdown 'termdown -B'
 alias clear 'TERM=xterm env clear'
+alias lolcat 'lolcat --seed (random)'
 
 #namig
 ##shorter names
