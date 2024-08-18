@@ -3,7 +3,7 @@ if not status --is-interactive;exit;end
 if tty>/dev/null&&test (math (date +%s) - (stat -c %Y /tmp/gh.not 2>/dev/null||echo 0)) -gt 60
     setsid sh -c 'nm-online -q||exit
     notif=$(gh api notifications|jq "length")
-    test 0 = $notif||echo -e "\e[7m\ngithub: you have received $notif notifications\e[0m"'&
+    test 0 = "$notif"||echo -e "\e[7m\ngithub: you have received $notif notifications\e[0m"'&
     disown
     touch /tmp/gh.not
 end
