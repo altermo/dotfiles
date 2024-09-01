@@ -93,6 +93,7 @@ alias zip 'zip -r -v'
 alias termdown 'termdown -B'
 alias clear 'TERM=xterm env clear'
 alias lolcat 'lolcat --seed (random)'
+alias df 'df -h --output=source,fstype,size,used,pcent,avail,target'
 
 #namig
 ##shorter names
@@ -131,7 +132,6 @@ alias pip ~/.venv/bin/pip
 abbr cd z
 abbr tree "eza -T"
 abbr find fd
-abbr df duf
 abbr du dua
 abbr sudo doas
 
@@ -160,6 +160,7 @@ abbr ctu 'cd /tmp/user'
 for i in $langs;for j in $langs
     if test $i != $j
         alias "tr$i$j" "trans -b $i:$j"
+        alias "tra$i$j" "trans -b $i:$j (read)"
     end
 end;end
 alias clock 'termdown -z -Z "%H : %M : %S"'
@@ -170,7 +171,6 @@ function countdown
     termdown $argv
     hyprctl dispatch workspace $save
 end
-function mnt;udisksctl mount -b /dev/sdb;end
 alias tu "HOME=(mktemp -d)"
 alias tb "curl -F file=@- 0x0.st"
 alias nothing "curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash"
@@ -199,7 +199,7 @@ function gis
     pushd .
     cd ~/.etc/.other
     fish main.fish 2>/dev/null
-    for i in .mozilla .config .config/nvim .config/nvim/.other/_later .config/dotfiles .musiclist .qscript .gtd/vault .etc .config/nvim/.other/small.nvim/ .config/nvim/.other/ua/ .config/nvim/.other/ua_/ .config/nvim/.other/vim-plugin-list/
+    for i in .mozilla .config .config/nvim .config/nvim/.other/_later .config/dotfiles .musiclist .qscript .gtd .etc .config/nvim/.other/small.nvim/ .config/nvim/.other/ua/ .config/nvim/.other/ua_/ .config/nvim/.other/vim-plugin-list/
         cd ~/$i
         if test "$(git status --porcelain)"
             echo $i

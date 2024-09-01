@@ -41,10 +41,7 @@ def main(args:list[str]):
     import g4f
     for model in (
         g4f.models.llama_3_70b_instruct,
-        g4f.models.llama_3_70b_chat_hf,
-        g4f.models.command_r_plus,
         g4f.models.gpt_4o,
-        g4f.models.llama_3_1_405b_instruct_FP8,
     ):
         try:
             run(model,messages)
