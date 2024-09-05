@@ -41,7 +41,7 @@ def main(args:list[str]):
     import g4f
     for model in (
         g4f.models.llama_3_70b_instruct,
-        g4f.models.gpt_4o,
+        g4f.models.gpt_4,
     ):
         try:
             run(model,messages)

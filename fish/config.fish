@@ -24,7 +24,6 @@ set -x PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages" "$HOME/.venv/lib/py
 set -x GTK_THEME Adwaita:dark
 set gitdiff "difft --display=inline --syntax-highlight=off --color=always"
 set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin $HOME/.nix-profile/bin/
-set -p fish_complete_path ~/.config/fish/outer_completions
 set fish_cursor_insert      line
 set fish_cursor_replace_one underscore
 set fish_cursor_replace     underscore
@@ -92,7 +91,7 @@ alias fd 'fd -H'
 alias zip 'zip -r -v'
 alias termdown 'termdown -B'
 alias clear 'TERM=xterm env clear'
-alias lolcat 'lolcat --seed (random)'
+alias lolcat 'dotacat -F 0.05'
 alias df 'df -h --output=source,fstype,size,used,pcent,avail,target'
 
 #namig
@@ -199,7 +198,7 @@ function gis
     pushd .
     cd ~/.etc/.other
     fish main.fish 2>/dev/null
-    for i in .mozilla .config .config/nvim .config/nvim/.other/_later .config/dotfiles .musiclist .qscript .gtd .etc .config/nvim/.other/small.nvim/ .config/nvim/.other/ua/ .config/nvim/.other/ua_/ .config/nvim/.other/vim-plugin-list/
+    for i in .mozilla .config .config/nvim .config/nvim/.other/_later .config/dotfiles .qscript .gtd .etc .config/nvim/.other/small.nvim/ .config/nvim/.other/vim-plugin-list/
         cd ~/$i
         if test "$(git status --porcelain)"
             echo $i

@@ -25,6 +25,7 @@
 //user_pref("browser.startup.page",3);
 //enable browser tolbox
 //user_pref("devtools.chrome.enabled",true)
+//user_pref("devtools.debugger.remote-enabled",true)
 //find bar highlight all
 //user_pref("findbar.highlightAll",true)
 //add own search engines
