@@ -7,7 +7,7 @@ def run(model,messages):
     print('Importing g4f',flush=True,end='')
     import g4f
     print(f'\x1b[2K\rCreating request ({model.name})',flush=True,end='')
-    response = g4f.ChatCompletion.create(
+    response=g4f.ChatCompletion.create(
         model=model,
         messages=messages,
         stream=True,
@@ -40,7 +40,7 @@ def main(args:list[str]):
     print('Importing g4f',flush=True,end='')
     import g4f
     for model in (
-        g4f.models.llama_3_70b_instruct,
+        g4f.models.gpt_4o,
         g4f.models.gpt_4,
     ):
         try:
@@ -49,6 +49,6 @@ def main(args:list[str]):
             pass
         else:
             return
-    raise Exception('No model found')
+    raise Exception('No working model found')
 if __name__=='__main__':
     main(sys.argv)
