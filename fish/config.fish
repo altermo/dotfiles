@@ -209,7 +209,7 @@ function gis
 end
 function encsend
     zip /tmp/enc-out.zip $argv --encrypt
-    /bin/cat /tmp/enc-out.zip|curl -F file=@- 0x0.st
+    /bin/cat /tmp/enc-out.zip|curl -F file=@- -F expires=1 0x0.st
     rm -f /tmp/enc-out.zip
 end
 function decget;unzip (curl "$argv"|psub);end
