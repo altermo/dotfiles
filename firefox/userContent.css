@@ -1,0 +1,5 @@
+@-moz-document url("about:home"), url("about:newtab"), url("about:blank"), url("chrome://browser/content/blanktab.html") {
+ body {
+    background: url("file:///home/user/.config/backgrounds/wallpapers/Firefox_wallpaper.png") !important;
+  }
+}

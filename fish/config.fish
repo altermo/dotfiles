@@ -198,7 +198,7 @@ function gis
     pushd .
     cd ~/.etc/.other
     fish main.fish 2>/dev/null
-    for i in .mozilla .config .config/nvim .config/nvim/.other/_later .config/dotfiles .qscript .gtd .etc .config/nvim/.other/small.nvim/ .config/nvim/.other/vim-plugin-list/
+    for i in .mozilla .config .config/nvim .tmp/lua/_later/ .config/dotfiles .qscript .gtd .etc .tmp/lua/small.nvim/ .tmp/lua/vim-plugin-list/
         cd ~/$i
         if test "$(git status --porcelain)"
             echo $i
