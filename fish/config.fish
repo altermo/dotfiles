@@ -75,6 +75,8 @@ abbr gt "git checkout"
 abbr gs "git status"
 abbr gd 'GIT_EXTERNAL_DIFF=$gitdiff git diff'
 abbr gdd "git diff"
+abbr gsa "git stash push"
+abbr gsr "git stash pop"
 
 #optinos
 function cal;env cal -wm --color=always $argv|lolcat;end
