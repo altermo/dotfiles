@@ -40,6 +40,7 @@ def main(args:list[str]):
     print('Importing g4f',flush=True,end='')
     import g4f
     for model in (
+        g4f.models.claude_3_5_sonnet,
         g4f.models.gpt_4o,
         g4f.models.gpt_4,
     ):
