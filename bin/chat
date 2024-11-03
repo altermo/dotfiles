@@ -41,6 +41,7 @@ def main(args:list[str]):
     import g4f
     for model in (
         g4f.models.claude_3_5_sonnet,
+        g4f.models.o1_mini,
         g4f.models.gpt_4o,
         g4f.models.gpt_4,
     ):
