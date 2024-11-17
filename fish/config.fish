@@ -66,7 +66,7 @@ alias paC "paru -Sc"
 alias mirrorlist_update "curl -s 'https://archlinux.org/mirrorlist/?country=NO&country=SE&country=DK&country=FI&country=DE&country=PL&protocol=https&use_mirror_status=on' | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -|sudo tee /etc/pacman.d/mirrorlist"
 
 #git
-#abbr gCA "git commit -a -m (git status --porcelain|string join ';')"
+abbr gCA "git commit -a -m (git status --porcelain|string join ';')"
 abbr gc "git clone"
 abbr gp "git push"
 abbr gca "git commit -a -m"
@@ -223,6 +223,22 @@ alias nvimtip "curl https://www.vimiscool.tech/neotip"
 abbr icargo evcxr
 abbr weather "curl wttr.in/\?nFQ"
 abbr scan_open_ports "nmap -p- 127.0.0.1"
+function nprog
+    pushd .
+    cd /tmp
+    while true
+        if not ls|grep ltrans > /dev/null
+            break
+        end
+        set total (ls -l|grep ltrans|wc -l)
+        set complete (ls -l|grep ltrans.o|wc -l)
+        set left (math $total - $complete)
+        printf "\r$complete/$left"
+        sleep 0.2
+    end
+    echo
+    popd
+end
 
 #installer
 if not type fisher >/dev/null 2>&1
@@ -231,4 +247,3 @@ end
 for i in jorgebucaran/fisher nickeb96/puffer-fish andreiborisov/sponge ilancosman/tide
     cat ~/.config/fish/fish_plugins|string match $i >/dev/null||fisher install $i
 end
-# vim:fen:
