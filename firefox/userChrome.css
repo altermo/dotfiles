@@ -23,6 +23,19 @@
   box-shadow: none !important;
   border-top: 0px !important;
 }
+#navigator-toolbox,#sidebar-header{
+  border-bottom: 0px !important;
+}
+#sidebar-box,#sidebar-splitter{
+  background: var(--lwt-additional-images);
+  border: 0px !important;
+}
+#sidebar-search-container{
+  display: none;
+}
+#bookmarksPanel{
+  background: transparent !important;
+}
 
 /* TODO:understand what this snipet of code does*/
 :root {

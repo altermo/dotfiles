@@ -13,17 +13,16 @@ alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
 test "$TEMPFILE"||set -U TEMPFILE /tmp/user/temp.lua
 test -d /tmp/user||mkdir /tmp/user
 set fish_greeting
-set langs 'en' 'es' 'sv' 'hu'
+set langs 'en' 'sv' 'hu'
 set FILEMANAGER ranger
 set -x EDITOR nvim
 set -x VISUAL nvim
 set -x PAGER 'bat --decorations never --paging=always --pager="less --SILENT -RF"'
 set -x MANPAGER "$PAGER -l man"
-set -x READ_QUICKLY_RATE 350
-set -x PYTHONPATH "$HOME/.venv/lib/python3.11/site-packages" "$HOME/.venv/lib/python3.12/site-packages"
+set -x PYTHONPATH "$HOME/.venv/lib/python3.12/site-packages"
 set -x GTK_THEME Adwaita:dark
 set gitdiff "difft --display=inline --syntax-highlight=off --color=always"
-set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin $HOME/.nix-profile/bin/
+set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin
 set fish_cursor_insert      line
 set fish_cursor_replace_one underscore
 set fish_cursor_replace     underscore
@@ -43,13 +42,7 @@ set -p fish_complete_path ~/.config/fish/carapace
 carapace _carapace|source
 zoxide init fish|source
 
-#fzf
-function ff;plocate (dirname $PWD/.) $argv|fzf|read out&&test -d $out&&cd $out||begin;test -f $out&&$EDITOR $out;end;end
-function ffuncs;functions -a|fzf --preview="fish -ic 'type {1}|bat -pp -l fish --color=always'";end
-function fc;env ls ~/.config|fzf|read out&&test $out&&$FILEMANAGER ~/.config/$out;end
-function ft;tldr -l|fzf --preview 'tldr --color=always {}'|xargs -r tldr;end
-
-#installer
+#paru
 alias paru_update "nm-online >/dev/null&&paru -Syu --devel"
 alias paru_clear 'test "$(paru -Qtdq)"&&paru -Qtdq | paru -Rns -'
 alias paru_loop_msg 'paru -Qqd | paru -Rsu --print -'
@@ -79,7 +72,6 @@ abbr gsa "git stash push"
 abbr gsr "git stash pop"
 
 #optinos
-function cal;env cal -wm --color=always $argv|lolcat;end
 alias rm 'rm -I'
 alias cp 'cp -rib'
 alias xcp 'xcp -rn'
@@ -87,7 +79,6 @@ alias mv 'mv -ib'
 alias ln 'ln -ibs'
 alias mkdir 'mkdir -p'
 alias touch 'mkdir -p (dirname $argv)&&env touch'
-alias neofetch 'clear;fastfetch|lolcat'
 alias wget 'wget -c'
 alias fd 'fd -H'
 alias zip 'zip -r -v'
@@ -111,14 +102,13 @@ abbr mkd mkdir
 abbr pow acpi
 abbr v nvim
 abbr g grep
-abbr img2txt tesseract
 abbr wifi nmtui-connect
 abbr list_ports 'lsof -i'
 abbr unmount umount
 ##other
 alias ed "nvim --clean -E"
-abbr cargob "watchexec cargo check"
-abbr cargoc cargo\ clippy
+#abbr cargob "watchexec cargo check"
+#abbr cargoc cargo\ clippy
 #alias rich "python -m rich"
 #abbr date 'date +"  %H:%M:%S  %Y/%m/%d;%V"'
 alias ls 'eza -aF'
@@ -153,19 +143,19 @@ function nvims;echo vimacs\nNvChad\nSpaceVim\nLazyVim|fzf|read out&&test -n "$ou
 alias emacs "setsid emacsclient -c -a 'emacs'"
 alias ec "setsid emacsclient >/dev/null"
 alias rem "killall emacs;env emacs --daemon"
-alias umacs "env emacs --init-directory=/home/user/.config/emacs/"
+alias temacs  "/home/user/.nelisp/emacs/src/temacs -Q"
+alias nemacs  "nvim --clean -u /home/user/.nelisp/nelisp/save/setup.lua"
 
 #other
 abbr dtmp 'cd (mktemp -d -p /tmp/user)'
 abbr ctu 'cd /tmp/user'
 for i in $langs;for j in $langs
     if test $i != $j
-        alias "tr$i$j" "trans -b $i:$j"
         alias "tra$i$j" "trans -b $i:$j (read)"
     end
 end;end
 alias clock 'termdown -z -Z "%H : %M : %S"'
-alias mousetty 'sudo systemctl start gpm.service'
+# alias mousetty 'sudo systemctl start gpm.service'
 function clearfuncs;for i in (functions -a);functions -e $i;end;end
 function countdown
     set save (hyprctl activeworkspace -j|jq .id)
@@ -194,8 +184,6 @@ function update_hosts
         cat /etc/hosts.own;end|sudo tee /etc/hosts >/dev/null
 end
 function lnq;ln $argv (basename $argv);end
-alias wifilist 'nmcli device wifi list'
-function fsetsid;setsid fish -ic "$argv";end
 function gis
     pushd .
     cd ~/.etc/.other
@@ -216,11 +204,11 @@ function encsend
 end
 function decget;unzip (curl "$argv"|psub);end
 function exe;test -n "$argv"&&chmod u+x $argv||env ls -p|grep -v /|fzf|xargs -r chmod u+x;end
-alias tsh "sudo systemd-nspawn -D $HOME/.os /sbin/init"
+# alias tsh "sudo systemd-nspawn -D $HOME/.os /sbin/init"
 alias wm "exec Hyprland"
-alias vimtip "curl -s -m 3 https://vtip.43z.one"
-alias nvimtip "curl https://www.vimiscool.tech/neotip"
-abbr icargo evcxr
+# alias vimtip "curl -s -m 3 https://vtip.43z.one"
+# alias nvimtip "curl https://www.vimiscool.tech/neotip"
+# abbr icargo evcxr
 abbr weather "curl wttr.in/\?nFQ"
 abbr scan_open_ports "nmap -p- 127.0.0.1"
 function nprog
@@ -239,6 +227,24 @@ function nprog
     echo
     popd
 end
+function chat
+    hey -c
+    printf "\e[A"
+    hey -- (read)
+end
+function chatt
+    hey -c
+    printf "\e[A"
+    set a (read)
+    while test -n "$a"
+        hey -- $a
+        printf "\e[A"
+        set a (read)
+    end
+end
+function ffuncs;functions -a|fzf --preview="fish -ic 'type {1}|bat -pp -l fish --color=always'";end
+function cal;env cal -wm --color=always $argv|lolcat;end
+alias neofetch 'clear;fastfetch|lolcat'
 
 #installer
 if not type fisher >/dev/null 2>&1
