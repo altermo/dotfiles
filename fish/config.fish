@@ -21,7 +21,6 @@ set -x PAGER 'bat --decorations never --paging=always --pager="less --SILENT -RF
 set -x MANPAGER "$PAGER -l man"
 set -x PYTHONPATH "$HOME/.venv/lib/python3.12/site-packages"
 set -x GTK_THEME Adwaita:dark
-set gitdiff "difft --display=inline --syntax-highlight=off --color=always"
 set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin
 set fish_cursor_insert      line
 set fish_cursor_replace_one underscore
@@ -66,8 +65,7 @@ abbr gca "git commit -a -m"
 abbr ga "git commit -a --amend"
 abbr gt "git checkout"
 abbr gs "git status"
-abbr gd 'GIT_EXTERNAL_DIFF=$gitdiff git diff'
-abbr gdd "git diff"
+abbr gd "git diff"
 abbr gsa "git stash push"
 abbr gsr "git stash pop"
 
