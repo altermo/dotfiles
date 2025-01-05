@@ -1,29 +1,31 @@
-#!/bin/bash
-DEFAULT_LS='exa -aF'
-DEFAULT_CAT='bat -pp --color=always'
+#!/bin/fish
+set DEFAULT_LS 'ls -aF'
+set DEFAULT_CAT 'bat -pp --color=always'
 if test -n "$1";then
-    path=$(realpath $1)
+    set path $(realpath $1)
 else
-    path=$PWD
-fi
-while :;do
+    set path $PWD
+end
+set tempout (mktemp)
+while :
     if not test -e $path;then
         echo "$path is not a valid path"
-        exit 1
-    fi
+        return 1
+    end
     cd $path
-    ret=$(for i in $(ls -A $path);do
-    test -d $i&&echo "$i/"||echo $i
-done|fzf --bind backward-eof:"execute(echo ..)+abort"\
-    --preview "[ -d {} ]&&$DEFAULT_LS {}||$DEFAULT_CAT {}" --prompt "$path > " --sync)
-    if test $? != 0&&test "$ret" != "..";then
+    set paths
+    for i in (ls -A $path)
+        set paths $paths (test -d $i&&echo "$i/"||echo $i)
+    end
+    set ret "$(echo $paths|string split " "|fzf --bind backward-eof:"become(echo ..)"\
+    --preview "[ -d {} ]&&$DEFAULT_LS {}||$DEFAULT_CAT {}" --prompt "$path > " --sync)"
+    if test $status != 0&&test "$ret" != ".."
         echo $path
-        exit
-    fi
-    echo $path > ~/out
-    path=$(realpath -s "$path/$ret")
-    if test -f $path;then
+        return
+    end
+    set path $(realpath -s "$path/$ret")
+    if test -f $path
         echo $path
-        exit
-    fi
-done
+        return
+    end
+end

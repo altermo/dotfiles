@@ -78,10 +78,14 @@ _styles(){
         test $(( $i % 10 )) = 0&&echo
     done
 }
+_help(){
+    echo "Usage: colors [24|name|style|-h]"
+}
 
 case "$1" in
     24)    _colors24;;
     name)  _colorsname;;
     style) _styles;;
+    -h)    _help;;
     *)     _colors;;
 esac

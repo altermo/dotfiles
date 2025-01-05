@@ -1,7 +1,7 @@
 #!/bin/bash
-blacklist=("firefox" "Skype")
+ignore="firefox"
 class=$(hyprctl activewindow -j|jq .class -r)
-if [[ " ${blacklist[*]} " != *" $class "* ]]; then
+if [[ "$class" != "$ignore" ]]; then
     hyprctl dispatch killactive
     exit
 fi

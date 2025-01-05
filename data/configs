@@ -1,5 +1,4 @@
 fish	/home/user/.config/fish/config.fish
-nu	/home/user/.config/nushell/config.nu
 nvim	/home/user/.config/nvim/init.lua
 zsh	/home/user/.zshrc
 bash	/home/user/.bashrc
@@ -7,4 +6,5 @@ spacemacs	/home/user/.spacemacs.d/init.el
 kitty	/home/user/.config/kitty/kitty.conf
 ranger	/home/user/.config/ranger/rc.conf
 hyprland	/home/user/.config/hypr/hyprland.conf
+dotfiles	/home/user/.config/dotfiles
 # vim:tabstop=12:

@@ -1,0 +1,21 @@
+#!/usr/bin/env fish
+set file '/home/user/.files/mpvl_list'
+if not test -f $file
+    echo "file $file not found"
+    exit 1
+end
+for line in (cat $file)
+    set key (echo $line|cut -f1)
+    set acts $acts $key
+    if test $key = "$argv[1]"
+        set act (echo $line|cut -f2)
+    end
+end
+if test -z "$act"
+    echo "possible actions: $(string join ', ' $acts)"
+    if test -n "$argv[1]"
+        echo "unknown action: $argv[1]"
+    end
+    exit 1
+end
+mpv (eval $act) --no-video --shuffle
