@@ -4,7 +4,7 @@ gitlab	https://gitlab.com
 Git-kitty	https://github.com/kovidgoyal/kitty
 Git-lazy.nvim	https://github.com/folke/lazy.nvim
 Git-neovim	https://github.com/neovim/neovim
-Git-treesitter	https://github.com/nvim-treesitter/nvim-treesitter
+Git-nvim-treesitter	https://github.com/nvim-treesitter/nvim-treesitter
 Git-vim	https://github.com/vim/vim
 Git-Hyprland	https://github.com/hyprwm/Hyprland
 Git-keyd	https://github.com/rvaiya/keyd

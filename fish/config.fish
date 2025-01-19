@@ -7,6 +7,7 @@ if tty>/dev/null&&test (math (date +%s) - (stat -c %Y /tmp/gh.not 2>/dev/null||e
     disown
     touch /tmp/gh.not
 end
+tmux ls 2>/dev/null
 
 # ;; vars
 alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
@@ -18,8 +19,8 @@ set FILEMANAGER yazi
 set -x EDITOR nvim
 set -x VISUAL nvim
 set -x PAGER 'bat --decorations never --paging=always --pager="less --SILENT -RF"'
-set -x MANPAGER "$PAGER -l man"
-set -x PYTHONPATH "$HOME/.venv/lib/python3.12/site-packages"
+set -x MANPAGER "sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"
+set -x PYTHONPATH "$HOME/.venv/lib/python3.13/site-packages"
 set -x GTK_THEME Adwaita:dark
 set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin
 set fish_cursor_insert      line
@@ -37,6 +38,12 @@ if not test -f ~/.config/fish/carapace/carapace.fish
     mkdir -p ~/.config/fish/carapace
     carapace --list|awk '{print $1}'|xargs -I{} touch ~/.config/fish/carapace/{}.fish
 end
+if not functions -q tide
+    set -l _tide_tmp_dir (command mktemp -d)
+    curl https://codeload.github.com/ilancosman/tide/tar.gz/v6 | tar -xzC $_tide_tmp_dir
+    command cp -R $_tide_tmp_dir/*/{completions,conf.d,functions} $__fish_config_dir
+    emit _tide_init_install
+end
 set -p fish_complete_path ~/.config/fish/carapace
 carapace _carapace|source
 zoxide init fish|source
@@ -51,7 +58,6 @@ alias pac "paru_clear;paru_loop_msg"
 alias pauc "paru_update&&paru_clear;paru_loop_msg"
 alias paS "paru -Ss"
 alias pai "paru -Si"
-alias paq "paru -Q"
 alias paf "paru -Qo"
 alias pal "paru -Ql"
 alias paC "paru -Sc"
@@ -159,6 +165,7 @@ function nvim_build_prog
     echo
     popd
 end
+alias nvim2 'NVIM_APPNAME=nvim2 nvim'
 
 # ;; other
 abbr dtmp 'cd (mktemp -d -p /tmp/user)'
@@ -177,16 +184,11 @@ end
 alias tu "HOME=(mktemp -d)"
 alias tb "curl -F file=@- 0x0.st"
 alias saferm 'shred -uvz'
-function encrypt;env zip -r --encrypt $argv.zip $argv;end
 alias ip "/bin/ip addr | awk '/inet / {print \$2}'"
-alias lightup 'brightnessctl set 10+%'
-alias lightdown 'brightnessctl set 10-%'
 function lnq;ln $argv (basename $argv);end
 function gis
     pushd .
-    cd ~/.etc/.other
-    fish main.fish 2>/dev/null
-    for i in .mozilla .config .config/nvim .tmp/lua/_later/ .config/dotfiles .qscript .gtd .etc .tmp/lua/vim-plugin-list/
+    for i in .mozilla .config .config/nvim .tmp/lua/_later/ .config/dotfiles .qscript .gtd .media
         cd ~/$i
         if test "$(git status --porcelain)"
             echo $i
@@ -198,28 +200,7 @@ end
 function exe;test -n "$argv"&&chmod u+x $argv||env ls -p|grep -v /|fzf|xargs -r chmod u+x;end
 alias wm "exec Hyprland"
 abbr weather "curl wttr.in/\?nFQ"
-# function chat
-#     hey -c
-#     printf "\e[A"
-#     hey -- (read)
-# end
-# function chatt
-#     hey -c
-#     printf "\e[A"
-#     set a (read)
-#     while test -n "$a"
-#         hey -- $a
-#         printf "\e[A"
-#         set a (read)
-#     end
-# end
 function cal;env cal -wm --color=always $argv|lolcat;end
 alias neofetch 'clear;fastfetch|lolcat'
-if not functions -q tide
-    set -l _tide_tmp_dir (command mktemp -d)
-    curl https://codeload.github.com/ilancosman/tide/tar.gz/v6 | tar -xzC $_tide_tmp_dir
-    command cp -R $_tide_tmp_dir/*/{completions,conf.d,functions} $__fish_config_dir
-    emit _tide_init_install
-end
 alias temacs "/home/user/.nelisp/emacs/src/temacs -Q"
 alias nemacs "nvim --clean -u /home/user/.nelisp/nelisp/save/setup.lua"
