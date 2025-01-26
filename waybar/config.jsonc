@@ -4,7 +4,6 @@
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
     "modules-right": ["tray", "custom/sep1", "battery", "custom/sep2", "clock"],
     "hyprland/workspaces": {
-        "disable-scrool":true ,
         "format": "{icon}",
         "format-icons": {
             "10": "0"

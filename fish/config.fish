@@ -7,7 +7,7 @@ if tty>/dev/null&&test (math (date +%s) - (stat -c %Y /tmp/gh.not 2>/dev/null||e
     disown
     touch /tmp/gh.not
 end
-tmux ls 2>/dev/null
+type tmux >/dev/null&&tmux ls 2>/dev/null
 
 # ;; vars
 alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
@@ -19,7 +19,7 @@ set FILEMANAGER yazi
 set -x EDITOR nvim
 set -x VISUAL nvim
 set -x PAGER 'bat --decorations never --paging=always --pager="less --SILENT -RF"'
-set -x MANPAGER "sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"
+set -x MANPAGER "sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat --style=plain -lman'"
 set -x PYTHONPATH "$HOME/.venv/lib/python3.13/site-packages"
 set -x GTK_THEME Adwaita:dark
 set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin
@@ -164,6 +164,19 @@ function nvim_build_prog
     end
     echo
     popd
+end
+function yazi
+    if not invim
+        env yazi $argv
+        return
+    end
+    set file /tmp/yazi.out
+    env yazi --chooser-file $file $argv
+    set out (cat $file 2>/dev/null)
+    rm $file 2>/dev/null
+    if test -n "$out"
+        nvim $out
+    end
 end
 alias nvim2 'NVIM_APPNAME=nvim2 nvim'
 

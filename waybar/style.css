@@ -10,6 +10,9 @@
 window {
   background-color: rgba(0,0,0,0);
 }
+#waybar.fullscreen {
+  opacity: 0;
+}
 box {
   padding-left: 1px;
   padding-right: 1px;
