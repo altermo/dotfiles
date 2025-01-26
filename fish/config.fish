@@ -201,7 +201,7 @@ alias ip "/bin/ip addr | awk '/inet / {print \$2}'"
 function lnq;ln $argv (basename $argv);end
 function gis
     pushd .
-    for i in .mozilla .config .config/nvim .tmp/lua/_later/ .config/dotfiles .qscript .gtd .media
+    for i in .mozilla .config .config/nvim .config/dotfiles .qscript .gtd .media
         cd ~/$i
         if test "$(git status --porcelain)"
             echo $i
