@@ -71,7 +71,7 @@ abbr gca "git commit -a -m"
 abbr ga "git commit -a --amend"
 abbr gt "git checkout"
 abbr gs "git status"
-abbr gd "git diff"
+abbr gd "git diff HEAD"
 abbr gsa "git stash push"
 abbr gsr "git stash pop"
 abbr gaa "git add -A -N"
@@ -201,7 +201,7 @@ alias ip "/bin/ip addr | awk '/inet / {print \$2}'"
 function lnq;ln $argv (basename $argv);end
 function gis
     pushd .
-    for i in .mozilla .config .config/nvim .config/dotfiles .qscript .gtd .media
+    for i in .mozilla .config .config/nvim .config/dotfiles .qscript .gtd .media .files .archive
         cd ~/$i
         if test "$(git status --porcelain)"
             echo $i
