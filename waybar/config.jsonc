@@ -1,5 +1,6 @@
 {
-    "position": "bottom",
+    // "position": "bottom",
+    "position": "top",
     "layer": "bottom",
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
     "modules-right": ["tray", "custom/sep1", "battery", "custom/sep2", "clock"],
@@ -9,8 +10,10 @@
             "10": "0"
         }
     },
-    "custom/sep1":{"format": ""},
-    "custom/sep2":{"format": ""},
+    // "custom/sep1":{"format": ""},
+    // "custom/sep2":{"format": ""},
+    "custom/sep1":{"format": ""},
+    "custom/sep2":{"format": ""},
     "tray": {
     },
     "clock": {
