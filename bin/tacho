@@ -1,0 +1,8 @@
+#!/bin/bash
+manual=$(tldr -l|\
+  sort|uniq|fzf\
+  --preview-window '80%'\
+  --layout='reverse'\
+  --prompt='tldr: '\
+  --preview="tldr {1} --color=always")
+[ "$manual" ]&&fish -c "tldr $manual"
