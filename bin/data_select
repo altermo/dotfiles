@@ -1,13 +1,16 @@
-#!/bin/bash
+#!/bin/fish
 
-declare -A dict
-keys=()
-while read -r line; do
-    IFS=$'\t' read -r key value <<< "$line"
-     dict[$key]=$value
-     keys+=("$key")
-done <<< $(grep -v ^# $1)
-key="$(echo "${keys[@]}"|tr ' ' '\n'|pwofi --show dmenu)"
-if [[ -n "${dict[$key]}" ]]; then
- exec "$2" $(echo "${dict[$key]}")
-fi
+set dict (grep -v ^# $argv[1]|grep -v ^\$)
+set keys
+for line in $dict
+    set key (echo $line | cut -d\t -f1)
+    set keys $keys $key
+end
+set select (echo $keys | tr ' ' '\n' | pwofi --show dmenu)
+for line in $dict
+    set key (echo $line | cut -d\t -f1)
+    if test $key = $select
+        exec $argv[2] $argv[3..] (echo $line | cut -d\t -f2)
+        exit
+    end
+end

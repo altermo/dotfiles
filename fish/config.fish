@@ -201,7 +201,7 @@ alias ip "/bin/ip addr | awk '/inet / {print \$2}'"
 function lnq;ln $argv (basename $argv);end
 function gis
     pushd .
-    for i in .mozilla .config .config/nvim .config/dotfiles .qscript .gtd .media .files .archive
+    for i in .mozilla .config .config/nvim .config/dotfiles .gtd .media .files .archive
         cd ~/$i
         if test "$(git status --porcelain)"
             echo $i
@@ -216,4 +216,3 @@ abbr weather "curl wttr.in/\?nFQ"
 function cal;env cal -wm --color=always $argv|lolcat;end
 alias neofetch 'clear;fastfetch|lolcat'
 alias temacs "/home/user/.nelisp/emacs/src/temacs -Q"
-alias nemacs "nvim --clean -u /home/user/.nelisp/nelisp/save/setup.lua"

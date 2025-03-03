@@ -1,0 +1,14 @@
+# configs
+dotfiles	/home/user/.config/dotfiles/
+nvim	/home/user/.config/nvim/
+fish	/home/user/.config/fish/config.fish
+kitty	/home/user/.config/kitty/kitty.conf
+hyprland	/home/user/.config/hypr/hyprland.conf
+
+# other
+share	/home/user/.local/share/
+.files	/home/user/.files/
+tmp-usr	/tmp/user/
+projects	/home/user/.projects/
+
+# vim:tabstop=12:

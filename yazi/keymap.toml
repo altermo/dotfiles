@@ -1,0 +1,19 @@
+[[manager.prepend_keymap]]
+on   = "!"
+run  = 'shell "$SHELL" --block'
+desc = "Open shell here"
+
+[[manager.prepend_keymap]]
+on   = ["g", "t"]
+run  = "cd /tmp"
+desc = "Goto /tmp"
+
+[[manager.prepend_keymap]]
+on   = ["g", "u"]
+run  = "cd /usr"
+desc = "Goto /usr"
+
+[[manager.prepend_keymap]]
+on   = ["g", "e"]
+run  = "cd /etc"
+desc = "Goto /etc"

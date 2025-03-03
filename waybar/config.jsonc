@@ -10,10 +10,10 @@
             "10": "0"
         }
     },
-    // "custom/sep1":{"format": ""},
-    // "custom/sep2":{"format": ""},
-    "custom/sep1":{"format": ""},
-    "custom/sep2":{"format": ""},
+    "custom/sep1":{"format": ""},
+    "custom/sep2":{"format": ""},
+    // "custom/sep1":{"format": ""},
+    // "custom/sep2":{"format": ""},
     "tray": {
     },
     "clock": {
