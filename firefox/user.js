@@ -30,3 +30,6 @@
 //user_pref("browser.urlbar.update2.engineAliasRefresh",true)
 //don't close firefox when closing last tab
 //user_pref("browser.tabs.closeWindowWithLastTab",false)
+//no swipe gestures
+//user_pref("browser.gesture.swipe.left","cmd_scrollLeft")
+//user_pref("browser.gesture.swipe.right","cmd_scrollRight")
