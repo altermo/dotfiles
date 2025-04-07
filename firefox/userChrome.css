@@ -16,7 +16,7 @@
 #tabs-newtab-button{
   width: 100%;
 }
-#alltabs-button,.titlebar-buttonbox-container{
+.titlebar-buttonbox-container{
   display: none;
 }
 #nav-bar{
