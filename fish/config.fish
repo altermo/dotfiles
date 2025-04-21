@@ -66,6 +66,7 @@ alias mirrorlist_update "curl -s 'https://archlinux.org/mirrorlist/?country=NO&c
 # ;; git
 abbr gCA "git commit -a -m (git status --porcelain|string join ';')"
 abbr gc "git clone"
+abbr gcg --set-cursor=% "git clone https://github.com/%"
 abbr gp "git push"
 abbr gca "git commit -a -m"
 abbr ga "git commit -a --amend"
@@ -167,16 +168,15 @@ function nvim_build_prog
 end
 function yazi
     if not invim
-        env yazi $argv
-        return
+        env yazi --cwd-file=/tmp/yazi.cwd $argv
+    else
+        env yazi --chooser-file=/tmp/yazi.out --cwd-file=/tmp/yazi.cwd $argv
     end
-    set file /tmp/yazi.out
-    env yazi --chooser-file $file $argv
-    set out (cat $file 2>/dev/null)
-    rm $file 2>/dev/null
-    if test -n "$out"
-        nvim $out
-    end
+    set out (cat /tmp/yazi.out 2>/dev/null)
+    set cwd (cat /tmp/yazi.cwd 2>/dev/null)
+    rm /tmp/yazi.out /tmp/yazi.cwd 2>/dev/null
+    if test -n "$out";nvim $out;end
+    if test -n "$cwd";z $cwd;end
 end
 alias nvim2 'NVIM_APPNAME=nvim2 nvim'
 
