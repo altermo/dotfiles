@@ -178,7 +178,6 @@ function yazi
     if test -n "$out";nvim $out;end
     if test -n "$cwd";z $cwd;end
 end
-alias nvim2 'NVIM_APPNAME=nvim2 nvim'
 
 # ;; other
 abbr dtmp 'cd (mktemp -d -p /tmp/user)'
@@ -216,3 +215,10 @@ abbr weather "curl wttr.in/\?nFQ"
 function cal;env cal -wm --color=always $argv|lolcat;end
 alias neofetch 'clear;fastfetch|lolcat'
 alias temacs "/home/user/.nelisp/emacs/src/temacs -Q"
+function switch_theme_kitty
+    if grep -q 'Dawnfox' ~/.config/kitty/kitty.conf
+        kitty +kitten themes --reload-in=all Afterglow
+    else
+        kitty +kitten themes --reload-in=all Dawnfox
+    end
+end
