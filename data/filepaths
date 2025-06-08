@@ -1,6 +1,6 @@
 # configs
 dotfiles	/home/user/.config/dotfiles/
-nvim	/home/user/.config/nvim/README.md
+nvim	/home/user/.config/nvim/init.lua
 fish	/home/user/.config/fish/config.fish
 kitty	/home/user/.config/kitty/kitty.conf
 hyprland	/home/user/.config/hypr/hyprland.conf

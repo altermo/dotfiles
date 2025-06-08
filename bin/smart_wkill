@@ -1,12 +1,15 @@
 #!/bin/bash
-ignore="firefox"
-class=$(hyprctl activewindow -j|jq .class -r)
-if [[ "$class" != "$ignore" ]]; then
-    hyprctl dispatch killactive
-    exit
+if [[ "$(hyprctl activewindow -j|jq .class -r)" == "firefox" ]]; then
+    if [[ "$(hyprctl clients -j|jq .[].class -r|grep firefox|wc -l)" -le 1 ]]; then
+        hyprctl notify -1 900 "rgb(ff1ea3)" "          no          "
+        exit
+    fi
 fi
-if [[ "$(hyprctl clients -j|jq .[].class -r|grep firefox|wc -l)" > 1 ]]; then
-    hyprctl dispatch killactive
-    exit
+if [[ "$(hyprctl activewindow -j|jq .class -r)" == "kitty" ]]; then
+    if [[ "$(hyprctl activewindow -j|jq .title -r)" == "nvim" ]]; then
+        hyprctl dispatch sendshortcut "SUPER, q, pid:$(hyprctl activewindow -j|jq .pid -r)"
+        exit
+    fi
 fi
-hyprctl notify -1 900 "rgb(ff1ea3)" "          no          "
+
+hyprctl dispatch killactive
