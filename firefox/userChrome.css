@@ -35,6 +35,7 @@
 }
 #bookmarksPanel{
   background: transparent !important;
+  color: white !important;
 }
 
 /* TODO:understand what this snipet of code does*/

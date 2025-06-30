@@ -1,0 +1,41 @@
+[credential "https://github.com"]
+    helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+    helper = !/usr/bin/gh auth git-credential
+
+[user]
+    name = altermo
+    email = 107814000+altermo@users.noreply.github.com
+
+[core]
+    whitespace = error
+
+[init]
+    defaultBranch = main
+
+[advice]
+    addEmptyPathspec = false
+    pushNonFastForward = false
+    statusHints = false
+
+[diff]
+    context = 3
+    renames = copies
+    interHunkContext = 10
+[pager]
+    branch = false
+    tag = false
+    diff = diff-so-fancy | less
+[diff-so-fancy]
+    markEmptyLines = false
+[color "diff"]
+    meta       = magenta
+    frag       = cyan
+    context    = black dim
+    whitespace = yellow reverse
+    old        = red bold
+    new        = green bold
+
+[pull]
+    rebase = true
+    default = current
