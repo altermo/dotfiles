@@ -31,7 +31,7 @@
 [color "diff"]
     meta       = magenta
     frag       = cyan
-    context    = black dim
+    context    = black
     whitespace = yellow reverse
     old        = red bold
     new        = green bold

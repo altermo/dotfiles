@@ -5,11 +5,5 @@ if [[ "$(hyprctl activewindow -j|jq .class -r)" == "firefox" ]]; then
         exit
     fi
 fi
-if [[ "$(hyprctl activewindow -j|jq .class -r)" == "kitty" ]]; then
-    if [[ "$(hyprctl activewindow -j|jq .title -r)" == "nvim" ]]; then
-        hyprctl dispatch sendshortcut "SUPER, q, pid:$(hyprctl activewindow -j|jq .pid -r)"
-        exit
-    fi
-fi
 
 hyprctl dispatch killactive
