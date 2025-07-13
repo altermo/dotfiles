@@ -66,7 +66,6 @@ alias mirrorlist_update "curl -s 'https://archlinux.org/mirrorlist/?country=NO&c
 # ;; git
 abbr gCA "git commit -a -m (git status --porcelain|string join ';')"
 abbr gc "git clone"
-abbr gcg --set-cursor=% "git clone https://github.com/%"
 abbr gp "git push"
 abbr gpf "git push --force-with-lease"
 abbr gca "git commit -a -m"

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+while ! [ -e "$PWD/Makefile" ]; do
+    cd ..
+    if [ "$PWD" = "/" ]; then
+        echo "No Makefile found"
+        exit 1
+    fi
+done
+
+make "$@"
