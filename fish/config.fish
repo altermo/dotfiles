@@ -50,7 +50,8 @@ zoxide init fish|source
 
 # ;; paru
 alias paru_update "nm-online >/dev/null&&paru -Syu --devel"
-alias paru_clear 'test "$(paru -Qtdq)"&&paru -Qtdq | paru -Rns -'
+# alias paru_clear 'test "$(paru -Qtdq)"&&paru -Qtdq | paru -Rns -'
+alias paru_clear 'test "$(paru -Qtdq)"&&paru -Rns -- (paru -Qtdq)'
 alias paru_loop_msg 'paru -Qqd | paru -Rsu --print -'
 alias pas "paru -S"
 alias par "paru -Rc"
@@ -66,6 +67,7 @@ alias mirrorlist_update "curl -s 'https://archlinux.org/mirrorlist/?country=NO&c
 # ;; git
 abbr gCA "git commit -a -m (git status --porcelain|string join ';')"
 abbr gc "git clone"
+# abbr gcg --set-cursor=% "git clone https://github.com/%"
 abbr gp "git push"
 abbr gpf "git push --force-with-lease"
 abbr gca "git commit -a -m"
@@ -105,8 +107,7 @@ abbr r $FILEMANAGER
 abbr cr touch
 abbr mkd mkdir
 abbr pow acpi
-abbr v nvim
-abbr g grep
+abbr v helix ## ???
 abbr wifi nmtui-connect
 ## use other
 alias ed "nvim --clean -E"

@@ -1,7 +1,10 @@
 // from https://github.com/hyprwm/Hyprland/issues/1140#issuecomment-1335128437
+// modified to work on 3.00 ES
+
+#version 300 es
 
 precision mediump float;
-varying vec2 v_texcoord;
+in vec2 v_texcoord;
 uniform sampler2D tex;
 
 const float temperature = 4000.0;
@@ -24,6 +27,8 @@ vec3 colorTemperatureToRGB(const in float temperature) {
                vec3(1.0), smoothstep(1000.0, 0.0, temperature));
 }
 
+out vec4 outCol;
+
 void main() {
     vec4 pixColor = texture2D(tex, v_texcoord);
 
@@ -37,7 +42,5 @@ void main() {
 
     color = mix(color, color * colorTemperatureToRGB(temperature), temperatureStrength);
 
-    vec4 outCol = vec4(color, pixColor[3]);
-
-    gl_FragColor = outCol;
+    outCol = vec4(color, pixColor[3]);
 }

@@ -9,6 +9,7 @@ for line in (cat $file)
     set acts $acts $key
     if test $key = "$argv[1]"
         set act (echo $line|cut -f2)
+        set extra (echo $line|cut -f3)
     end
 end
 if test -z "$act"
@@ -18,4 +19,8 @@ if test -z "$act"
     end
     exit 1
 end
-mpv (eval $act) --no-video --shuffle
+if test $extra = LOOPFILE
+    mpv (eval $act) --no-video --shuffle --loop
+else
+    mpv (eval $act) --no-video --shuffle
+end
