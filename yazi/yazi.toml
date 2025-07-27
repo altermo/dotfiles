@@ -1,3 +1,44 @@
+"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+
 [mgr]
 show_hidden = true
 linemode='size'
+
+[opener]
+all=[
+    {run='$EDITOR "$@"',desc='$EDITOR',block=true},
+    {run='xdg-open "$1"',desc='xdg-open'},
+    {run='nvim --clean "$1"',desc='nvim-clean',block=true},
+]
+browser=[
+    {run='firefox "$@"',desc='firefox',orphan=true},
+]
+video=[
+    {run='mpv --force-window "$@"',desc='mpv',orphan=true},
+]
+audio=[
+    {run='mpv "$@"',desc='mpv'},
+    {run='mpv --force-window "$@"',desc='mpv-windowed',orphan=true},
+]
+ask=[
+    {run='ya emit open --interactive',desc='Open with:'}
+]
+
+
+[open]
+rules = [
+    {mime='image/*',use=['browser','all']},
+    {mime='application/pdf',use=['browser','all']},
+
+    {mime='audio/*',use=['audio','all','browser']},
+    {mime='video/*',use=['video','all','browser']},
+
+    {mime='text/*',use=['all','browser']},
+    {mime='application/{json,ndjson,elc}',use=['all','browser']},
+    {mime='*/javascript',use=['all','browser']},
+    {mime='inode/empty',use=['all','browser']},
+
+    {mime='application/{zlib,zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}',use=['ask','all','browser']},
+    {name='*/',use=['ask','all','browser']},
+    {name='*',use=['ask','all','browser']},
+]
