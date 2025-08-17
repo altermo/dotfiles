@@ -86,7 +86,6 @@ vim.api.nvim_create_autocmd('SafeState',{callback=function ()
   vim.cmd.syntax'on'
 
   require'small.typo'.setup{}
-  require'small.rainbow_pair'.setup()
   require'small.highlight_selected'.setup{}
   require'small.verttab'.setup{}
 end,once=true})
