@@ -102,6 +102,8 @@ abbr z/ z\ /
 abbr unmount umount
 ## smaller name
 abbr - z\ -
+abbr ... z\ ../..
+abbr .... z\ ../../..
 abbr c clear
 abbr r $FILEMANAGER
 abbr cr touch
