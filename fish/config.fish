@@ -92,6 +92,7 @@ alias zip 'zip -r -v'
 alias termdown 'termdown -B'
 alias clear 'TERM=xterm env clear'
 alias df 'df -h --output=source,fstype,size,used,pcent,avail,target'
+alias helix 'printf "\\e]11;#3b224c\\e\\\\";command helix $argv;printf "\\e]111;"'
 
 # ;; namig
 ## spell mistake
@@ -109,8 +110,9 @@ abbr r $FILEMANAGER
 abbr cr touch
 abbr mkd mkdir
 abbr pow acpi
-abbr v helix ## ???
+abbr v nvim
 abbr wifi nmtui-connect
+abbr hx helix
 ## use other
 alias ed "nvim --clean -E"
 alias ls 'eza -aF'

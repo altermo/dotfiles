@@ -1,0 +1,28 @@
+theme="edefault"
+
+[editor]
+completion-timeout=5
+completion-trigger-len=1
+color-modes=true
+end-of-line-diagnostics = "hint"
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden=false
+
+[editor.auto-save]
+focus-lost=true
+after-delay.enable=true
+after-delay.timeout=50
+
+[editor.whitespace.render]
+nbsp = "all"
+nnbsp = "all"
+tab = "all"
+
+[editor.soft-wrap]
+enable=true

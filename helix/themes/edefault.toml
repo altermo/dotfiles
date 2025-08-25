@@ -1,0 +1,5 @@
+inherits = "default"
+
+"ui.statusline.normal" = { fg = "midnight", bg = "lilac" }
+"ui.statusline.insert" = { fg = "midnight", bg = "mint" }
+"ui.statusline.select" = { fg = "midnight", bg = "chamois" }

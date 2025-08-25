@@ -34,6 +34,7 @@ toml	https://toml.io/en/
 nushell-doc	https://www.nushell.sh/book/
 utf-8	https://en.wikipedia.org/wiki/UTF-8
 #other
+helix	https://docs.helix-editor.com/
 lua-ls-annotations	https://luals.github.io/wiki/annotations/
 this-week-in-neovim	https://dotfyle.com/this-week-in-neovim
 kitty-doc	https://sw.kovidgoyal.net/kitty/
