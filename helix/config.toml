@@ -1,15 +1,17 @@
-theme="edefault"
+theme="own-light"
 
 [editor]
 completion-timeout=5
 completion-trigger-len=1
 color-modes=true
 end-of-line-diagnostics = "hint"
+true-color=true
+line-number="relative"
 
 [editor.cursor-shape]
 insert = "bar"
 normal = "block"
-select = "underline"
+select = "block"
 
 [editor.file-picker]
 hidden=false
@@ -26,3 +28,9 @@ tab = "all"
 
 [editor.soft-wrap]
 enable=true
+
+[keys.normal."\\"]
+r = ":config-reload"
+c = ":char"
+e = ":reload-all"
+s = "global_search"

@@ -1,0 +1,12 @@
+inherits="nvim-light"
+
+"ui.cursor" = {bg="#5c6875",fg="#111111"}
+"ui.cursor.primary" = {bg="#73635a",fg="#111111"}
+# "ui.cursor.primary.select" =
+
+"ui.selection" = {bg="NvimLightGrey3"}
+"ui.selection.primary" = {bg="NvimLightGrey4"}
+
+"ui.statusline.normal" = {bg="NvimDarkCyan"}
+"ui.statusline.insert" = {bg="NvimDarkGreen"}
+"ui.statusline.select" = {bg="NvimDarkMagenta"}

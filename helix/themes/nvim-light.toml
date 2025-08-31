@@ -1,0 +1,213 @@
+## The following presume default theme
+## --- : doesn't have corresponding neovim hl-group
+## ->  : is the finally link of hl-group
+## !   : is basically same as Normal, so no need to set
+## ()  : no value, for when there's a corresponding hl-group, but the default colorscheme doesn't define it.
+## []  : same as () but instead of no value it's cleared
+## .   : itself, used for linking to self
+## fg: : only the foreground
+## bg: : only the background
+## *!: : use it as opisit to what it is: background->foreground / foreground->background
+## */: : use it as opisit to what it is: light->dark / dark->light
+## ;   : delimiter when defining both fg: and bg:
+
+## Treesitter stuff
+# "attribute" =                              # @attribute -> PreProc!
+# "type" =                                   # @type -> Type!
+"type.builtin" = "NvimDarkCyan"              # @type.builtin -> Special
+# "type.parameter" =                         # ---
+# "type.enum" =                              # ---
+# "type.enum.variant" =                      # ---
+"constructor" = "NvimDarkCyan"               # @constructor -> Special
+# "constant" =                               # @constant -> Constant!
+"constant.builtin" = "NvimDarkCyan"          # @constant.builtin -> Special
+# "constant.builtin.boolean" =               # @boolean -> Constant!
+# "constant.character" =                     # @character -> Constant!
+"constant.character.escape" = "NvimDarkCyan" # @string.escape -> Special
+# "constant.numeric" =                       # @number -> Constant!
+# "constant.numeric.integer" =               # ---
+# "constant.numeric.float" =                 # @number.float -> Constant!
+"string" = "NvimDarkGreen"                   # @string -> String
+"string.regexp" = "NvimDarkCyan"             # @string.regexp -> Special
+"string.special" = "NvimDarkCyan"            # @string.special -> Special
+# "string.special.path" =                    # @string.special.path -> ()
+"string.special.url" = {modifiers=["underlined"]} # @string.special.url -> Underlined
+# "string.special.symbol" =                  # @string.special.symbol -> ()
+"comment" = "NvimDarkGrey4"                  # @comment -> Comment
+# "comment.line" =                           # ---
+# "comment.line.documentation" =             # @comment.documentation -> ()
+# "comment.block" =                          # ---
+# "comment.block.documentation" =            # @comment.documentation -> ()
+# "comment.unused" =                         # ---
+# "variable" =                               # @variable -> !
+"variable.builtin" = "NvimDarkCyan"          # @variable.builtin -> Special
+# "variable.parameter" =                     # @variable.parameter -> ()
+# "variable.other" =                         # ---
+# "variable.other.member" =                  # @variable.member -> ()
+# "variable.other.member.private" =          # ---
+"label" = {modifiers=["bold"]}               # @label -> Statement
+# "punctuation" =                            # @punctuation -> Delimiter!
+# "punctuation.delimiter" =                  # @punctuation.delimiter -> ()
+# "punctuation.bracket" =                    # @punctuation.bracket -> ()
+"punctuation.special" = "NvimDarkCyan"       # @punctuation.special -> Special
+"keyword" = {modifiers=["bold"]}             # @keyword -> Statement
+# "keyword.control" =                        # ---
+# "keyword.control.conditional" =            # @keyword.conditional -> ()
+# "keyword.control.repeat" =                 # @keyword.repeat -> ()
+# "keyword.control.import" =                 # @keyword.import -> ()
+# "keyword.control.return" =                 # @keyword.return -> ()
+# "keyword.control.exception" =              # @keyword.exception -> ()
+# "keyword.operator" =                       # @keyword.operator -> ()
+# "keyword.directive" =                      # @keyword.directive -> ()
+# "keyword.function" =                       # @keyword.function -> ()
+# "keyword.storage" =                        # ---
+# "keyword.storage.type" =                   # @keyword.type -> ()
+# "keyword.storage.modifier" =               # @keyword.modifier -> ()
+# "operator" =                               # @operator -> Operator!
+"function" = "NvimDarkCyan"                  # @function -> Function
+"function.builtin" = "NvimDarkCyan"          # @function.builtin -> Special
+# "function.method" =                        # @function.method -> ()
+# "function.method.private" =                # ---
+# "function.macro" =                         # @function.macro -> ()
+# "function.special" =                       # ---
+"tag" = "NvimDarkCyan"                       # @tag -> Special
+"tag.builtin" = "NvimDarkCyan"               # @tag.builtin -> Special
+# "namespace" =                              # @module -> Type
+"special" = "NvimDarkCyan"                   # Special -> .
+"markup" = "NvimDarkCyan"                    # @markup -> Special
+"markup.heading" = {modifiers=["bold"]}      # @markup.heading -> Title
+# "markup.heading.marker" =                  # ---
+# "markup.heading.1" =                       # @markup.heading.1 -> ()
+# "markup.heading.2" =                       # @markup.heading.2 -> ()
+# "markup.heading.3" =                       # @markup.heading.3 -> ()
+# "markup.heading.4" =                       # @markup.heading.4 -> ()
+# "markup.heading.5" =                       # @markup.heading.5 -> ()
+# "markup.heading.6" =                       # @markup.heading.6 -> ()
+# "markup.list" =                            # @markup.list -> ()
+# "markup.list.unnumbered" =                 # ---
+# "markup.list.numbered" =                   # ---
+# "markup.list.checked" =                    # @markup.list.checked -> ()
+# "markup.list.unchecked" =                  # @markup.list.unchecked -> ()
+"markup.bold" = {modifiers=["bold"]}         # @markup.strong -> .
+"markup.italic" = {modifiers=["italic"]}     # @markup.italic -> .
+"markup.strikethrough" = {modifiers=["crossed_out"]} # @markup.strikethrough -> .
+"markup.link" = {modifiers=["underlined"]}   # @markup.link -> Underlined
+# "markup.link.url" =                        # @markup.link.url -> ()
+# "markup.link.label" =                      # @markup.link.label -> ()
+# "markup.link.text" =                       # ---
+# "markup.quote" =                           # @markup.quote -> ()
+# "markup.raw" =                             # @markup.raw -> ()
+# "markup.raw.inline" =                      # ---
+# "markup.raw.block" =                       # @markup.raw.block -> ()
+
+## Diff
+# "diff" =                                   # @diff -> []
+"diff.plus" = {fg="NvimLightGreen"}          # fg!/: DiffAdd -> .
+# "diff.plus.gutter" =                       # ---
+"diff.minus" = {fg="NvimLightRed"}           # fg!/: DiffText -> .
+# "diff.minus.gutter" =                      # ---
+"diff.delta" = {fg="NvimLightCyan"}          # fg!/: DiffText -> .
+# "diff.delta.moved" =                       # ---
+# "diff.delta.conflict" =                    # ---
+# "diff.delta.gutter" =                      # ---
+
+## UI
+"ui.background" = {bg="NvimLightGrey2",fg="NvimDarkGrey2"} # bg: Normal -> .
+"ui.background.separator" = {fg="NvimDarkGrey4",modifiers=["bold"]} # fg: WinBar -> .
+"ui.cursor" = {modifiers=["reversed"]}       # Cursor -> .
+# "ui.cursor.normal" =                       # ---
+# "ui.cursor.insert" =                       # ---
+# "ui.cursor.select" =                       # ---
+"ui.cursor.match" = {bg="NvimLightGrey4",modifiers=["bold"]} # MatchParen
+# "ui.cursor.primary" =                      # ---
+# "ui.cursor.primary.normal" =               # ---
+# "ui.cursor.primary.insert" =               # ---
+# "ui.cursor.primary.select" =               # ---
+# "ui.debug.breakpoint" =                    # ---
+# "ui.debug.active" =                        # ---
+"ui.gutter" = "NvimLightGrey4"               # SignColumn -> .
+"ui.gutter.selected" = "NvimLightGrey4"      # CursorLineSign -> SignColumn
+"ui.linenr" = "NvimLightGrey4"               # LineNr -> .
+"ui.linenr.selected" = {modifiers=["bold"]}  # CursorLineNr -> .
+"ui.statusline" = {fg="NvimLightGrey3",bg="NvimDarkGrey3"} # StatusLine -> .
+"ui.statusline.inactive" = {fg="NvimDarkGrey2",bg="NvimLightGrey4"} # StatusLineNC -> .
+# "ui.statusline.normal" =                   # ---
+# "ui.statusline.insert" =                   # ---
+# "ui.statusline.select" =                   # ---
+# "ui.statusline.separator" =                # ---
+"ui.bufferline" = {fg="NvimDarkGrey2",bg="NvimLightGrey4"} # TabLine -> StatusLineNC
+"ui.bufferline.active" = {modifiers=["bold"]} # TabLineSel -> .
+"ui.bufferline.background" = {fg="NvimDarkGrey2",bg="NvimLightGrey4"} # TabLineFill -> StatusLineNC
+"ui.popup" = {bg="NvimLightGrey3"}           # Pmenu -> .
+"ui.popup.info" = {bg="NvimLightGrey1",fg="NvimDarkGrey2"} # bg: NormalFloat -> . ; fg: Normal -> .
+"ui.picker.header" = {fg="NvimDarkGrey2",modifiers=["bold"]} # Title -> .
+# "ui.picker.header.column" =                # ---
+"ui.picker.header.column.active" = {modifiers=["reversed"]} # PmenuSel -> .
+# "ui.window" =                              # WinSeparator -> Normal!
+"ui.help" = {bg="NvimLightGrey1",fg='NvimDarkGrey2'} # NormalFloat -> . ; fg: Normal -> .
+"ui.text" = "NvimDarkGrey2"                  # fg: Normal -> .
+"ui.text.focus" = {modifiers=["reversed"]}   # PmenuSel -> .
+"ui.text.inactive" = "NvimLightGrey4"        # ComplHint -> NonText
+# "ui.text.info" =                           # ---
+# "ui.text.directory" = "NvimDarkCyan"       # Directory -> .
+"ui.virtual.ruler" = "NvimLightGrey4"        # ColorColumn -> .
+"ui.virtual.whitespace" = "NvimLightGrey4"   # Whitespace -> NonText
+"ui.virtual.indent-guide" = "NvimLightGrey4" # Whitespace -> NonText
+"ui.virtual.inlay-hint" = "NvimLightGrey4"   # LspInlayHint -> NonText
+# "ui.virtual.inlay-hint.parameter" =        # ---
+# "ui.virtual.inlay-hint.type" =             # ---
+"ui.virtual.wrap" = "NvimLightGrey4"         # NonText -> .
+"ui.virtual.jump-label" = {fg="NvimDarkGrey1",bg="NvimLightYellow"} # Search -> .
+"ui.menu" = {bg="NvimLightGrey3",fg="NvimDarkGrey2"} # bg: Pmenu -> . ; fg: Normal -> .
+"ui.menu.selected" = {modifiers=["reversed"]} # PmenuSel -> .
+"ui.menu.scroll" = {fg="NvimLightGrey4",bg="NvimLightGrey3"} # fg!: PmenuThumb -> . ; bg: PmenuSbar -> Pmenu
+"ui.selection" = {bg="NvimLightGrey4"}       # VisualNOS -> Visual
+"ui.selection.primary" = {bg="NvimLightGrey4"} # Visual -> .
+# "ui.highlight" =                           # ---
+# "ui.highlight.frameline" =                 # ---
+"ui.cursorline.primary" = {bg="NvimLightGrey3"} # CursorLine -> .
+"ui.cursorline.secondary" = {bg="NvimLightGrey3"} # CursorLine -> .
+"ui.cursorcolumn.primary" = {bg="NvimLightGrey3"} # CursorColumn -> .
+"ui.cursorcolumn.secondary" = {bg="NvimLightGrey3"} # CursorColumn -> .
+"warning" = "NvimDarkYellow"                 # DiagnosticSignWarn -> DiagnosticWarn
+"error" = "NvimDarkRed"                      # DiagnosticSignError -> DiagnosticError
+"info" = "NvimDarkCyan"                      # DiagnosticSignInfo -> DiagnosticInfo
+"hint" = "NvimDarkBlue"                      # DiagnosticSignHint -> DiagnosticHint
+"diagnostic" = {modifiers=["underlined"]}    # Underlined -> .
+"diagnostic.hint" = {underline={style="line",color="NvimDarkBlue"}} # DiagnosticUnderlineHint -> .
+"diagnostic.info" = {underline={style="line",color="NvimDarkCyan"}} # DiagnosticUnderlineInfo -> .
+"diagnostic.warning" = {underline={style="line",color="NvimDarkYellow"}} # DiagnosticUnderlineWarn -> .
+"diagnostic.error" = {underline={style="line",color="NvimDarkRed"}} # DiagnosticUnderlineError -> .
+"diagnostic.unnecessary" = "NvimDarkGrey4" # DiagnosticUnnecessary -> Comment
+"diagnostic.deprecated" = {modifiers=["crossed_out"]} # DiagnosticDeprecated -> .
+"tabstop" = {bg="NvimLightGrey4"} # SnippetTabstop -> Visual
+
+[palette]
+NvimLightYellow = "#fce094"
+NvimLightRed = "#ffc0b9"
+NvimLightMagenta = "#ffcaff"
+NvimLightGrey4 = "#9b9ea4"
+NvimLightGrey3 = "#c4c6cd"
+NvimLightGrey2 = "#e0e2ea"
+NvimLightGrey1 = "#eef1f8"
+NvimLightGreen = "#b3f6c0"
+NvimLightGray4 = "#9b9ea4"
+NvimLightGray3 = "#c4c6cd"
+NvimLightGray2 = "#e0e2ea"
+NvimLightGray1 = "#eef1f8"
+NvimLightCyan = "#8cf8f7"
+NvimLightBlue = "#a6dbff"
+NvimDarkYellow = "#6b5300"
+NvimDarkRed = "#590008"
+NvimDarkMagenta = "#470045"
+NvimDarkGrey4 = "#4f5258"
+NvimDarkGrey3 = "#2c2e33"
+NvimDarkGrey2 = "#14161b"
+NvimDarkGrey1 = "#07080d"
+NvimDarkGreen = "#005523"
+NvimDarkGray4 = "#4f5258"
+NvimDarkGray3 = "#2c2e33"
+NvimDarkGray2 = "#14161b"
+NvimDarkGray1 = "#07080d"
+NvimDarkCyan = "#007373"
+NvimDarkBlue = "#004c73"

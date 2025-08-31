@@ -7,7 +7,11 @@ if tty>/dev/null&&test (math (date +%s) - (stat -c %Y /tmp/gh.not 2>/dev/null||e
     disown
     touch /tmp/gh.not
 end
+
 type tmux >/dev/null&&tmux ls 2>/dev/null
+type zellij >/dev/null&&zellij ls 2>/dev/null
+
+trash clean-old -f
 
 # ;; vars
 alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
@@ -42,8 +46,8 @@ if not functions -q tide
     set -l _tide_tmp_dir (command mktemp -d)
     curl https://codeload.github.com/ilancosman/tide/tar.gz/v6 | tar -xzC $_tide_tmp_dir
     command cp -R $_tide_tmp_dir/*/{completions,conf.d,functions} $__fish_config_dir
-    emit _tide_init_install
 end
+alias tide_config "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='One line' --prompt_spacing=Compact --icons='Few icons' --transient=Yes"
 set -p fish_complete_path ~/.config/fish/carapace
 carapace _carapace|source
 zoxide init fish|source
@@ -92,7 +96,7 @@ alias zip 'zip -r -v'
 alias termdown 'termdown -B'
 alias clear 'TERM=xterm env clear'
 alias df 'df -h --output=source,fstype,size,used,pcent,avail,target'
-alias helix 'printf "\\e]11;#3b224c\\e\\\\";command helix $argv;printf "\\e]111;"'
+alias helix 'printf "\\e]11;#e0e2ea\\e\\\\";command helix $argv;printf "\\e]111;"'
 
 # ;; namig
 ## spell mistake
@@ -221,9 +225,9 @@ function cal;env cal -wm --color=always $argv|lolcat;end
 alias neofetch 'clear;fastfetch|lolcat'
 alias temacs "/home/user/.nelisp/emacs/src/temacs -Q"
 function switch_theme_kitty
-    if grep -q 'Dawnfox' ~/.config/kitty/kitty.conf
-        kitty +kitten themes --reload-in=all Afterglow
+    if grep -q 'Afterglow' ~/.config/kitty/kitty.conf
+        kitty +kitten themes --reload-in=all H-PUX
     else
-        kitty +kitten themes --reload-in=all Dawnfox
+        kitty +kitten themes --reload-in=all Afterglow
     end
 end

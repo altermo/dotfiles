@@ -43,9 +43,9 @@ vim.g.lspconfig=1
 vim.pack.add({
   'https://github.com/neovim/nvim-lspconfig',
   'https://github.com/ibhagwan/fzf-lua',
-  'https://github.com/echasnovski/mini.pairs',
-  'https://github.com/echasnovski/mini.surround',
-  'https://github.com/echasnovski/mini.ai',
+  'https://github.com/mini-nvim/mini.pairs',
+  'https://github.com/mini-nvim/mini.surround',
+  'https://github.com/mini-nvim/mini.ai',
   {src='https://github.com/nvim-treesitter/nvim-treesitter',version='main'},
   'https://github.com/altermo/small.nvim',
 })
@@ -61,16 +61,15 @@ vim.api.nvim_create_autocmd('SafeState',{callback=function ()
     rename(_,result,ctx)
     local changes=result.changes or result.documentChanges
     vim.notify(('Renamed %s instance in %s file'):format(
-      vim.iter(changes):fold(0,function(a,_,n) return a+(#(n.edits or n)) end),
+      vim.iter(changes):fold(0,function(a,k,n) return a+(#((n or k).edits or (n or k))) end),
       #vim.tbl_keys(changes))) end
 
   for lsp,opt in pairs({
-    basedpyright={settings={basedpyright={analysis={typeCheckingMode='standard'}}}},
     lua_ls={settings={Lua={
       runtime={version='LuaJIT',unicodeName=true},
       workspace={library={'/usr/local/share/nvim/runtime/lua/'}}}}},
     clangd={},rust_analyzer={},zls={},
-    taplo={},ts_ls={},vimls={},
+    taplo={},ts_ls={},vimls={},basedpyright={},
   }) do
     vim.lsp.config(lsp,opt)
     vim.lsp.enable(lsp)
@@ -183,8 +182,6 @@ vim.keymap.set('x','\r','d',{})
 
 vim.keymap.set('n','g:','q:')
 vim.keymap.set('n','g/','q/')
-
-vim.keymap.set('n','vv','V')
 
 vim.keymap.set('n','<C-.>','.',{noremap=true}) vim.keymap.set('n','<A-.>','.',{noremap=true})
 

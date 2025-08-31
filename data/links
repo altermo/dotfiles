@@ -8,6 +8,7 @@ Git-nvim-treesitter	https://github.com/nvim-treesitter/nvim-treesitter
 Git-vim	https://github.com/vim/vim
 Git-Hyprland	https://github.com/hyprwm/Hyprland
 Git-keyd	https://github.com/rvaiya/keyd
+Git-helix	https://github.com/helix-editor/helix
 #google
 mail	https://outlook.office.com
 maps	https://www.google.com/maps
@@ -39,7 +40,6 @@ lua-ls-annotations	https://luals.github.io/wiki/annotations/
 this-week-in-neovim	https://dotfyle.com/this-week-in-neovim
 kitty-doc	https://sw.kovidgoyal.net/kitty/
 hyprland-doc	https://wiki.hyprland.org
-schedule	https://karlskrona.skola24.se/
 ted	https://www.ted.com
 wikiperdia	https://en.wikipedia.org
 translate	https://www.deepl.com/translator
