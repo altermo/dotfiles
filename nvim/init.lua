@@ -38,7 +38,6 @@ vim.o.nrformats='hex,unsigned'
 
 vim.g.netrw_keepdir=0
 vim.g.netrw_banner=0
-vim.g.lspconfig=1
 
 vim.pack.add({
   'https://github.com/neovim/nvim-lspconfig',
@@ -74,9 +73,6 @@ vim.api.nvim_create_autocmd('SafeState',{callback=function ()
     vim.lsp.config(lsp,opt)
     vim.lsp.enable(lsp)
   end
-
-  vim.g.lspconfig=nil
-  vim.cmd.runtime'plugin/lspconfig.lua'
 
   require'nvim-treesitter'.install('unstable',{max_jobs=2})
   require'nvim-treesitter'.update({max_jobs=2})
