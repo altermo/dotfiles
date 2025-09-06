@@ -27,7 +27,7 @@ switch $argv
         for file in (fd . "$trash_info" --max-depth 1 -u -0|xargs -0 -I_ basename _ .trashinfo|fzf --multi --preview "[ -d $trash_files/{} ]&&$DEFAULT_LS $trash_files/{}||$DEFAULT_CAT $trash_files/{}")
             rm "$trash_info/$file.trashinfo"
             or return
-            rm "$trash_files/$file"
+            rm -rf "$trash_files/$file"
         end
     case '*'
         echo "Unknown subcommand $argv" >&2
