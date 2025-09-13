@@ -4,6 +4,9 @@
 # Stop permentantly deleting important stuff
 on   = "D"
 run  = "noop"
+[[mgr.prepend_keymap]]
+on   = "<A-C-D>"
+run  = "remove --permanently"
 
 [[mgr.prepend_keymap]]
 on   = "!"

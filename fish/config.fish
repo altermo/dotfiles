@@ -1,7 +1,7 @@
 # ;; preload
 if not status --is-interactive;exit;end
 if tty>/dev/null&&test (math (date +%s) - (stat -c %Y /tmp/gh.not 2>/dev/null||echo 0)) -gt 60
-    setsid sh -c 'timeout 1 ping github.com >/dev/null 2>&1 -c 1||exit
+    sh -c 'timeout 1 ping github.com >/dev/null 2>&1 -c 1||exit
     notif=$(gh api notifications|jq "length")
     test 0 = "$notif"||echo -e "\e[7m\ngithub: you have received $notif notifications\e[0m"'&
     disown
@@ -10,8 +10,7 @@ end
 
 type tmux >/dev/null&&tmux ls 2>/dev/null
 type zellij >/dev/null&&zellij ls 2>/dev/null
-
-trash clean-old -f
+trash clean-old -f &;disown
 
 # ;; vars
 alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
@@ -40,7 +39,9 @@ if invim
 end
 if not test -f ~/.config/fish/carapace/carapace.fish
     mkdir -p ~/.config/fish/carapace
-    carapace --list|awk '{print $1}'|xargs -I{} touch ~/.config/fish/carapace/{}.fish
+    for i in (carapace --list|awk '{print $1}')
+        printf "complete -e '$i'\ncomplete -c '$i' -f -a '(_carapace_callback $i)'" > ~/.config/fish/carapace/$i.fish
+    end
 end
 if not functions -q tide
     set -l _tide_tmp_dir (command mktemp -d)
@@ -49,7 +50,7 @@ if not functions -q tide
 end
 alias tide_config "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='One line' --prompt_spacing=Compact --icons='Few icons' --transient=Yes"
 set -p fish_complete_path ~/.config/fish/carapace
-carapace _carapace|source
+carapace _carapace|head -n21|source
 zoxide init fish|source
 
 # ;; paru
@@ -83,7 +84,7 @@ abbr gsa "git stash push"
 abbr gsr "git stash pop"
 abbr gaa "git add -A -N"
 
-# ;; optinos
+# ;; options
 alias rm 'rm -I'
 alias cp 'cp -rib'
 alias xcp 'xcp -rn'

@@ -47,6 +47,7 @@ vim.pack.add({
   'https://github.com/mini-nvim/mini.ai',
   {src='https://github.com/nvim-treesitter/nvim-treesitter',version='main'},
   'https://github.com/altermo/small.nvim',
+  'https://github.com/altermo/dff',
 })
 
 vim.cmd.filetype'indent off'
@@ -212,7 +213,7 @@ vim.keymap.set('n',' u',':e `=tempname()`\r')
 vim.keymap.set('n',' C',':call setreg("+","<C-r>=expand("%:p")\r")\r',{noremap=true})
 vim.keymap.set('n',' y',':lua require"small.nterm".run("EDITOR=nv yazi -- "..vim.fn.expand"%:p")\r')
 vim.keymap.set('n',' i',':e %:p:h\r')
-vim.keymap.set('n',' r',function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') require'small.dff'.file_expl() end)
+vim.keymap.set('n',' r',function () pcall(vim.cmd.lcd,vim.fn.expand'%:p:h') require'dff'.file_expl() end)
 for k,v in pairs{a='builtin',f='files',s='live_grep',h='helptags',b='buffers',
   o="oldfiles formatter='path.filename_first'"} do
   vim.keymap.set('n',' '..k,'<cmd>FzfLua '..v..' winopts={backdrop=100}\r')
