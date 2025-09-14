@@ -19,15 +19,15 @@ end
 switch $argv
     case clean-old
         for file in (fd . "$trash_info" --max-depth 1 --changed-before 7d -u|xargs -I_ basename _ .trashinfo)
-            rm "$trash_info/$file.trashinfo"
-            or return
             rm -rf "$trash_files/$file"
+            or return
+            rm "$trash_info/$file.trashinfo"
         end
     case rm
         for file in (fd . "$trash_info" --max-depth 1 -u -0|xargs -0 -I_ basename _ .trashinfo|fzf --multi --preview "[ -d $trash_files/{} ]&&$DEFAULT_LS $trash_files/{}||$DEFAULT_CAT $trash_files/{}")
-            rm "$trash_info/$file.trashinfo"
-            or return
             rm -rf "$trash_files/$file"
+            or return
+            rm "$trash_info/$file.trashinfo"
         end
     case '*'
         echo "Unknown subcommand $argv" >&2
