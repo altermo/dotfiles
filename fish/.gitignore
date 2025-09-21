@@ -1,6 +1,5 @@
 /fishd.tmp.*
 /conf.d/*
-/carapace/*
 /completions/*
 /functions/*
 /fish_variables

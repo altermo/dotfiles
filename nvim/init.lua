@@ -165,12 +165,10 @@ vim.keymap.set('n','<F7>',':echo v:errmsg\r')
 vim.keymap.set('n',',','<C-o>')
 vim.keymap.set('n',';','<C-i>')
 
-vim.keymap.set('n','.',':')
-vim.keymap.set('x','.',':')
+vim.keymap.set({'n','x'},'.',':')
 
-vim.keymap.set('n','å','"+p')
+vim.keymap.set({'n','x'},'å','"+p')
 vim.keymap.set('x','æ','"+y')
-vim.keymap.set('x','å','"+p')
 
 vim.keymap.set('n','π','yyp')
 
@@ -209,7 +207,6 @@ vim.keymap.set('n',' W',function ()
   vim.fn.jobstart('cat '..tmp..'|sudo tee >/dev/null '..vim.fn.expand('#:p'),{term=true})
   vim.cmd.startinsert()
 end)
-vim.keymap.set('n',' u',':e `=tempname()`\r')
 vim.keymap.set('n',' C',':call setreg("+","<C-r>=expand("%:p")\r")\r',{noremap=true})
 vim.keymap.set('n',' y',':lua require"small.nterm".run("EDITOR=nv yazi -- "..vim.fn.expand"%:p")\r')
 vim.keymap.set('n',' i',':e %:p:h\r')

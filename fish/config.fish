@@ -13,7 +13,6 @@ type zellij >/dev/null&&zellij ls 2>/dev/null
 trash clean-old -f &;disown
 
 # ;; vars
-alias invim 'not [ $INSIDE_EMACS ]&&[ $NVIM ]'
 test "$TEMPFILE"||set -U TEMPFILE /tmp/user/temp.lua
 test -d /tmp/user||mkdir /tmp/user
 set fish_greeting
@@ -26,48 +25,62 @@ set -x MANPAGER "sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat --
 set -x PYTHONPATH "$HOME/.venv/lib/python3.13/site-packages"
 set -x GTK_THEME Adwaita:dark
 set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin
+
+set fish_key_bindings fish_vi_key_bindings
 set fish_cursor_insert      line
 set fish_cursor_replace_one underscore
 set fish_cursor_replace     underscore
 set fish_cursor_visual      block
-fish_vi_key_bindings
 
 # ;; sources/hooks
-if invim
-    function __hook_nvim_lcd -v PWD;nvr -c "silent! lcd $PWD" &;end
-    nvr -c "silent! lcd $PWD" &
-end
-if not test -f ~/.config/fish/carapace/carapace.fish
-    mkdir -p ~/.config/fish/carapace
-    for i in (carapace --list|awk '{print $1}')
-        printf "complete -e '$i'\ncomplete -c '$i' -f -a '(_carapace_callback $i)'" > ~/.config/fish/carapace/$i.fish
+if test ~/.config/fish/config.fish -nt ~/.config/fish/functions/ls.fish
+    mkdir -p ~/.config/fish/functions
+    function alias_
+        alias $argv
+        functions $argv[1] > ~/.config/fish/functions/$argv[1].fish
     end
+else
+    function alias_;end
 end
+
+if not test -f ~/.config/fish/completions/carapace.fish
+    mkdir -p ~/.config/fish/completions
+    for i in (carapace --list|awk '{print $1}')
+        printf "complete -e '$i'\ncomplete -c '$i' -f -a '(_carapace_callback $i)'" > ~/.config/fish/completions/$i.fish
+    end
+    carapace _carapace|head -n21 > ~/.config/fish/functions/_carapace_callback.fish
+end
+
 if not functions -q tide
     set -l _tide_tmp_dir (command mktemp -d)
     curl https://codeload.github.com/ilancosman/tide/tar.gz/v6 | tar -xzC $_tide_tmp_dir
     command cp -R $_tide_tmp_dir/*/{completions,conf.d,functions} $__fish_config_dir
 end
-alias tide_config "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='One line' --prompt_spacing=Compact --icons='Few icons' --transient=Yes"
-set -p fish_complete_path ~/.config/fish/carapace
-carapace _carapace|head -n21|source
+alias_ tide_config "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='One line' --prompt_spacing=Compact --icons='Few icons' --transient=Yes"
+
 zoxide init fish|source
 
+function invim;not [ $INSIDE_EMACS ]&&[ $NVIM ];end
+if invim
+    function __hook_nvim_lcd -v PWD;nvr -c "silent! lcd $PWD" &;end
+    nvr -c "silent! lcd $PWD" &
+end
+
 # ;; paru
-alias paru_update "nm-online >/dev/null&&paru -Syu --devel"
-# alias paru_clear 'test "$(paru -Qtdq)"&&paru -Qtdq | paru -Rns -'
-alias paru_clear 'test "$(paru -Qtdq)"&&paru -Rns -- (paru -Qtdq)'
-alias paru_loop_msg 'paru -Qqd | paru -Rsu --print -'
-alias pas "paru -S"
-alias par "paru -Rc"
-alias pac "paru_clear;paru_loop_msg"
-alias pauc "paru_update&&paru_clear;paru_loop_msg"
-alias paS "paru -Ss"
-alias pai "paru -Si"
-alias paf "paru -Qo"
-alias pal "paru -Ql"
-alias paC "paru -Sc"
-alias mirrorlist_update "curl -s 'https://archlinux.org/mirrorlist/?country=NO&country=SE&country=DK&country=FI&country=DE&country=PL&protocol=https&use_mirror_status=on' | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -|sudo tee /etc/pacman.d/mirrorlist"
+alias_ paru_update "nm-online >/dev/null&&paru -Syu --devel"
+# alias_ paru_clear 'test "$(paru -Qtdq)"&&paru -Qtdq | paru -Rns -'
+alias_ paru_clear 'test "$(paru -Qtdq)"&&paru -Rns -- (paru -Qtdq)'
+alias_ paru_loop_msg 'paru -Qqd | paru -Rsu --print -'
+alias_ pas "paru -S"
+alias_ par "paru -Rc"
+alias_ pac "paru_clear;paru_loop_msg"
+alias_ pauc "paru_update&&paru_clear;paru_loop_msg"
+alias_ paS "paru -Ss"
+alias_ pai "paru -Si"
+alias_ paf "paru -Qo"
+alias_ pal "paru -Ql"
+alias_ paC "paru -Sc"
+alias_ mirrorlist_update "curl -s 'https://archlinux.org/mirrorlist/?country=NO&country=SE&country=DK&country=FI&country=DE&country=PL&protocol=https&use_mirror_status=on' | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -|sudo tee /etc/pacman.d/mirrorlist"
 
 # ;; git
 abbr gCA "git commit -a -m (git status --porcelain|string join ';')"
@@ -85,19 +98,19 @@ abbr gsr "git stash pop"
 abbr gaa "git add -A -N"
 
 # ;; options
-alias rm 'rm -I'
-alias cp 'cp -rib'
-alias xcp 'xcp -rn'
-alias mv 'mv -ib'
-alias ln 'ln -ibs'
-alias mkdir 'mkdir -p'
-alias wget 'wget -c'
-alias fd 'fd -H'
-alias zip 'zip -r -v'
-alias termdown 'termdown -B'
-alias clear 'TERM=xterm env clear'
-alias df 'df -h --output=source,fstype,size,used,pcent,avail,target'
-alias helix 'printf "\\e]11;#e0e2ea\\e\\\\";command helix $argv;printf "\\e]111;"'
+alias_ rm 'rm -I'
+alias_ cp 'cp -rib'
+alias_ xcp 'xcp -rn'
+alias_ mv 'mv -ib'
+alias_ ln 'ln -ibs'
+alias_ mkdir 'mkdir -p'
+alias_ wget 'wget -c'
+alias_ fd 'fd -H'
+alias_ zip 'zip -r -v'
+alias_ termdown 'termdown -B'
+alias_ clear 'TERM=xterm env clear'
+alias_ df 'df -h --output=source,fstype,size,used,pcent,avail,target'
+alias_ helix 'printf "\\e]11;#e0e2ea\\e\\\\";command helix $argv;printf "\\e]111;"'
 
 # ;; namig
 ## spell mistake
@@ -119,16 +132,16 @@ abbr v nvim
 abbr wifi nmtui-connect
 abbr hx helix
 ## use other
-alias ed "nvim --clean -E"
-alias ls 'eza -aF'
-alias l 'eza -F'
-alias ll 'l -lh --git'
-alias la 'ls -lh --git'
-alias more "$PAGER"
-alias less "$PAGER"
-alias cat "bat -pp"
-alias lolcat 'dotacat -F 0.05'
-alias pip ~/.venv/bin/pip
+alias_ ed "nvim --clean -E"
+alias_ ls 'eza -aF'
+alias_ l 'eza -F'
+alias_ ll 'l -lh --git'
+alias_ la 'ls -lh --git'
+alias_ more "$PAGER"
+alias_ less "$PAGER"
+alias_ cat "bat -pp"
+alias_ lolcat 'dotacat -F 0.05'
+alias_ pip ~/.venv/bin/pip
 abbr cp xcp
 abbr cd z
 abbr tree "eza -T"
@@ -191,22 +204,22 @@ end
 
 # ;; other
 abbr dtmp 'cd (mktemp -d -p /tmp/user)'
-alias touch 'mkdir -p (dirname $argv)&&env touch'
+alias_ touch 'mkdir -p (dirname $argv)&&env touch'
 for i in $langs;for j in $langs
     if test $i != $j
-        alias "tra$i$j" "trans -b $i:$j (read)"
+        alias_ "tra$i$j" "trans -b $i:$j (read)"
     end
 end;end
-alias clock 'termdown -z -Z "%H : %M : %S"'
+alias_ clock 'termdown -z -Z "%H : %M : %S"'
 function countdown
     set save (hyprctl activeworkspace -j|jq .id)
     termdown $argv
     hyprctl dispatch workspace $save
 end
-alias tu "HOME=(mktemp -d)"
-alias tb "curl -F file=@- 0x0.st"
-alias saferm 'shred -uvz'
-alias ip "/bin/ip addr | awk '/inet / {print \$2}'"
+alias_ tu "HOME=(mktemp -d)"
+alias_ tb "curl -F file=@- 0x0.st"
+alias_ saferm 'shred -uvz'
+alias_ ip "/bin/ip addr | awk '/inet / {print \$2}'"
 function lnq;ln $argv (basename $argv);end
 function gis
     pushd .
@@ -220,11 +233,11 @@ function gis
     popd
 end
 function exe;test -n "$argv"&&chmod u+x $argv||env ls -p|grep -v /|fzf|xargs -r chmod u+x;end
-alias wm "exec Hyprland"
+alias_ wm "exec Hyprland"
 abbr weather "curl wttr.in/\?nFQ"
 function cal;env cal -wm --color=always $argv|lolcat;end
-alias neofetch 'clear;fastfetch|lolcat'
-alias temacs "/home/user/.nelisp/emacs/src/temacs -Q"
+alias_ neofetch 'clear;fastfetch|lolcat'
+alias_ temacs "/home/user/.nelisp/emacs/src/temacs -Q"
 function switch_theme_kitty
     if grep -q 'Afterglow' ~/.config/kitty/kitty.conf
         kitty +kitten themes --reload-in=all H-PUX
