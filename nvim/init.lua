@@ -70,6 +70,7 @@ vim.api.nvim_create_autocmd('SafeState',{callback=function ()
       workspace={library={'/usr/local/share/nvim/runtime/lua/'}}}}},
     clangd={},rust_analyzer={},zls={},
     taplo={},ts_ls={},vimls={},basedpyright={},
+    ['nil']={},nixd={},
   }) do
     vim.lsp.config(lsp,opt)
     vim.lsp.enable(lsp)
