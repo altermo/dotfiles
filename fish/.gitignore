@@ -2,4 +2,4 @@
 /conf.d/*
 /completions/*
 /functions/*
-/fish_variables
+/fish_variables*

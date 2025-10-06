@@ -42,9 +42,9 @@ vim.g.netrw_banner=0
 vim.pack.add({
   'https://github.com/neovim/nvim-lspconfig',
   'https://github.com/ibhagwan/fzf-lua',
-  'https://github.com/mini-nvim/mini.pairs',
-  'https://github.com/mini-nvim/mini.surround',
-  'https://github.com/mini-nvim/mini.ai',
+  'https://github.com/nvim-mini/mini.pairs',
+  'https://github.com/nvim-mini/mini.surround',
+  'https://github.com/nvim-mini/mini.ai',
   {src='https://github.com/nvim-treesitter/nvim-treesitter',version='main'},
   'https://github.com/altermo/small.nvim',
   'https://github.com/altermo/dff',
@@ -84,7 +84,14 @@ vim.api.nvim_create_autocmd('SafeState',{callback=function ()
 
   require'small.typo'.setup{}
   require'small.highlight_selected'.setup{}
-  require'small.verttab'.setup{}
+
+  require'small.tabline'.setup{}
+  local timer
+  vim.api.nvim_create_autocmd({'TabClosed','TabEnter','TabNew'},{callback=function ()
+    if timer then timer:close() timer=nil end
+    vim.o.showtabline=2
+    timer=vim.defer_fn(function () timer=nil vim.o.showtabline=0 end,1000)
+  end})
 end,once=true})
 
 require('vim._extui').enable{}
@@ -223,8 +230,6 @@ vim.keymap.set('n',' cl',':edit /tmp/nlog\r')
 vim.keymap.set('n',' cr',function () require'small.reminder2'.sidebar() end)
 vim.keymap.set('n'," '",':lua require"small.nterm".run("fish",true)\r')
 vim.keymap.set('n',' ','<C-w>')
-
-vim.keymap.set('n','<A-Tab>',function () require'small.verttab'.show() end)
 
 vim.keymap.set('n','vn',function () require'small.treeselect'.current() end)
 vim.keymap.set('n','vr',function () require'small.treeselect'.base() end)
