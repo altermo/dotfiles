@@ -4,7 +4,11 @@
     width: 100% !important;
   }
  body {
-    background: url("file:///home/user/.config/backgrounds/wallpapers/Firefox_wallpaper.png") !important;
+    /* NOTE: there is some kind of rule which requires images to be in the ~/.config directory */
+
+    background: url("file:///home/user/.config/backgrounds/d8b71c77-9985-41d2-b98e-51bebc60e595.avif") !important;
+    /* background: url("file:///home/user/.config/backgrounds/wallpapers/Firefox_wallpaper.png") !important; */
+
     background-size: cover !important;
     background-position: center !important;
   }
