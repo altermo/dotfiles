@@ -89,7 +89,7 @@ abbr gc "git clone"
 abbr gp "git push"
 abbr gpf "git push --force-with-lease"
 abbr gca "git commit -a -v"
-abbr ga "git commit -a --amend"
+abbr gcaa "git commit -a -v --amend"
 abbr gt "git checkout"
 abbr gs "git status"
 abbr gd "git diff HEAD"
@@ -159,7 +159,7 @@ function nvim
     kill (cut -f 6 -d " " /proc/$fish_pid/stat)
 end
 function nvims
-    echo NvChad\nLazyVim|fzf|read out||return 1
+    echo NvChad\nLazyVim\nMiniMax|fzf|read out||return 1
     set conf ~/.config/$out
     if not test -d $conf
         switch $out
@@ -169,6 +169,10 @@ function nvims
             case 'LazyVim'
                 git clone https://github.com/LazyVim/starter $conf
                 rm -rf $conf/.git
+            case 'MiniMax'
+                git clone https://github.com/nvim-mini/MiniMax $conf
+                rm -rf $conf/.git
+                NVIM_APPNAME=$out env nvim -l $conf/setup.lua
         end
     end
     NVIM_APPNAME=$out env nvim
