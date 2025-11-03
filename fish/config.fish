@@ -84,18 +84,18 @@ alias_ mirrorlist_update "curl -s 'https://archlinux.org/mirrorlist/?country=NO&
 
 # ;; git
 abbr gCA "git commit -a -m (git status --porcelain|string join ';')"
+abbr gca "git commit -v -a"
+abbr gcaa "git commit -v --amend -a"
 abbr gc "git clone"
-# abbr gcg --set-cursor=% "git clone https://github.com/%"
 abbr gp "git push"
 abbr gpf "git push --force-with-lease"
-abbr gca "git commit -a -v"
-abbr gcaa "git commit -a -v --amend"
 abbr gt "git checkout"
 abbr gs "git status"
 abbr gd "git diff HEAD"
 abbr gsa "git stash push"
 abbr gsr "git stash pop"
 abbr gaa "git add -A -N"
+abbr gb "git branch -vv -a"
 
 # ;; options
 alias_ rm 'rm -I'

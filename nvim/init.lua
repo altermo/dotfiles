@@ -64,7 +64,7 @@ vim.api.nvim_create_autocmd('SafeState',{callback=function ()
   for lsp,opt in pairs({
     lua_ls={settings={Lua={
       runtime={version='LuaJIT',unicodeName=true},
-      workspace={library={'/usr/local/share/nvim/runtime/lua/'}}}}},
+      workspace={library={'/usr/local/share/nvim/runtime/lua/vim/'}}}}},
     clangd={},rust_analyzer={},zls={},
     taplo={},ts_ls={},vimls={},basedpyright={},
     ['nil']={},nixd={},
@@ -81,14 +81,9 @@ vim.api.nvim_create_autocmd('SafeState',{callback=function ()
 
   require'small.typo'.setup{}
   require'small.highlight_selected'.setup{}
-
-  require'small.tabline'.setup{}
-  local timer
-  vim.api.nvim_create_autocmd({'TabClosed','TabEnter','TabNew'},{callback=function ()
-    if timer then timer:close() timer=nil end
-    vim.o.showtabline=2
-    timer=vim.defer_fn(function () timer=nil vim.o.showtabline=0 end,1000)
-  end})
+  require'small.reminder2'.conf={path='/home/user/.gtd/gtd/plans.md'}
+  require'small.reminder2'.setup{}
+  require'small.verttab'.setup{}
 end,once=true})
 
 require('vim._extui').enable{}
@@ -108,11 +103,6 @@ vim.keymap.set('n','dc',':lcd ..|pwd\r')
 vim.keymap.set('n','cd',':lcd %:p:h|pwd\r')
 
 vim.keymap.set('x','<A-f>','y:<C-u>%s/<C-r>"//g<Left><Left>a<bs>',{silent=false})
-
-vim.keymap.set('i','ø','ö')
-vim.keymap.set('i','æ','ä')
-vim.keymap.set('i','Ø','Ö')
-vim.keymap.set('i','Æ','Ä')
 
 for i in ([['"`()[]{}<>]]):gmatch('.') do
   vim.keymap.set('o',i,'i'..i,{silent=true})
@@ -151,6 +141,7 @@ vim.keymap.set('n','gd',function () return (vim.o.tagfunc~='' or #vim.fn.tagfile
 vim.keymap.set('n','<A-a>','G:keepjumps norm! Vgg\r')
 
 vim.keymap.set('n','<A-y>',':let @+=@"\r')
+vim.keymap.set({'n','x'},'<A-u>','<cmd>let @"=@+\r')
 
 vim.keymap.set('n','<A-j>',':move +1\r')
 vim.keymap.set('n','<A-k>',':move -2\r')
@@ -161,8 +152,6 @@ vim.keymap.set('n','0','(reg_recording()==""&&reg_executing()==""&&col(".")==1)?
 
 vim.keymap.set('n','U',':later 1f\r')
 
-vim.keymap.set('n','ø','<C-r>')
-
 vim.keymap.set('n','<F6>',':source\r')
 
 vim.keymap.set('n','<F7>',':echo v:errmsg\r')
@@ -171,11 +160,6 @@ vim.keymap.set('n',',','<C-o>')
 vim.keymap.set('n',';','<C-i>')
 
 vim.keymap.set({'n','x'},'.',':')
-
-vim.keymap.set({'n','x'},'å','"+p')
-vim.keymap.set('x','æ','"+y')
-
-vim.keymap.set('n','π','yyp')
 
 vim.keymap.set('n','\r','&buftype=="quickfix"?"\r":"dd"',{expr=true})
 vim.keymap.set('x','\r','d',{})
@@ -263,9 +247,6 @@ vim.keymap.set('n','<C-x>',function () require'small.incdec'.dec(vim.v.count) en
 
 require'small.copyring'.setup()
 
-require'small.reminder2'.conf={path='/home/user/.gtd/gtd/plans.md'}
-require'small.reminder2'.setup{}
-
 require'mini.pairs'.setup{modes={command=true}}
 require'mini.surround'.setup{
   mappings={
@@ -293,18 +274,6 @@ vim.api.nvim_create_autocmd('BufReadPre',{callback=function (ev)
   if vim.o.buftype~='' then return end
   vim.schedule_wrap(pcall)(vim.cmd.lcd,{vim.fs.root(ev.file,'.git') or vim.fs.dirname(ev.file),mods={silent=true}})
 end,group=vim.api.nvim_create_augroup('AutoCd',{})})
-
-vim.api.nvim_create_autocmd('FileType',{callback=function()
-  vim.keymap.set('i','ł','local ',{buffer=true}) --- AltGr + l
-  vim.keymap.set('i','đ','function ',{buffer=true}) --- AltGr + f
-  vim.keymap.set('i','®','return ',{buffer=true}) --- AltGr + r
-  vim.keymap.set('i','ª','vim.api.nvim_',{buffer=true}) --- AltGr + a
-  vim.keymap.set('i','M','M.',{buffer=true})
-end,pattern='lua'})
-
-vim.api.nvim_create_autocmd('FileType',{callback=function()
-  vim.keymap.set('i','`','getline(".")==""?"```":"`"',{buffer=true,expr=true})
-end,pattern='markdown'})
 
 vim.api.nvim_create_autocmd('VimEnter',{callback=function ()
   if vim.api.nvim_buf_line_count(0)>1 or
