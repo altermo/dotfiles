@@ -20,7 +20,7 @@ set langs 'en' 'sv' 'hu'
 set FILEMANAGER yazi
 set -x EDITOR nvim
 set -x VISUAL nvim
-set -x PAGER 'bat --decorations never --paging=always --pager="less --SILENT -RF"'
+set -x PAGER 'less -RF'
 set -x MANPAGER "sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat --style=plain -lman'"
 set -x PYTHONPATH "$HOME/.venv/lib/python3.13/site-packages"
 set -x GTK_THEME Adwaita:dark
