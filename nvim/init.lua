@@ -42,6 +42,8 @@ vim.pack.add({
   {src='https://github.com/saghen/blink.cmp',version=vim.version.range('')},
   'https://github.com/folke/snacks.nvim',
   'https://github.com/stevearc/oil.nvim',
+  'https://github.com/NMAC427/guess-indent.nvim',
+  'https://github.com/Saghen/blink.pairs',
 })
 
 vim.cmd.filetype'indent off'
@@ -61,7 +63,7 @@ vim.api.nvim_create_autocmd('SafeState',{callback=function ()
   for lsp,opt in pairs({
     lua_ls={settings={Lua={
       runtime={version='LuaJIT',unicodeName=true},
-      workspace={library={'/usr/local/share/nvim/runtime/lua/vim/'}}}}},
+      workspace={library={'/usr/local/share/nvim/runtime/lua/'}}}}},
     clangd={},rust_analyzer={},zls={},
     taplo={},ts_ls={},vimls={},basedpyright={},
     ['nil']={},nixd={},
@@ -83,6 +85,8 @@ vim.api.nvim_create_autocmd('SafeState',{callback=function ()
   require'small.verttab'.setup{}
 end,once=true})
 
+require('guess-indent').setup {}
+
 require'oil'.setup{view_options={show_hidden=true},skip_confirm_for_simple_edits=true,keymaps={['<C-h>']=false,['<C-l>']=false}}
 vim.api.nvim_create_autocmd('BufWinEnter',{pattern='oil://*',callback=function ()
   pcall(vim.cmd.lcd,require'oil'.get_current_dir()) end})
@@ -100,9 +104,6 @@ vim.api.nvim_create_autocmd('InsertCharPre',{callback=function ()
 end,once=true})
 
 require('vim._extui').enable{}
-
-vim.keymap.set('i','<tab>','pumvisible()?"<c-n>":"<tab>"',{expr=true})
-vim.keymap.set('i','<S-tab>','pumvisible()?"<c-p>":"<S-tab>"',{expr=true})
 
 for i in ('hjkl'):gmatch('.') do
   vim.keymap.set({'t','n'},'<C-'..i..'>','<C-\\><C-n><C-w>'..i..'<cmd>if &buftype=="terminal"|startinsert|endif\r')
@@ -256,7 +257,6 @@ vim.keymap.set('n','<C-x>',function () require'small.incdec'.dec(vim.v.count) en
 
 require'small.copyring'.setup()
 
-require'mini.pairs'.setup{modes={command=true}}
 require'mini.surround'.setup{
   mappings={
     add='S',
@@ -269,6 +269,8 @@ require'mini.surround'.setup{
   }
 }
 require'mini.ai'.setup{}
+
+require'blink.pairs'.setup{}
 
 vim.api.nvim_create_autocmd('OptionSet',{callback=function () vim.o.foldmethod=vim.v.option_new==true and 'diff' or 'manual' end,pattern='diff'})
 
