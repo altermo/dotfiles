@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ! [ -f "$1" ]&&echo "'$1' is not a valid file!"&&exit 1
 case "$1" in
     *.tar.bz2) tar xvjf "$1";;

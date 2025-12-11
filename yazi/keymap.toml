@@ -20,13 +20,23 @@ desc = "Goto /tmp"
 
 [[mgr.prepend_keymap]]
 on   = ["g", "u"]
-run  = "cd /usr"
-desc = "Goto /usr"
+run  = "cd /tmp/user"
+desc = "Goto /tmp/user"
+
+[[mgr.prepend_keymap]]
+on   = ["g", "n"]
+run  = "cd /nix"
+desc = "Goto /nix"
 
 [[mgr.prepend_keymap]]
 on   = ["g", "e"]
 run  = "cd /etc"
 desc = "Goto /etc"
+
+[[mgr.prepend_keymap]]
+on   = ["g", "l"]
+run  = "cd ~/.local"
+desc = "Goto ~/.local"
 
 [[mgr.prepend_keymap]]
 on = [ "g", "r" ]

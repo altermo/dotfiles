@@ -1,2 +1,2 @@
-#!/usr/bin/sh
-zig cc $@
+#!/bin/sh
+exec zig cc $@

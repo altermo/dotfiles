@@ -1,4 +1,4 @@
-#!/bin/fish
+#!/usr/bin/env fish
 
 set dict (grep -v ^# $argv[1]|grep -v ^\$)
 set keys

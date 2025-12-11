@@ -1,7 +1,7 @@
 [credential "https://github.com"]
-    helper = !/usr/bin/gh auth git-credential
+    helper = !/usr/bin/env gh auth git-credential
 [credential "https://gist.github.com"]
-    helper = !/usr/bin/gh auth git-credential
+    helper = !/usr/bin/env gh auth git-credential
 
 [user]
     name = altermo
@@ -31,7 +31,7 @@
 [color "diff"]
     meta       = magenta
     frag       = cyan
-    context    = black
+    context    = white dim
     whitespace = yellow reverse
     old        = red bold
     new        = green bold

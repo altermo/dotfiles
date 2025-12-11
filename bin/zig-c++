@@ -1,2 +1,2 @@
-#!/usr/bin/sh
-zig c++ $@
+#!/bin/sh
+exec zig c++ $@

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 if test -n "$NVIM"; then
  nvr -c ":set bufhidden=wipe" -c ":lcd $PWD" -c ":new $@" -c ":wincmd p" -c ":wincmd q" -c ":wincmd p"
 else

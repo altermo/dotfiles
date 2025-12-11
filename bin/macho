@@ -1,8 +1,5 @@
-#!/bin/bash
-manual=$({
-apropos ''
-ls /usr/share/fish/man/man1/|awk -F'.' '{print $1" ("$2")"}'
-}|\
+#!/bin/sh
+manual=$(apropos ''|\
   grep -v -E '^.+ \(0\)'|\
   grep -v -E '^.+ \(.+p\)'|\
   awk '{print $2 "\t" $1}'|\

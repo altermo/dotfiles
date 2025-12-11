@@ -1,4 +1,4 @@
-#!/bin/fish
+#!/usr/bin/env fish
 set DEFAULT_LS 'ls -aF'
 set DEFAULT_CAT 'bat -pp --color=always'
 if test -n "$1";then

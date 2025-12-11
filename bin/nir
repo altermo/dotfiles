@@ -1,0 +1,14 @@
+#!/bin/sh
+
+function nir_
+{
+  NIXPKGS_ALLOW_UNFREE=1 nix run nixpkgs#$1 --impure -- "${@:2}"
+}
+
+if ! test $1; then
+  nir_ nix-search-tv print --indexes nixpkgs \
+    | nir_ fzf --preview 'nix run nixpkgs#nix-search-tv preview nixpkgs/ {}' \
+    | xargs -r nir
+else
+  nir_ "$@"
+fi

@@ -8,23 +8,19 @@ if tty>/dev/null&&test (math (date +%s) - (stat -c %Y /tmp/gh.not 2>/dev/null||e
     touch /tmp/gh.not
 end
 
-type tmux >/dev/null&&tmux ls 2>/dev/null
-type zellij >/dev/null&&zellij ls 2>/dev/null
-trash clean-old -f &;disown
+type tmux >/dev/null 2>&1&&tmux ls 2>/dev/null
+type zellij >/dev/null 2>&1&&zellij ls 2>/dev/null
+
+trash empty --before 7d -f &;disown
 
 # ;; vars
 test "$TEMPFILE"||set -U TEMPFILE /tmp/user/temp.lua
 test -d /tmp/user||mkdir /tmp/user
 set fish_greeting
 set langs 'en' 'sv' 'hu'
-set FILEMANAGER yazi
-set -x EDITOR nvim
-set -x VISUAL nvim
 set -x PAGER 'less -RF'
 set -x MANPAGER "sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat --style=plain -lman'"
-set -x PYTHONPATH "$HOME/.venv/lib/python3.13/site-packages"
-set -x GTK_THEME Adwaita:dark
-set -U fish_user_paths $HOME/.local/bin $HOME/.cargo/bin
+set -U fish_user_paths $HOME/projects/conf/dotfiles/bin
 
 set fish_key_bindings fish_vi_key_bindings
 set fish_cursor_insert      line
@@ -46,9 +42,9 @@ end
 if not test -f ~/.config/fish/completions/carapace.fish
     mkdir -p ~/.config/fish/completions
     for i in (carapace --list|awk '{print $1}')
-        printf "complete -e '$i'\ncomplete -c '$i' -f -a '(_carapace_callback $i)'" > ~/.config/fish/completions/$i.fish
+        printf "complete -e '$i'\ncomplete -c '$i' -f -a '(_carapace_completer $i)'" > ~/.config/fish/completions/$i.fish
     end
-    carapace _carapace|head -n21 > ~/.config/fish/functions/_carapace_callback.fish
+    carapace _carapace|head -n21 > ~/.config/fish/functions/_carapace_completer.fish
 end
 
 if not functions -q tide
@@ -60,32 +56,17 @@ alias_ tide_config "tide configure --auto --style=Lean --prompt_colors='True col
 
 zoxide init fish|source
 
-function invim;not [ $INSIDE_EMACS ]&&[ $NVIM ];end
+alias invim 'test $NVIM'
 if invim
     function __hook_nvim_lcd -v PWD;nvr -c "silent! lcd $PWD" &;end
     nvr -c "silent! lcd $PWD" &
 end
 
-# ;; paru
-alias_ paru_update "nm-online >/dev/null&&paru -Syu --devel"
-# alias_ paru_clear 'test "$(paru -Qtdq)"&&paru -Qtdq | paru -Rns -'
-alias_ paru_clear 'test "$(paru -Qtdq)"&&paru -Rns -- (paru -Qtdq)'
-alias_ paru_loop_msg 'paru -Qqd | paru -Rsu --print -'
-alias_ pas "paru -S"
-alias_ par "paru -Rc"
-alias_ pac "paru_clear;paru_loop_msg"
-alias_ pauc "paru_update&&paru_clear;paru_loop_msg"
-alias_ paS "paru -Ss"
-alias_ pai "paru -Si"
-alias_ paf "paru -Qo"
-alias_ pal "paru -Ql"
-alias_ paC "paru -Sc"
-alias_ mirrorlist_update "curl -s 'https://archlinux.org/mirrorlist/?country=NO&country=SE&country=DK&country=FI&country=DE&country=PL&protocol=https&use_mirror_status=on' | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 -|sudo tee /etc/pacman.d/mirrorlist"
-
 # ;; git
 abbr gCA "git commit -a -m (git status --porcelain|string join ';')"
 abbr gca "git commit -v -a"
 abbr gcaa "git commit -v --amend -a"
+abbr gcam "git commit -a -m"
 abbr gc "git clone"
 abbr gp "git push"
 abbr gpf "git push --force-with-lease"
@@ -110,44 +91,38 @@ alias_ zip 'zip -r -v'
 alias_ termdown 'termdown -B'
 alias_ clear 'TERM=xterm env clear'
 alias_ df 'df -h --output=source,fstype,size,used,pcent,avail,target'
-alias_ helix 'printf "\\e]11;#e0e2ea\\e\\\\";command helix $argv;printf "\\e]111;"'
 
 # ;; namig
 ## spell mistake
 abbr :q exit
 abbr :Q exit
-abbr z.. z\ ..
-abbr z/ z\ /
 abbr unmount umount
 ## smaller name
 abbr - z\ -
 abbr ... z\ ../..
 abbr .... z\ ../../..
 abbr c clear
-abbr r $FILEMANAGER
+abbr r yazi
 abbr cr touch
 abbr mkd mkdir
 abbr pow acpi
 abbr v nvim
 abbr wifi nmtui-connect
-abbr hx helix
 ## use other
 alias_ ed "nvim --clean -E"
 alias_ ls 'eza -aF'
 alias_ l 'eza -F'
-alias_ ll 'l -lh --git'
-alias_ la 'ls -lh --git'
+alias_ ll 'eza -F -lh --git'
+alias_ la 'eza -aF -lh --git'
 alias_ more "$PAGER"
 alias_ less "$PAGER"
 alias_ cat "bat -pp"
 alias_ lolcat 'dotacat -F 0.05'
-alias_ pip ~/.venv/bin/pip
 abbr cp xcp
 abbr cd z
 abbr tree "eza -T"
 abbr find fd
 abbr du dua
-abbr sudo doas
 
 # ;; nvim
 function nvim
@@ -175,23 +150,7 @@ function nvims
                 NVIM_APPNAME=$out env nvim -l $conf/setup.lua
         end
     end
-    NVIM_APPNAME=$out env nvim
-end
-function nvim_build_prog
-    pushd .
-    cd /tmp
-    while true
-        if not ls|grep ltrans > /dev/null
-            break
-        end
-        set total (ls -l|grep ltrans|wc -l)
-        set complete (ls -l|grep ltrans.o|wc -l)
-        set left (math $total - $complete)
-        printf "\r$complete/$left"
-        sleep 0.2
-    end
-    echo
-    popd
+    NVIM_APPNAME=$out env nvim $argv
 end
 function yazi
     if not invim
@@ -220,14 +179,14 @@ function countdown
     termdown $argv
     hyprctl dispatch workspace $save
 end
-alias_ tu "HOME=(mktemp -d)"
+alias_ tu "HOME=(mktemp -d -p /tmp/user --suffix=-home)"
 alias_ tb "curl -F file=@- 0x0.st"
 alias_ saferm 'shred -uvz'
-alias_ ip "/bin/ip addr | awk '/inet / {print \$2}'"
+alias_ myip "ip addr | awk '/inet / {print \$2}'"
 function lnq;ln $argv (basename $argv);end
 function gis
     pushd .
-    for i in .mozilla .config .config/nvim .config/dotfiles .gtd .media .files .archive
+    for i in .config projects/conf/* projects/other/*
         cd ~/$i
         if test "$(git status --porcelain)"
             echo $i
@@ -241,11 +200,10 @@ alias_ wm "exec Hyprland"
 abbr weather "curl wttr.in/\?nFQ"
 function cal;env cal -wm --color=always $argv|lolcat;end
 alias_ neofetch 'clear;fastfetch|lolcat'
-alias_ temacs "/home/user/.nelisp/emacs/src/temacs -Q"
 function switch_theme_kitty
-    if grep -q 'Afterglow' ~/.config/kitty/kitty.conf
-        kitty +kitten themes --reload-in=all H-PUX
+    if grep -q 'H-PUX' ~/.config/kitty/kitty.conf
+        kitty +kitten themes --reload-in=all default
     else
-        kitty +kitten themes --reload-in=all Afterglow
+        kitty +kitten themes --reload-in=all H-PUX
     end
 end
