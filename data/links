@@ -36,7 +36,7 @@ nushell-doc	https://www.nushell.sh/book/
 utf-8	https://en.wikipedia.org/wiki/UTF-8
 #other
 helix	https://docs.helix-editor.com/
-lua-ls-annotations	https://luals.github.io/wiki/annotations/
+lua-ls-annotations	https://github.com/EmmyLuaLs/emmylua-analyzer-rust/blob/main/docs/emmylua_doc/annotations_EN/README.md
 this-week-in-neovim	https://dotfyle.com/this-week-in-neovim
 kitty-doc	https://sw.kovidgoyal.net/kitty/
 hyprland-doc	https://wiki.hyprland.org
@@ -74,11 +74,10 @@ mini.nvim	https://nvim-mini.org/
 emacs	https://www.gnu.org/software/emacs
 spacemacs	https://develop.spacemacs.org/doc/DOCUMENTATION.html
 #linux distro
-AUR	https://aur.archlinux.org/
-archlinux	https://archlinux.org/
 distro-timeline	https://upload.wikimedia.org/wikipedia/commons/1/1b/Linux_Distribution_Timeline.svg
 arch-wiki	https://wiki.archlinux.org/
 nix-wiki	https://wiki.nixos.org/
-nix-search	https://search.nixos.org/packages
+nix-search	https://search.nixos.org/packages?channel=unstable
+Git-nixpkgs	https://github.com/NixOS/nixpkgs
 rep-graph	https://repology.org/repositories/graphs
 # vim:tabstop=20:

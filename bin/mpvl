@@ -1,5 +1,5 @@
 #!/usr/bin/env fish
-set file '/home/user/.files/mpvl_list'
+set file '/home/user/projects/other/files/mpvl_list'
 if not test -f $file
     echo "file $file not found"
     exit 1

@@ -24,7 +24,7 @@
         "states": { "critical": 15 },
         "format": "V {capacity}%",
         "format-charging": "^ {capacity}%",
-        "format-plugged": "? {capacity}%",
+        "format-plugged": "{capacity}%",
         "format-full": "Full"
     }
 }

@@ -1,4 +1,4 @@
-theme="own-light"
+# theme="own-dark"
 
 [editor]
 completion-timeout=5

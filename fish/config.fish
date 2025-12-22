@@ -1,4 +1,3 @@
-# ;; preload
 if not status --is-interactive;exit;end
 if tty>/dev/null&&test (math (date +%s) - (stat -c %Y /tmp/gh.not 2>/dev/null||echo 0)) -gt 60
     sh -c 'timeout 1 ping github.com >/dev/null 2>&1 -c 1||exit
@@ -8,10 +7,12 @@ if tty>/dev/null&&test (math (date +%s) - (stat -c %Y /tmp/gh.not 2>/dev/null||e
     touch /tmp/gh.not
 end
 
+$HOME/projects/other/files/remind
+
 type tmux >/dev/null 2>&1&&tmux ls 2>/dev/null
 type zellij >/dev/null 2>&1&&zellij ls 2>/dev/null
 
-trash empty --before 7d -f &;disown
+trash empty --before 30d -f &;disown
 
 # ;; vars
 test "$TEMPFILE"||set -U TEMPFILE /tmp/user/temp.lua
@@ -19,8 +20,11 @@ test -d /tmp/user||mkdir /tmp/user
 set fish_greeting
 set langs 'en' 'sv' 'hu'
 set -x PAGER 'less -RF'
-set -x MANPAGER "sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat --style=plain -lman'"
+set -x MANPAGER 'nvim --clean +Man!'
 set -U fish_user_paths $HOME/projects/conf/dotfiles/bin
+
+set -x HISTFILE $HOME/.cache/bash_history
+set -x PYTHON_HISTORY $HOME/.cache/python_history
 
 set fish_key_bindings fish_vi_key_bindings
 set fish_cursor_insert      line
@@ -45,12 +49,13 @@ if not test -f ~/.config/fish/completions/carapace.fish
         printf "complete -e '$i'\ncomplete -c '$i' -f -a '(_carapace_completer $i)'" > ~/.config/fish/completions/$i.fish
     end
     carapace _carapace|head -n21 > ~/.config/fish/functions/_carapace_completer.fish
+    mpvc completion fish > ~/.config/fish/completions/mpvc.fish
 end
 
 if not functions -q tide
-    set -l _tide_tmp_dir (command mktemp -d)
-    curl https://codeload.github.com/ilancosman/tide/tar.gz/v6 | tar -xzC $_tide_tmp_dir
-    command cp -R $_tide_tmp_dir/*/{completions,conf.d,functions} $__fish_config_dir
+  set -l _tide_tmp_dir (command mktemp -d)
+  curl https://codeload.github.com/ilancosman/tide/tar.gz/v6 | tar -xzC $_tide_tmp_dir
+  command cp -R $_tide_tmp_dir/*/{completions,conf.d,functions} $__fish_config_dir
 end
 alias_ tide_config "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='One line' --prompt_spacing=Compact --icons='Few icons' --transient=Yes"
 
@@ -85,7 +90,6 @@ alias_ xcp 'xcp -rn'
 alias_ mv 'mv -ib'
 alias_ ln 'ln -ibs'
 alias_ mkdir 'mkdir -p'
-alias_ wget 'wget -c'
 alias_ fd 'fd -H'
 alias_ zip 'zip -r -v'
 alias_ termdown 'termdown -B'
@@ -110,9 +114,9 @@ abbr v nvim
 abbr wifi nmtui-connect
 ## use other
 alias_ ed "nvim --clean -E"
-alias_ ls 'eza -aF'
-alias_ l 'eza -F'
-alias_ ll 'eza -F -lh --git'
+alias ls 'eza -aF'
+alias l 'eza -F'
+alias ll 'eza -F -lh --git'
 alias_ la 'eza -aF -lh --git'
 alias_ more "$PAGER"
 alias_ less "$PAGER"
@@ -123,6 +127,7 @@ abbr cd z
 abbr tree "eza -T"
 abbr find fd
 abbr du dua
+abbr wget wget2
 
 # ;; nvim
 function nvim
