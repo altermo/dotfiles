@@ -37,6 +37,27 @@
   --sidebar-background-color: transparent !important;
 }
 
+:root {
+    --tab-group-color-blue: var(--color-blue-70) !important;
+    --tab-group-color-blue-pale: var(--color-blue-110) !important;
+    --tab-group-color-purple: var(--color-purple-70) !important;
+    --tab-group-color-purple-pale: var(--color-purple-110) !important;
+    --tab-group-color-cyan: var(--color-cyan-70) !important;
+    --tab-group-color-cyan-pale: var(--color-cyan-110) !important;
+    --tab-group-color-orange: var(--color-orange-70) !important;
+    --tab-group-color-orange-pale: var(--color-orange-110) !important;
+    --tab-group-color-yellow: var(--color-yellow-70) !important;
+    --tab-group-color-yellow-pale: var(--color-yellow-110) !important;
+    --tab-group-color-pink: var(--color-pink-70) !important;
+    --tab-group-color-pink-pale: var(--color-pink-110) !important;
+    --tab-group-color-green: var(--color-green-70) !important;
+    --tab-group-color-green-pale: var(--color-green-110) !important;
+    --tab-group-color-red: var(--color-red-70) !important;
+    --tab-group-color-red-pale: var(--color-red-110) !important;
+    --tab-group-color-gray: #5e6a77 !important;
+    --tab-group-color-gray-pale: var(--color-gray-100) !important;
+}
+
 /* TODO:understand what this snipet of code does*/
 :root {
   --uc-urlbar-width: clamp(200px, 65vw, 527px);

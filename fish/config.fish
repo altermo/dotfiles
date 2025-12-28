@@ -7,10 +7,11 @@ if tty>/dev/null&&test (math (date +%s) - (stat -c %Y /tmp/gh.not 2>/dev/null||e
     touch /tmp/gh.not
 end
 
-$HOME/projects/other/files/remind
 
-type tmux >/dev/null 2>&1&&tmux ls 2>/dev/null
-type zellij >/dev/null 2>&1&&zellij ls 2>/dev/null
+remind &;disown
+
+type -q tmux&&tmux ls 2>/dev/null
+type -q zellij&&zellij ls 2>/dev/null
 
 trash empty --before 30d -f &;disown
 
@@ -21,7 +22,7 @@ set fish_greeting
 set langs 'en' 'sv' 'hu'
 set -x PAGER 'less -RF'
 set -x MANPAGER 'nvim --clean +Man!'
-set -U fish_user_paths $HOME/projects/conf/dotfiles/bin
+set -U fish_user_paths $HOME/projects/bin/*
 
 set -x HISTFILE $HOME/.cache/bash_history
 set -x PYTHON_HISTORY $HOME/.cache/python_history
@@ -33,7 +34,7 @@ set fish_cursor_replace     underscore
 set fish_cursor_visual      block
 
 # ;; sources/hooks
-if test ~/.config/fish/config.fish -nt ~/.config/fish/functions/ls.fish
+if test ~/.config/fish/config.fish -nt ~/.config/fish/functions/rm.fish
     mkdir -p ~/.config/fish/functions
     function alias_
         alias $argv
