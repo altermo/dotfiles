@@ -206,10 +206,3 @@ alias_ wm "exec Hyprland"
 abbr weather "curl wttr.in/\?nFQ"
 function cal;env cal -wm --color=always $argv|lolcat;end
 alias_ neofetch 'clear;fastfetch|lolcat'
-function switch_theme_kitty
-    if grep -q 'H-PUX' ~/.config/kitty/kitty.conf
-        kitty +kitten themes --reload-in=all default
-    else
-        kitty +kitten themes --reload-in=all H-PUX
-    end
-end

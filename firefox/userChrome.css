@@ -26,10 +26,18 @@
 #navigator-toolbox,#sidebar-header{
   border-bottom: 0px !important;
 }
-#sidebar-box,#sidebar-splitter{
-  background: var(--lwt-additional-images);
+
+#sidebar-box,#sidebar-splitter,#browser,#main-window,#navigator-toolbox{
+  background: #0000 !important;
   border: 0px !important;
 }
+.urlbar-background{
+  opacity: 0.9;
+}
+.urlbar:not([focused]) .urlbar-background {
+  opacity: 0 !important;
+}
+
 #sidebar-search-container{
   display: none;
 }

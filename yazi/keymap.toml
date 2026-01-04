@@ -13,5 +13,6 @@ mgr.prepend_keymap=[
   {on = ["g", "l"], run = "cd ~/.local", desc = "Goto ~/.local"},
   {on = ["g", "p"], run = "cd ~/projects", desc = "Goto ~/projects"},
   {on = ["g", "r"], run = 'shell -- ya emit cd "$(git rev-parse --show-toplevel)"', desc = "Goto git root"},
-  {on = "I",        run  = 'shell --block -- bat --decorations never --paging=always --pager="less --SILENT -R" $0', desc = "Quick view"},
+  {on = ["g", "a"], run = 'shell --block -- ya emit cd "$(dff)"', desc = "Dff"},
+  {on = "I",        run = 'shell --block -- bat --decorations never --paging=always --pager="less --SILENT -R" $0', desc = "Quick view"},
 ]
