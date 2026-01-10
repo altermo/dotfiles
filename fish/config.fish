@@ -7,13 +7,12 @@ if tty>/dev/null&&test (math (date +%s) - (stat -c %Y /tmp/gh.not 2>/dev/null||e
     touch /tmp/gh.not
 end
 
+trash-empty 30 -f &;disown
 
 remind &;disown
 
 type -q tmux&&tmux ls 2>/dev/null
 type -q zellij&&zellij ls 2>/dev/null
-
-trash empty --before 30d -f &;disown
 
 # ;; vars
 test "$TEMPFILE"||set -U TEMPFILE /tmp/user/temp.lua
@@ -95,7 +94,7 @@ alias_ fd 'fd -H'
 alias_ zip 'zip -r -v'
 alias_ termdown 'termdown -B'
 alias_ clear 'TERM=xterm env clear'
-alias_ df 'df -h --output=source,fstype,size,used,pcent,avail,target'
+alias_ lsblk 'lsblk -o NAME,FSTYPE,FSSIZE,FSUSED,FSUSE%,FSAVAIL,MOUNTPOINTS'
 
 # ;; namig
 ## spell mistake
@@ -129,6 +128,7 @@ abbr tree "eza -T"
 abbr find fd
 abbr du dua
 abbr wget wget2
+abbr df lsblk
 
 # ;; nvim
 function nvim
@@ -202,7 +202,7 @@ function gis
     popd
 end
 function exe;test -n "$argv"&&chmod u+x $argv||env ls -p|grep -v /|fzf|xargs -r chmod u+x;end
-alias_ wm "exec Hyprland"
+alias_ wm "exec start-hyprland"
 abbr weather "curl wttr.in/\?nFQ"
 function cal;env cal -wm --color=always $argv|lolcat;end
 alias_ neofetch 'clear;fastfetch|lolcat'
