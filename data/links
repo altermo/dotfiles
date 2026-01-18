@@ -37,7 +37,6 @@ utf-8	https://en.wikipedia.org/wiki/UTF-8
 #other
 helix	https://docs.helix-editor.com/
 lua-ls-annotations	https://github.com/EmmyLuaLs/emmylua-analyzer-rust/blob/main/docs/emmylua_doc/annotations_EN/README.md
-this-week-in-neovim	https://dotfyle.com/this-week-in-neovim
 kitty-doc	https://sw.kovidgoyal.net/kitty/
 hyprland-doc	https://wiki.hyprland.org
 ted	https://www.ted.com
@@ -79,5 +78,6 @@ arch-wiki	https://wiki.archlinux.org/
 nix-wiki	https://wiki.nixos.org/
 nix-search	https://search.nixos.org/packages?channel=unstable
 Git-nixpkgs	https://github.com/NixOS/nixpkgs
+nix-hydra	https://hydra.nixos.org/jobset/nixos/unstable
 rep-graph	https://repology.org/repositories/graphs
 # vim:tabstop=20:

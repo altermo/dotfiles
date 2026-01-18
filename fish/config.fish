@@ -13,6 +13,7 @@ remind &;disown
 
 type -q tmux&&tmux ls 2>/dev/null
 type -q zellij&&zellij ls 2>/dev/null
+type -q zmx&&zmx l|grep -v "no session"||true
 
 # ;; vars
 test "$TEMPFILE"||set -U TEMPFILE /tmp/user/temp.lua
@@ -71,7 +72,6 @@ end
 abbr gCA "git commit -a -m (git status --porcelain|string join ';')"
 abbr gca "git commit -v -a"
 abbr gcaa "git commit -v --amend -a"
-abbr gcam "git commit -a -m"
 abbr gc "git clone"
 abbr gp "git push"
 abbr gpf "git push --force-with-lease"
@@ -173,7 +173,6 @@ end
 
 # ;; other
 abbr dtmp 'cd (mktemp -d -p /tmp/user)'
-alias_ touch 'mkdir -p (dirname $argv)&&env touch'
 for i in $langs;for j in $langs
     if test $i != $j
         alias_ "tra$i$j" "trans -b $i:$j (read)"
@@ -185,10 +184,9 @@ function countdown
     termdown $argv
     hyprctl dispatch workspace $save
 end
-alias_ tu "HOME=(mktemp -d -p /tmp/user --suffix=-home)"
+alias_ tu 'test -z "$argv"&&set argv fish;HOME=(mktemp -d -p /tmp/user --suffix=-home)'
 alias_ tb "curl -F file=@- 0x0.st"
 alias_ saferm 'shred -uvz'
-alias_ myip "ip addr | awk '/inet / {print \$2}'"
 function lnq;ln $argv (basename $argv);end
 function gis
     pushd .
@@ -201,8 +199,17 @@ function gis
     end
     popd
 end
-function exe;test -n "$argv"&&chmod u+x $argv||env ls -p|grep -v /|fzf|xargs -r chmod u+x;end
 alias_ wm "exec start-hyprland"
 abbr weather "curl wttr.in/\?nFQ"
 function cal;env cal -wm --color=always $argv|lolcat;end
-alias_ neofetch 'clear;fastfetch|lolcat'
+alias_ neofetch 'clear;fastfetch --disable-linewrap true --pipe false|lolcat'
+function ef
+    test -n "$argv"&&cd "$argv"
+    set out (readlink -f (dff))
+    if test -f "$out"
+        cd (dirname "$out")
+        nvim $out
+    else
+        cd "$out"
+    end
+end

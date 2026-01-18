@@ -1,9 +1,11 @@
 #!/bin/sh
-if [[ "$(hyprctl activewindow -j|jq .class -r)" == "firefox" ]]; then
-    if [[ "$(hyprctl clients -j|jq .[].class -r|grep firefox|wc -l)" -le 1 ]]; then
-        hyprctl notify -1 900 "rgb(ff1ea3)" "          no          "
-        exit
+for cls in "firefox"; do
+    if [[ "$(hyprctl activewindow -j|jq .class -r)" == $cls ]]; then
+        if [[ $(hyprctl clients -j|jq .[].class -r|grep $cls|wc -l) -le 1 ]]; then
+            hyprctl notify -1 900 "rgb(ff1ea3)" "          no          "
+            exit
+        fi
     fi
-fi
+done
 
 hyprctl dispatch killactive
