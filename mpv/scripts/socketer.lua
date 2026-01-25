@@ -5,14 +5,14 @@ local dir='/tmp/mpv-sock/'
 if not utils.readdir(dir) then
   mp.msg.log('warn',('No `%s` dir found, creating `%s`'):format(dir,dir))
 
-  for _=1,10 do
-    mp.command_native{'run','mkdir','-p',dir}
-  end
+  os.execute(('mkdir -p -- %q'):format(dir))
 end
 local socket=utils.join_path(dir,tostring(utils.getpid()))
 mp.set_property_native('input-ipc-server',socket)
 
 local function refresh_last(first)
+  os.execute(('ls -- %q|xargs -I_ sh -c "ps -p _ >/dev/null||rm %q/_"'):format(dir,dir))
+
   local sockets=utils.readdir(dir,'all')
   assert(table.remove(sockets,1)=='.')
   assert(table.remove(sockets,1)=='..')
