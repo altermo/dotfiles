@@ -3,3 +3,10 @@ inherits = "default"
 "ui.statusline.normal" = { fg = "midnight", bg = "lilac" }
 "ui.statusline.insert" = { fg = "midnight", bg = "mint" }
 "ui.statusline.select" = { fg = "midnight", bg = "chamois" }
+
+"ui.cursor"         = { bg = "gray" }
+"ui.cursor.select"  = { bg = "gray" }
+"ui.cursor.insert"  = { bg = "gray" }
+"ui.cursor.primary" = { modifiers = ["reversed"]  }
+
+"ui.bufferline.active" = { bg = "comet" }

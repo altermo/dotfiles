@@ -1,0 +1,21 @@
+#!/bin/sh
+
+dir=$(mktemp -d)
+mkdir -p "$dir"/.config/yazi/plugins/toml.yazi
+mkdir -p "$dir"/.config/yazi/plugins/yc.yazi
+ln -s "$PWD"/vendor/toml.lua "$dir"/.config/yazi/plugins/toml.yazi/main.lua
+ln -s "$PWD"/vendor/yc.lua "$dir"/.config/yazi/plugins/yc.yazi/main.lua
+
+cat > "$dir"/.config/yazi/init.lua << EOF
+require'yc'.compile('$PWD')
+error'SUCCESS'
+EOF
+
+err=$(HOME=$dir yazi 2>&1)
+
+if ! echo "$err"|grep SUCCESS -q; then
+    echo "$err"
+    exit 1
+fi
+
+rm -r "$dir"

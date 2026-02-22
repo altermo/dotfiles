@@ -25,6 +25,7 @@ cpp	https://cplusplus.com/reference
 crates	https://crates.io
 c-stdlib	https://www.ibm.com/docs/en/i/7.1?topic=extensions-standard-c-library-functions-table-by-name
 c-keyword	https://en.cppreference.com/w/c/keyword
+c-modern-feature	https://github.com/AnthonyCalandra/modern-c-features
 unicode-table	https://en.wikibooks.org/wiki/Unicode/Character_reference
 box-chars	https://en.wikipedia.org/wiki/Box-drawing_character
 http-codes	https://developer.mozilla.org/en-US/docs/Web/HTTP/Status

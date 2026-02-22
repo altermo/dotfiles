@@ -1,6 +1,7 @@
 [*]
 indent_style = space
 indent_size = 4
+tab_width = 8
 
 [*.lua]
 indent_style = space
