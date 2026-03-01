@@ -26,6 +26,15 @@ local function generate_lua(fns,path)
   file:close()
 end
 
+local function generate_pack(packs,path)
+  local file=assert(io.open(path..'/package.toml','w'))
+  for _,v in ipairs(packs) do
+    v.rev='='..v.rev
+  end
+  file:write(toml.encode({plugin={deps=packs}}))
+  file:close()
+end
+
 local M={}
 
 function M.compile(path)
@@ -46,6 +55,8 @@ function M.compile(path)
     return rawget(tbl,key)
   end})
 
+  yc.pack={}
+
   loadfile(path..'/config.lua')(yc)
 
   setmetatable(yc.opt,nil)
@@ -53,6 +64,7 @@ function M.compile(path)
   generate_opt(yc.opt,path)
   generate_keymap(yc.keymaps,path)
   generate_lua(yc.fns,path)
+  generate_pack(yc.pack,path)
 end
 
 return M

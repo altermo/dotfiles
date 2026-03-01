@@ -1,5 +1,13 @@
 local yc=...
 
+table.insert(yc.pack,{
+  use='yazi-rs/plugins:jump-to-char',
+  hash='7a4b4237223aaa94e589d1c01a23542a',
+  rev='1962818',
+})
+yc.keymap('f','plugin jump-to-char')
+yc.keymap('F','filter --smart')
+
 yc.register(function()
   function Tabs.height() return 0 end
 
@@ -30,7 +38,10 @@ yc.keymap('D','noop')
 yc.keymap('<A-C-D>','remove --permanently')
 
 yc.keymap('!','shell "$SHELL" --block','Open shell here')
-yc.keymap('I','shell --block -- bat --binary=as-text --decorations never --paging=always --pager="less --SILENT -R +1" $0','Quick view')
+yc.keymap('I','shell --block -- bat --binary=as-text --decorations never --paging=always --pager="less --SILENT -R +g" "$0"','Quick view')
+
+yc.keymap('q','close')
+yc.keymap('<C-c>','quit')
 
 yc.keymap({'g','r'},'shell -- ya emit cd "$(git rev-parse --show-toplevel)"','Goto git root')
 yc.keymap({'g','a'},'shell --block -- ya emit cd "$(dff)"','Dff')
@@ -42,20 +53,24 @@ end
 
 yc.opt.mgr.show_hidden=true
 yc.opt.mgr.linemode='size'
+
+yc.opt.tasks.image_bound={0,0}
+
 yc.opt.opener={
   all={
     {run='$EDITOR "$@"',desc='$EDITOR',block=true},
     {run='xdg-open "$1"',desc='xdg-open'},
-    {run='nvim --clean "$1"',desc='nvim-clean',block=true},
+    {run='F="$1" FA="$@" $SHELL',desc='shell-$F',block=true},
   },
   browser={
     {run='firefox "$@"',desc='firefox',orphan=true},
   },
   video={
     {run='mpv --force-window "$@"',desc='mpv',orphan=true},
+    {run='mpv --no-video "$@"',desc='mpv-audio-only'},
   },
   audio={
-    {run='mpv "$@"',desc='mpv'},
+    {run='mpv --no-video "$@"',desc='mpv'},
     {run='mpv --force-window "$@"',desc='mpv-windowed',orphan=true},
   },
   ask={

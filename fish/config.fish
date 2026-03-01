@@ -58,7 +58,8 @@ if not functions -q tide
   curl https://codeload.github.com/ilancosman/tide/tar.gz/v6 | tar -xzC $_tide_tmp_dir
   command cp -R $_tide_tmp_dir/*/{completions,conf.d,functions} $__fish_config_dir
 end
-alias_ tide_config "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='One line' --prompt_spacing=Compact --icons='Few icons' --transient=Yes"
+alias_ _tide_item_yazi 'test -n "$YAZI_LEVEL"&&_tide_print_item yazi "yazi"'
+alias_ tide_config "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='One line' --prompt_spacing=Compact --icons='Few icons' --transient=Yes"';set -U tide_right_prompt_items $tide_right_prompt_items[..-2] yazi $tide_right_prompt_items[-1]'
 
 zoxide init fish|source
 

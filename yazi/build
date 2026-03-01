@@ -19,3 +19,5 @@ if ! echo "$err"|grep SUCCESS -q; then
 fi
 
 rm -r "$dir"
+
+ya pkg install
