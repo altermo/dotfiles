@@ -38,7 +38,7 @@ yc.keymap('D','noop')
 yc.keymap('<A-C-D>','remove --permanently')
 
 yc.keymap('!','shell "$SHELL" --block','Open shell here')
-yc.keymap('I','shell --block -- bat --binary=as-text --decorations never --paging=always --pager="less --SILENT -R +g" "$0"','Quick view')
+yc.keymap('I','shell --block -- bat --binary=as-text --decorations never --paging never --color always "$0"|less --SILENT -R +g','Quick view')
 
 yc.keymap('q','close')
 yc.keymap('<C-c>','quit')
