@@ -46,11 +46,12 @@ end
 
 if not test -f ~/.config/fish/completions/carapace.fish
     mkdir -p ~/.config/fish/completions
-    for i in (carapace --list|awk '{print $1}')
+    for i in (carapace --list --names|grep -v nix)
         printf "complete -e '$i'\ncomplete -c '$i' -f -a '(_carapace_completer $i)'" > ~/.config/fish/completions/$i.fish
     end
     carapace _carapace|head -n21 > ~/.config/fish/functions/_carapace_completer.fish
     mpvc completion fish > ~/.config/fish/completions/mpvc.fish
+    zmx completions fish > ~/.config/fish/completions/zmx.fish
 end
 
 if not functions -q tide
@@ -59,7 +60,8 @@ if not functions -q tide
   command cp -R $_tide_tmp_dir/*/{completions,conf.d,functions} $__fish_config_dir
 end
 alias_ _tide_item_yazi 'test -n "$YAZI_LEVEL"&&_tide_print_item yazi "yazi"'
-alias_ tide_config "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='One line' --prompt_spacing=Compact --icons='Few icons' --transient=Yes"';set -U tide_right_prompt_items $tide_right_prompt_items[..-2] yazi $tide_right_prompt_items[-1]'
+alias_ _tide_item_zmx 'test -n "$ZMX_SESSION"&&_tide_print_item zmx " $ZMX_SESSION"'
+alias_ tide_config "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='One line' --prompt_spacing=Compact --icons='Few icons' --transient=Yes"';set -U tide_right_prompt_items $tide_right_prompt_items[..-2] yazi zmx $tide_right_prompt_items[-1]'
 
 zoxide init fish|source
 
