@@ -75,7 +75,7 @@ end
 abbr gCA "git commit -a -m (git status --porcelain|string join ';')"
 abbr gca "git commit -v -a"
 abbr gcaa "git commit -v --amend -a"
-abbr gc "git clone"
+abbr gc "git clone --no-single-branch"
 abbr gp "git push"
 abbr gpf "git push --force-with-lease"
 abbr gt "git checkout"

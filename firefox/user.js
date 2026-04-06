@@ -33,3 +33,5 @@
 //no swipe gestures
 //user_pref("browser.gesture.swipe.left","cmd_scrollLeft")
 //user_pref("browser.gesture.swipe.right","cmd_scrollRight")
+//don't use xdg-desktop-portal: inconsistent theming
+//user_pref("widget.use-xdg-desktop-portal.file-picker",0)
