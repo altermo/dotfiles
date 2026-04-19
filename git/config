@@ -39,3 +39,6 @@
 [pull]
     rebase = true
     default = current
+
+[alias]
+    cloned = clone --no-single-branch --depth 10
