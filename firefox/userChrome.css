@@ -27,7 +27,7 @@
   border-bottom: 0px !important;
 }
 
-#sidebar-box,#sidebar-splitter,#browser,#main-window,#navigator-toolbox{
+#sidebar-box,#sidebar-splitter,#browser,#main-window,#navigator-toolbox,body{
   background: #0000 !important;
   border: 0px !important;
 }

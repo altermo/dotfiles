@@ -1,0 +1,10 @@
+[language-server.emmylua-ls]
+command="emmylua_ls"
+args=["--editor","neovim"]
+[language-server.emmylua-ls.config.Lua]
+runtime={version='LuaJIT'}
+workspace={library=['/home/user/projects/pure/neovim/runtime/lua/']}
+
+[[language]]
+name="lua"
+language-servers=["emmylua-ls","lua-language-server"]

@@ -13,7 +13,7 @@ remind &;disown
 
 type -q tmux&&tmux ls 2>/dev/null
 type -q zellij&&zellij ls 2>/dev/null
-type -q zmx&&zmx l|grep -v "no session"||true
+type -q zmx&&zmx l 2>/dev/null
 
 # ;; vars
 test "$TEMPFILE"||set -U TEMPFILE /tmp/user/temp.lua
@@ -86,6 +86,7 @@ abbr gsa "git stash push"
 abbr gsr "git stash pop"
 abbr gaa "git add -A -N"
 abbr gb "git branch -vv -a"
+alias g.. 'cd "$(git rev-parse --show-toplevel)"'
 
 # ;; options
 alias_ rm 'rm -I'
