@@ -19,7 +19,6 @@ type -q zmx&&zmx l 2>/dev/null
 test "$TEMPFILE"||set -U TEMPFILE /tmp/user/temp.lua
 test -d /tmp/user||mkdir /tmp/user
 set fish_greeting
-set langs 'en' 'sv' 'hu'
 set -x PAGER 'less -RF'
 set -x MANPAGER 'nvim --clean +Man!'
 set -U fish_user_paths $HOME/projects/bin/*
@@ -178,11 +177,6 @@ end
 
 # ;; other
 abbr dtmp 'cd (mktemp -d -p /tmp/user)'
-for i in $langs;for j in $langs
-    if test $i != $j
-        alias_ "tra$i$j" "trans -b $i:$j (read)"
-    end
-end;end
 alias_ clock 'termdown -z -Z "%H : %M : %S"'
 function countdown
     set save (hyprctl activeworkspace -j|jq .id)
