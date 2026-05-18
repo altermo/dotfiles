@@ -10,15 +10,23 @@
             "10": "0"
         }
     },
-    "custom/sep1":{"format": ""},
-    "custom/sep2":{"format": ""},
-    // "custom/sep1":{"format": ""},
-    // "custom/sep2":{"format": ""},
+    "custom/sep1":{"format": "", "tooltip": false},
+    "custom/sep2":{"format": "", "tooltip": false},
     "tray": {
     },
     "clock": {
         "interval": 1,
-        "format": "{:%Y/%m/%d;%V %H:%M:%S}"
+        "format": "{:%Y/%m/%d;%V %H:%M:%S}",
+
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "mode": "year",
+            "mode-mon-col": 3,
+            "weeks-pos": "left",
+            "iso8601": true,
+            "format": {"today": "<span background='#fff' color='#000'>{}</span>"}
+        }
+
     },
     "battery": {
         "states": { "critical": 15 },

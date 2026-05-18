@@ -85,7 +85,7 @@ abbr gsa "git stash push"
 abbr gsr "git stash pop"
 abbr gaa "git add -A -N"
 abbr gb "git branch -vv -a"
-alias g.. 'cd "$(git rev-parse --show-toplevel)"'
+bind --user -M insert ctrl-g 'cd "$(git rev-parse --show-toplevel)"' repaint
 
 # ;; options
 alias_ rm 'rm -I'
@@ -142,25 +142,6 @@ function nvim
     end
     [ $argv ]&&nvr $argv||nvr .
     kill (cut -f 6 -d " " /proc/$fish_pid/stat)
-end
-function nvims
-    echo NvChad\nLazyVim\nMiniMax|fzf|read out||return 1
-    set conf ~/.config/$out
-    if not test -d $conf
-        switch $out
-            case 'NvChad'
-                git clone https://github.com/NvChad/starter $conf
-                rm -rf $conf/.git
-            case 'LazyVim'
-                git clone https://github.com/LazyVim/starter $conf
-                rm -rf $conf/.git
-            case 'MiniMax'
-                git clone https://github.com/nvim-mini/MiniMax $conf
-                rm -rf $conf/.git
-                NVIM_APPNAME=$out env nvim -l $conf/setup.lua
-        end
-    end
-    NVIM_APPNAME=$out env nvim $argv
 end
 function yazi
     if not invim
