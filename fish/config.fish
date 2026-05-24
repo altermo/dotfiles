@@ -162,7 +162,7 @@ alias_ clock 'termdown -z -Z "%H : %M : %S"'
 function countdown
     set save (hyprctl activeworkspace -j|jq .id)
     termdown $argv
-    hyprctl dispatch workspace $save
+    hyprctl dispatch "hl.dsp.focus{workspace='$save'}"
 end
 alias_ tu 'test -z "$argv"&&set argv fish;HOME=(mktemp -d -p /tmp/user --suffix=-home)'
 alias_ tb "curl -F file=@- 0x0.st"
@@ -188,7 +188,7 @@ function ef
     set out (readlink -f (dff))
     if test -f "$out"
         cd (dirname "$out")
-        nvim $out
+        $EDITOR $out
     else
         cd "$out"
     end

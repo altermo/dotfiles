@@ -44,6 +44,7 @@ yc.keymap('A','create --dir')
 
 yc.keymap('q','close')
 yc.keymap('<C-c>','quit')
+yc.keymap('t','tab_create --current')
 
 yc.keymap({'g','r'},'shell -- ya emit cd "$(git rev-parse --show-toplevel)"','Goto git root')
 yc.keymap({'g','a'},'shell --block -- ya emit cd "$(dff)"','Dff')
@@ -99,8 +100,6 @@ yc.opt.open.rules={
 
     {mime='application/{zlib,zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}',use=o_ask},
 
-    {name='*/',use=o_ask},
-    {name='*',use=o_ask},
     {url='*/',use=o_ask},
     {url='*',use=o_ask},
 }

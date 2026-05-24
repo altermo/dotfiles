@@ -9,6 +9,7 @@ true-color=true
 line-number="relative"
 auto-format=false
 bufferline="multiple"
+auto-pairs=false
 
 [editor.cursor-shape]
 insert = "bar"
