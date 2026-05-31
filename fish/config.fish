@@ -9,6 +9,8 @@ end
 
 trash-empty 30 -f &;disown
 
+set fish_user_paths $HOME/projects/bin/*
+
 remind &;disown
 
 type -q tmux&&tmux ls 2>/dev/null
@@ -16,12 +18,11 @@ type -q zellij&&zellij ls 2>/dev/null
 type -q zmx&&zmx l 2>/dev/null
 
 # ;; vars
-test "$TEMPFILE"||set -U TEMPFILE /tmp/user/temp.lua
 test -d /tmp/user||mkdir /tmp/user
+test -L ~/.cache/temp||ln -s /tmp/user/temp.lua ~/.cache/temp
 set fish_greeting
 set -x PAGER 'less -RF'
 set -x MANPAGER 'nvim --clean +Man!'
-set -U fish_user_paths $HOME/projects/bin/*
 
 set -x HISTFILE $HOME/.cache/bash_history
 set -x PYTHON_HISTORY $HOME/.cache/python_history
@@ -85,6 +86,7 @@ abbr gsa "git stash push"
 abbr gsr "git stash pop"
 abbr gaa "git add -A -N"
 abbr gb "git branch -vv -a"
+abbr gro "rm (git ls-files -o)"
 bind --user -M insert ctrl-g 'cd "$(git rev-parse --show-toplevel)"' repaint
 
 # ;; options

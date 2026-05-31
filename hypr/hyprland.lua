@@ -122,14 +122,14 @@ hl.bind(mainMod'RETURN',hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod'O',hl.dsp.exec_cmd(topgui))
 hl.bind(mainMod'A',hl.dsp.exec_cmd(editor))
 hl.bind(mainMod'E',hl.dsp.exec_cmd(editor2))
-hl.bind(mainMod'S',hl.dsp.exec_cmd("fish -c 'cd (dirname $TEMPFILE);exec "..editor.." $TEMPFILE'"))
+hl.bind(mainMod'S',hl.dsp.exec_cmd('cd $(dirname $(readlink ~/.cache/temp));exec '..editor..' $(readlink ~/.cache/temp)'))
 -- list
 hl.bind(mainMod'X',hl.dsp.exec_cmd(menu))
 hl.bind(mainMod'C',hl.dsp.exec_cmd(terminal..' -e fish -C "ef $HOME/projects/quick/c--conf/"'))
 hl.bind(mainMod'D',hl.dsp.exec_cmd(terminal..' -e fish -C "ef $HOME/projects/quick/"'))
 hl.bind(mainMod'I',hl.dsp.exec_cmd('data_select ~/projects/conf/dotfiles/data/links '..browser))
 hl.bind(mainMod'Y',hl.dsp.exec_cmd'cliphist list|pwofi --dmenu|cliphist decode|xargs -r wl-copy --')
-hl.bind(mainMod'SHIFT+S',hl.dsp.exec_cmd[[fish -c "set -U TEMPFILE /tmp/user/temp.$(printf 'lua\nmd\ntxt\npy\nfish\nhtml\nc\nvim\njava'|pwofi --show dmenu)"]])
+hl.bind(mainMod'SHIFT+S',hl.dsp.exec_cmd[[ln -sf /tmp/user/temp.$(printf 'lua\nmd\ntxt\npy\nfish\nhtml\nc\nvim\njava'|pwofi --show dmenu) ~/.cache/temp]])
 hl.bind(mainMod'ALT+H',hl.dsp.exec_cmd[[
   e=$(ls ~/.config/hypr/shaders/|pwofi --show dmenu)
   test -z "$e"&&exit
@@ -176,7 +176,7 @@ hl.on('hyprland.start',function()
   hl.exec_cmd'nice waybar'
   hl.exec_cmd'swaybg -i ~/projects/other/media/backgrounds/gnome/Icetwigs.jpg'
   hl.exec_cmd'wl-paste --type text --watch cliphist -max-items=20 store'
-  hl.exec_cmd'sh -c "sleep 10;nice mpv --loop --volume=50 --no-config ~/projects/other/media/music/birds.ogg --scripts= &"'
-  hl.exec_cmd'sh -c "sleep 10;nice mpv --loop --volume=50 --no-config ~/projects/other/media/music/d185a0ee12c196724070a9199b3a2b43.mp3 --scripts= &"'
+  -- hl.exec_cmd'sh -c "sleep 10;nice mpv --loop --volume=50 --no-config ~/projects/other/media/music/birds.ogg --scripts= &"'
+  -- hl.exec_cmd'sh -c "sleep 10;nice mpv --loop --volume=50 --no-config ~/projects/other/media/music/d185a0ee12c196724070a9199b3a2b43.mp3 --scripts= &"'
   hl.exec_cmd'hyprctl plugin load "$HYPR_PLUGIN_DIR/lib/libhypr-dynamic-cursors.so"'
 end)
