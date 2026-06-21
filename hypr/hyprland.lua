@@ -166,7 +166,7 @@ for i=1,10 do
   hl.bind(mainMod('SHIFT+'..i%10),hl.dsp.window.move{workspace=i})
 end
 hl.bind(mainMod'U',hl.dsp.workspace.toggle_special(11))
-hl.bind(mainMod'SHIFT+U',hl.dsp.window.move{workspace=11})
+hl.bind(mainMod'SHIFT+U',hl.dsp.window.move{workspace='special:11'})
 hl.bind(mainMod'SHIFT+ESCAPE',hl.dsp.submap('lock'))
 hl.define_submap('lock',function()
   hl.bind(mainMod'ESCAPE',hl.dsp.submap('reset'))

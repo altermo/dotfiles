@@ -1,1 +1,1 @@
-/home/user/projects/conf/dotfiles/hypr/shaders/redshift4000.glsl
+redshift4000.glsl
