@@ -49,14 +49,14 @@ if not test -f ~/.config/fish/completions/carapace.fish
     for i in (carapace --list --names|grep -v nix)
         printf "complete -e '$i'\ncomplete -c '$i' -f -a '(_carapace_completer $i)'" > ~/.config/fish/completions/$i.fish
     end
-    carapace _carapace|head -n21 > ~/.config/fish/functions/_carapace_completer.fish
+    carapace _carapace|head -n24 > ~/.config/fish/functions/_carapace_completer.fish
     mpvc completion fish > ~/.config/fish/completions/mpvc.fish
     zmx completions fish > ~/.config/fish/completions/zmx.fish
 end
 
 if not functions -q tide
   set -l _tide_tmp_dir (command mktemp -d)
-  curl https://codeload.github.com/ilancosman/tide/tar.gz/v6 | tar -xzC $_tide_tmp_dir
+  curl https://codeload.github.com/ilancosman/tide/tar.gz/fcda500d2c2996e25456fb46cd1a5532b3157b16 | tar -xzC $_tide_tmp_dir
   command cp -R $_tide_tmp_dir/*/{completions,conf.d,functions} $__fish_config_dir
 end
 alias_ _tide_item_yazi 'test -n "$YAZI_LEVEL"&&_tide_print_item yazi "yazi"'
