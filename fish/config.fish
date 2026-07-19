@@ -101,6 +101,7 @@ alias_ zip 'zip -r -v'
 alias_ termdown 'termdown -B'
 alias_ clear 'TERM=xterm env clear'
 alias_ lsblk 'lsblk -o NAME,FSTYPE,FSSIZE,FSUSED,FSUSE%,FSAVAIL,MOUNTPOINTS'
+for m in default insert visual;bind -M $m ctrl-l 'clear;commandline -f repaint';end
 
 # ;; namig
 ## spell mistake
