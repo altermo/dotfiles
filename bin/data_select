@@ -1,16 +1,9 @@
-#!/usr/bin/env fish
+#!/bin/sh
 
-set dict (grep -v ^# $argv[1]|grep -v ^\$)
-set keys
-for line in $dict
-    set key (echo $line | cut -d\t -f1)
-    set keys $keys $key
-end
-set select (echo $keys | tr ' ' '\n' | pwofi --show dmenu)
-for line in $dict
-    set key (echo $line | cut -d\t -f1)
-    if test $key = $select
-        exec $argv[2] $argv[3..] (echo $line | cut -d\t -f2)
-        exit
-    end
-end
+dict=$(grep -v '^#' "$1" | grep -v '^$')
+keys=$(printf '%s\n' "$dict" | cut -f1)
+select=$(printf '%s\n' "$keys" | pwofi --show dmenu) || exit
+url=$(printf '%s\n' "$dict" | grep "^$select" | cut -f2)
+shift 1
+test -n "$url"&&exec "$@" "$url"
+
