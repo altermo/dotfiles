@@ -1,6 +1,6 @@
 [output]
 orientation = horizontal
-horizontal_stereo = 1
+split_stereo = 1
 
 [color]
 gradient = 1

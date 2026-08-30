@@ -38,7 +38,7 @@ yc.keymap('D','noop')
 yc.keymap('<A-C-D>','remove --permanently')
 
 yc.keymap('!','shell "$SHELL" --block','Open shell here')
-yc.keymap('I','shell --block -- bat --binary=as-text --decorations never --paging never --color always "$0"|less --SILENT -R +g','Quick view')
+yc.keymap('I','shell --block -- bat --binary=as-text --decorations never --paging never --color always %h|less --SILENT -R +g','Quick view')
 
 yc.keymap('A','create --dir')
 
@@ -61,20 +61,20 @@ yc.opt.tasks.image_bound={0,0}
 
 yc.opt.opener={
   all={
-    {run='$EDITOR "$@"',desc='$EDITOR',block=true},
-    {run='xdg-open "$1"',desc='xdg-open'},
-    {run='F="$1" FA="$@" $SHELL',desc='shell-$F',block=true},
+    {run='${EDITOR:-nano} -- %s',desc='$EDITOR',block=true},
+    {run='xdg-open -- %s1',desc='xdg-open'},
+    {run='F=%s1 FA=%s $SHELL',desc='shell-$F',block=true},
   },
   browser={
-    {run='firefox "$@"',desc='firefox',orphan=true},
+    {run='firefox -- %s',desc='firefox',orphan=true},
   },
   video={
-    {run='mpv --force-window "$@"',desc='mpv',orphan=true},
-    {run='mpv --no-video "$@"',desc='mpv-audio-only'},
+    {run='mpv --force-window -- %s',desc='mpv',orphan=true},
+    {run='mpv --no-video -- %s',desc='mpv-audio-only'},
   },
   audio={
-    {run='mpv --no-video "$@"',desc='mpv'},
-    {run='mpv --force-window "$@"',desc='mpv-windowed',orphan=true},
+    {run='mpv --no-video -- %s',desc='mpv'},
+    {run='mpv --force-window -- %s',desc='mpv-windowed',orphan=true},
   },
   ask={
     {run='ya emit open --interactive',desc='Open with:'}
