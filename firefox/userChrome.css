@@ -66,25 +66,13 @@
     --tab-group-color-gray-pale: var(--color-gray-100) !important;
 }
 
-/* @media (min-width: 600px) { */
-/* #navigator-toolbox { */
-/* } */
-/*   #TabsToolbar{ */
-/*     margin-left: 450px; */
-/*     height: px !important; */
-/*   } */
-/* #nav-bar { */
-/*   margin: calc((var(--urlbar-min-height) * -1) - 8px) 0 0 0 !important; */
-/*   width: 450px; */
-/*   } */
-/* } */
 :root {
   --uc-urlbar-width: clamp(200px, 65vw, 527px);
 }
 @media (min-width: 800px) {
   #TabsToolbar { margin-right: var(--uc-urlbar-width) !important; }
   #nav-bar {
-    margin: calc((var(--urlbar-min-height) * -1) - 8px) 0 0 calc(100vw - var(--uc-urlbar-width) - 2px) !important;
+    margin: calc((var(--urlbar-height) * -1) - 8px) 0 0 calc(100vw - var(--uc-urlbar-width) - 2px) !important;
   }
 
 panelview#unified-extensions-view.cui-widget-panelview vbox.panel-subview-body {

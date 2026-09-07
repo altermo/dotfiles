@@ -87,6 +87,7 @@ abbr gsr "git stash pop"
 abbr gaa "git add -A -N"
 abbr gb "git branch -vv -a"
 abbr gro "rm (git ls-files -o)"
+abbr gl "git log"
 bind --user -M insert ctrl-g 'cd "$(git rev-parse --show-toplevel)"' repaint
 
 # ;; options
