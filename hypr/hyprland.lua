@@ -64,12 +64,12 @@ hl.window_rule{match={class=".*"},opacity=0.95}
 hl.window_rule{match={class="kitty"},opacity=0.9}
 hl.window_rule{match={class="kitty"},no_blur=true}
 
-local terminal='kitty'
-local editor='kitty -e $EDITOR'
+local terminal='kitty --single-instance'
+local editor='kitty --single-instance -e $EDITOR'
 local editor2='emacsclient -c -a emacs'
 local browser='firefox'
 local menu='pwofi --show drun'
-local topgui='kitty -e htop'
+local topgui='kitty --single-instance -e htop'
 local mainMod=function(key) return 'SUPER+'..key end
 
 -- layoutmsg
@@ -128,7 +128,7 @@ hl.bind(mainMod'X',hl.dsp.exec_cmd(menu))
 hl.bind(mainMod'C',hl.dsp.exec_cmd(terminal..' -e fish -C "ef $HOME/projects/quick/c--conf/"'))
 hl.bind(mainMod'D',hl.dsp.exec_cmd(terminal..' -e fish -C "ef $HOME/projects/quick/"'))
 hl.bind(mainMod'I',hl.dsp.exec_cmd('data_select ~/projects/other/files/links '..browser))
-hl.bind(mainMod'Y',hl.dsp.exec_cmd'cliphist list|pwofi --dmenu|cliphist decode|xargs -r wl-copy --')
+hl.bind(mainMod'Y',hl.dsp.exec_cmd'cliphist list|pwofi --dmenu|cliphist decode|wl-copy')
 hl.bind(mainMod'SHIFT+S',hl.dsp.exec_cmd[[ln -sf /tmp/user/temp.$(printf 'lua\nmd\ntxt\npy\nfish\nhtml\nc\nvim\njava'|pwofi --show dmenu) ~/.cache/temp]])
 hl.bind(mainMod'ALT+H',hl.dsp.exec_cmd[[
   e=$(ls ~/.config/hypr/shaders/|pwofi --show dmenu)
