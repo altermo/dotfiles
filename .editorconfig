@@ -7,10 +7,6 @@ tab_width = 8
 indent_style = space
 indent_size = 2
 
-[*.lua]
-indent_style = space
-indent_size = 2
-
 [*.{c,h,in}]
 indent_style = space
 indent_size = 2

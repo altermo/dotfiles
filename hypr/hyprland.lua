@@ -129,9 +129,9 @@ hl.bind(mainMod'C',hl.dsp.exec_cmd(terminal..' -e fish -C "ef $HOME/projects/qui
 hl.bind(mainMod'D',hl.dsp.exec_cmd(terminal..' -e fish -C "ef $HOME/projects/quick/"'))
 hl.bind(mainMod'I',hl.dsp.exec_cmd('data_select ~/projects/other/files/links '..browser))
 hl.bind(mainMod'Y',hl.dsp.exec_cmd'cliphist list|pwofi --dmenu|cliphist decode|wl-copy')
-hl.bind(mainMod'SHIFT+S',hl.dsp.exec_cmd[[ln -sf /tmp/user/temp.$(printf 'lua\nmd\ntxt\npy\nfish\nhtml\nc\nvim\njava'|pwofi --show dmenu) ~/.cache/temp]])
+hl.bind(mainMod'SHIFT+S',hl.dsp.exec_cmd[[ln -sf /tmp/user/temp.$(printf 'lua\nmd\ntxt\npy\nfish\nhtml\nc\nvim\njava'|pwofi --dmenu) ~/.cache/temp]])
 hl.bind(mainMod'ALT+H',hl.dsp.exec_cmd[[
-  e=$(ls ~/.config/hypr/shaders/|pwofi --show dmenu)
+  e=$(ls ~/.config/hypr/shaders/|pwofi --dmenu)
   test -z "$e"&&exit
   hyprctl notify -1 3000 "rgb(ffa500)" "setting screen shader to *$e*"
   hyprctl eval "hl.config{decoration={screen_shader='shaders/$e'}}"

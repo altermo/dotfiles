@@ -9,6 +9,9 @@
 //user_pref("toolkit.legacyUserProfileCustomizations.stylesheets",true);
 //Don't display bookmark-bar
 //user_pref("browser.toolbars.bookmarks.visibility","never")
+//Don't new design (TODO: set upp css for revert, once these options are removed)
+//user_pref("browser.nova.enabled",false)
+//user_pref("sidebar.revamp",false)
 
 ///URLBAR
 //user_pref("browser.urlbar.shortcuts.bookmarks",false)

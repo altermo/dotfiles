@@ -24,10 +24,10 @@ set fish_greeting
 set -x PAGER 'less -RF'
 set -x MANPAGER 'nvim --clean +Man!'
 
-set -x HISTFILE $HOME/.cache/bash_history
-set -x PYTHON_HISTORY $HOME/.cache/python_history
+set -x HISTFILE /home/user/.local/state/bash_history
+set -x PYTHON_HISTORY /home/user/.local/state/python_history
 
-set fish_key_bindings fish_vi_key_bindings
+set fish_key_bindings fish_hybrid_key_bindings
 set fish_cursor_insert      line
 set fish_cursor_replace_one underscore
 set fish_cursor_replace     underscore
