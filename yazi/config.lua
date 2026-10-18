@@ -62,7 +62,7 @@ yc.opt.tasks.image_bound={0,0}
 yc.opt.opener={
   all={
     {run='printf "\\e]0;${EDITOR:-nano}\\a";${EDITOR:-nano} -- %s',desc='$EDITOR',block=true},
-    {run='xdg-open -- %s1',desc='xdg-open'},
+    {run='xdg-open %s1',desc='xdg-open'},
     {run='F=%s1 FA=%s $SHELL',desc='shell-$F',block=true},
   },
   browser={

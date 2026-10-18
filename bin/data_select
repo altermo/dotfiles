@@ -3,7 +3,7 @@
 dict=$(grep -v '^#' "$1" | grep -v '^$')
 keys=$(printf '%s\n' "$dict" | cut -f1)
 select=$(printf '%s\n' "$keys" | pwofi --dmenu) || exit
-url=$(printf '%s\n' "$dict" | grep "^$select" | cut -f2)
+url=$(printf '%s\n' "$dict" | grep "^$select\s" | cut -f2)
 shift 1
 test -n "$url"&&exec "$@" "$url"
 
