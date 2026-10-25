@@ -79,6 +79,9 @@ yc.opt.opener={
   ask={
     {run='ya emit open --interactive',desc='Open with:'}
   },
+  extract={
+    {run='ya pub extract --list %s',desc='Extract here'}
+  },
 }
 
 local o_browser={'browser','all'}
@@ -86,6 +89,7 @@ local o_audio={'audio','all','browser'}
 local o_video={'video','all','browser'}
 local o_text={'all','browser'}
 local o_ask={'ask','all','browser'}
+local o_extract={'ask','extract','all','browser'}
 yc.opt.open.rules={
     {mime='image/*',use=o_browser},
     {mime='application/pdf',use=o_browser},
@@ -98,7 +102,7 @@ yc.opt.open.rules={
     {mime='*/javascript',use=o_text},
     {mime='inode/empty',use=o_text},
 
-    {mime='application/{zlib,zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}',use=o_ask},
+    {mime='application/{zlib,zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}',use=o_extract},
 
     {url='*/',use=o_ask},
     {url='*',use=o_ask},
