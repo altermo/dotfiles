@@ -47,9 +47,9 @@ yc.keymap('<C-c>','quit')
 yc.keymap('t','tab_create --current')
 
 yc.keymap({'g','r'},'shell -- ya emit cd "$(git rev-parse --show-toplevel)"','Goto git root')
-yc.keymap({'g','a'},'shell --block -- ya emit cd "$(dff)"','Dff')
+yc.keymap({'g','a'},'shell --block -- path="$(dff)";test -d "$path"&&ya emit cd "$path"||ya emit reveal "$path"','Dff')
 for k,v in pairs{
-  t='/tmp',u='/tmp/user',n='/nix',
+  t='/tmp',u='/tmp/user',n='/nix',['/']='/',
   e='/etc',l='~/.local',p='~/projects'} do
   yc.keymap({'g',k},'cd '..v,'Goto '..v)
 end

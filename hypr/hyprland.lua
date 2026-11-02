@@ -46,6 +46,7 @@ hl.config{
   misc={
     disable_hyprland_logo=true,
     disable_splash_rendering=true,
+    bell_sound='none',
   },
   cursor={
     inactive_timeout=1,
@@ -170,6 +171,13 @@ hl.bind(mainMod'SHIFT+U',hl.dsp.window.move{workspace='special:11'})
 hl.bind(mainMod'SHIFT+ESCAPE',hl.dsp.submap('lock'))
 hl.define_submap('lock',function()
   hl.bind(mainMod'ESCAPE',hl.dsp.submap('reset'))
+end)
+hl.bind(mainMod"ALT+I", function()
+    hl.dispatch(hl.dsp.dpms({ action = "disable" }))
+    local key;key=hl.bind('RETURN',function()
+        hl.dispatch(hl.dsp.dpms({ action = "enable" }))
+        key:unbind()
+    end)
 end)
 
 hl.on('hyprland.start',function()
