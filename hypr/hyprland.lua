@@ -115,7 +115,6 @@ hl.bind(mainMod'ALT+SHIFT+Z',hl.dsp.exec_cmd'systemctl suspend')
 hl.bind(mainMod'SHIFT+Z',hl.dsp.exec_cmd'swaylock -c 000000')
 hl.bind(mainMod'ALT+B',hl.dsp.exec_cmd'pkill waybar||waybar')
 hl.bind(mainMod'ALT+SPACE',hl.dsp.exec_cmd'grim')
-hl.bind(mainMod'ALT+F',hl.dsp.exec_cmd[[wl-freeze -c "hyprctl activewindow -j|jq '.pid'"]])
 hl.bind(mainMod'ALT+Y',hl.dsp.exec_cmd'cliphist wipe;wl-copy -c;wl-copy -p -c')
 -- spawn
 hl.bind(mainMod'B',hl.dsp.exec_cmd(browser))

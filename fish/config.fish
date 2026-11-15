@@ -44,14 +44,9 @@ else
     function alias_;end
 end
 
-if not test -f ~/.config/fish/completions/carapace.fish
+if not test -e ~/.config/fish/completions/
     mkdir -p ~/.config/fish/completions
-    for i in (carapace --list --names|grep -v nix)
-        printf "complete -e '$i'\ncomplete -c '$i' -f -a '(_carapace_completer $i)'" > ~/.config/fish/completions/$i.fish
-    end
-    carapace _carapace|head -n24 > ~/.config/fish/functions/_carapace_completer.fish
     mpvc completion fish > ~/.config/fish/completions/mpvc.fish
-    zmx completions fish > ~/.config/fish/completions/zmx.fish
 end
 
 if not functions -q tide
@@ -196,4 +191,14 @@ function ef
     else
         cd "$out"
     end
+end
+function fzg
+    set no_search_text (rg 2>&1)
+    set out (echo $no_search_text|fzf --ansi --disabled \
+        --bind "change:reload:test -z {q}&&echo '$no_search_text'||rg --column --line-number --color=always $argv {q}||true"\
+        --bind "ctrl-t:toggle-preview"\
+        --delimiter :\
+        --preview 'bat --style=header,numbers --color=always {1} --highlight-line {2}' \
+        --preview-window '+{2}/3'|cut -d: -f1)
+    test -n "$out"&&yazi $out
 end
