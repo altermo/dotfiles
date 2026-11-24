@@ -6,8 +6,12 @@ function nir_
 }
 
 if ! test $1; then
-  nir_ nix-search-tv print --indexes nixpkgs \
-    | nir_ fzf --preview 'nix run nixpkgs#nix-search-tv preview nixpkgs/ {}' \
+  NIX_GET_COMPLETIONS=2 nix run nixpkgs# 2>/dev/null|cut -d# -f2|tr -d '\t'|sort \
+    | fzf --preview 'NIXPKGS_ALLOW_UNFREE=1 nix eval nixpkgs#{} --impure --raw --apply '\''
+      (x: builtins.concatStringsSep "\n\n" (map (y: builtins.getAttr y x.meta)
+        (builtins.filter (y: builtins.hasAttr y x.meta)
+          ["name" "description" "longDescription" "homepage"])))
+      '\'' 2>/dev/null' \
     | xargs -r nir
 else
   nir_ "$@"

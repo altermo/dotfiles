@@ -47,16 +47,20 @@ end
 if not test -e ~/.config/fish/completions/
     mkdir -p ~/.config/fish/completions
     mpvc completion fish > ~/.config/fish/completions/mpvc.fish
+    echo "complete -c rom -w nix" > ~/.config/fish/completions/rom.fish
+    echo "complete -c nir -a '(NIX_GET_COMPLETIONS=2 nix run nixpkgs# 2>/dev/null|cut -d\# -f2)'" > ~/.config/fish/completions/nir.fish
 end
 
-if not functions -q tide
+
+alias_ _tide_item_yazi 'test -n "$YAZI_LEVEL"&&_tide_print_item yazi "yazi"'
+alias_ _tide_item_zmx 'test -n "$ZMX_SESSION"&&_tide_print_item zmx " $ZMX_SESSION"'
+if not test -e ~/.config/fish/functions/tide.fish
   set -l _tide_tmp_dir (command mktemp -d)
   curl https://codeload.github.com/ilancosman/tide/tar.gz/fcda500d2c2996e25456fb46cd1a5532b3157b16 | tar -xzC $_tide_tmp_dir
   command cp -R $_tide_tmp_dir/*/{completions,conf.d,functions} $__fish_config_dir
+  tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='One line' --prompt_spacing=Compact --icons='Few icons' --transient=Yes
+  set -U tide_right_prompt_items $tide_right_prompt_items[..-2] yazi zmx $tide_right_prompt_items[-1]
 end
-alias_ _tide_item_yazi 'test -n "$YAZI_LEVEL"&&_tide_print_item yazi "yazi"'
-alias_ _tide_item_zmx 'test -n "$ZMX_SESSION"&&_tide_print_item zmx " $ZMX_SESSION"'
-alias_ tide_config "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='One line' --prompt_spacing=Compact --icons='Few icons' --transient=Yes"';set -U tide_right_prompt_items $tide_right_prompt_items[..-2] yazi zmx $tide_right_prompt_items[-1]'
 
 zoxide init fish|source
 
